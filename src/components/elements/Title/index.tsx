@@ -9,6 +9,7 @@ type Props = {
 
 const TitleArea = styled.div`
   display: flex;
+  margin-top: 5rem;
   h2 {
     font-size: 2.4rem;
     line-height: 1;

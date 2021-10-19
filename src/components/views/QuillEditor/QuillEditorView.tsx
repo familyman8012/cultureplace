@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuillEditor from "./QuillEditor";
 import styles from "../../../../styles/Home.module.css";
 import { observer } from "mobx-react";
@@ -17,6 +17,10 @@ function QuillEditorView({ category }: Props) {
   function rerenderBody() {
     setMountBody((mb) => !mb);
   }
+
+  useEffect(() => {
+    rerenderBody()
+  }, [])
 
   return (
     <div className={styles.container}>

@@ -134,7 +134,6 @@ const typeStyle = ({ type }: StyledComponentProps) => {
 const CardWrap = styled("div")`
   overflow: hidden;
   width: 25.7rem;
-  margin: 5rem 0 0 1rem;
   border: 1px solid #ecece9;
   dl,
   dt,

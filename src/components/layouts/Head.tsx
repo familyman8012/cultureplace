@@ -30,17 +30,22 @@ function Head() {
       <ul>
         <li>
           <Link href="/">
-            <a>모든 클럽 보기</a>
+            <a>1Day Club</a>
           </Link>
         </li>
         <li>
           <Link href="/">
-            <a>다른 클럽 놀러가기</a>
+            <a>1Month Club</a>
           </Link>
         </li>
         <li>
           <Link href="/">
             <a>이벤트</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/">
+            <a>웹진</a>
           </Link>
         </li>
       </ul>

@@ -5,6 +5,12 @@ import type { AppProps } from "next/app";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import "antd/dist/antd.css";
+
+
+// Import Swiper styles
+import 'swiper/scss'
+import 'swiper/scss/navigation'
+import 'swiper/scss/pagination'
 import { ThemeProvider } from "@emotion/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
