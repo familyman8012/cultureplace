@@ -85,7 +85,8 @@ const prodUpStore = observable({
 const noticeStore = observable({
   imgurl: null,
   selCategory: "공지사항",
-  categoryData: ["공지사항", "가이드", "멤버십 혜택", "사람들", "소식"],
+  categoryData: ["공지사항", "블로그", "가이드", "멤버십 혜택", "사람들", "소식"],
+  summary : null,
   moveCreateNotice() {
     noticeStore.reset();
     QuillStore.state = "create";
@@ -99,13 +100,16 @@ const noticeStore = observable({
     await QuillStore.modifyContent(`/api/notice/${_id}`);
     await axios.get(`/api/notice/${_id}`).then((resp: any) => {
       this.imgurl = resp.data[0].imgurl;
-      this.category = resp.data[0].category;
+      this.selCategory = resp.data[0].category;
+      this.summary = resp.data[0].summary;
       router.push("/admin/notice/detail");
     });
   },
   reset() {
     QuillStore.reset();
     this.imgurl = null;
+    this.selCategory = "공지사항";
+    this.summary = null;
   },
 });
 

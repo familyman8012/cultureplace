@@ -7,6 +7,7 @@ import "dayjs/locale/ko";
 dayjs.locale("ko");
 
 interface ICard {
+  summary?: string;
   title: string;
   desc: string;
   todo: string;
@@ -104,12 +105,12 @@ const typeStyle = ({ type }: StyledComponentProps) => {
   }
   if (type === "blog") {
     return css`
-      width: 35.8rem;
-      border-radius: 0;
+      width: 31%;
       border: none;
       .imgbox {
         overflow: hidden;
-        height: 15rem;
+
+      border-radius: 10px;
       }
       .txtbox {
         dt {
@@ -205,8 +206,7 @@ const Card: FC<StyledComponentProps> = ({ type = "basic", data, ...rest }) => {
             </span>
           </dd>
         )}
-        {type === "blogMain" ||
-          (type === "blog" && <dd className="create_at">2021.09.23</dd>)}
+        {type === "blogMain" || type === "blog" && (<><p>{data.summary}</p><dd className="create_at">2021.09.23</dd></>)}
       </dl>
     </CardWrap>
   );

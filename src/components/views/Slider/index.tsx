@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import React from "react";
-import SwiperCore, { Navigation } from "swiper";
+import SwiperCore, { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 interface Props {
   children: React.ReactNode;
-  breakPoint: {
+  breakPoint?: {
     [key: number]: {
       slidesPerView: number;
       spaceBetween?: number;
     };
   };
-  i: number;
+  i?: number;
 }
 
 // install Swiper modules
@@ -35,15 +35,11 @@ const btnNext = css`
   transform: rotate(180deg) translateY(50%);
 `;
 
-const defaultSliderOption = {
-  1920: {
-    slidesPerView: 1,
-  },
-};
 
-function Slider({ children, breakPoint = defaultSliderOption, i }: Props) {
+function Slider({ children, breakPoint, i }: Props) {
   return (
-    <>
+    <>{breakPoint ?
+      <>
       <Swiper
         navigation={{
           prevEl: `.swiper-btn-prev${i}`,
@@ -54,12 +50,27 @@ function Slider({ children, breakPoint = defaultSliderOption, i }: Props) {
       >
         {children}
       </Swiper>
+      
       <div className={`swiper-btn-prev${i}`} css={btnPrev}>
         <span className="hiddenZoneV">prev</span>
       </div>
       <div className={`swiper-btn-next${i}`} css={[btnPrev, btnNext]}>
         <span className="hiddenZoneV">next</span>
+      </div></> : 
+      <Swiper      
+      className="mySwiper"
+      modules={[Navigation, Pagination]}
+      navigation={true}
+      pagination={{ clickable: true }}
+      css={css`.swiper-button-prev, .swiper-button-next {width:37px;height:37px; &:after{display:none;}}
+      .swiper-button-prev {background:url('/images/arrowWhite_swiper.png') no-repeat left top;background-size:37px;}
+      .swiper-button-next {transform:rotateX(180deg); background:url('/images/arrowWhite_swiper.png') no-repeat left top;background-size:37px;}
+      `}
+    >
+      <div className="swiper-wrapper">
+      {children}
       </div>
+    </Swiper>}
     </>
   );
 }

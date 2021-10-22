@@ -8,7 +8,7 @@ type Props = {
 };
 
 const LayoutWrap = styled("div")`
-  width: 110rem;
+  max-width: 110rem;
   margin: 0 auto;
   padding: 0;
 `;

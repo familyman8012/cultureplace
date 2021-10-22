@@ -8,6 +8,7 @@ const schema = new Schema(
     category: { type: String, required: true, default: "공지사항" },  
     imgurl: { type: String, required: true },
     body: { type: String, required: true },
+    summary : String
   },
   {
     timestamps: true,

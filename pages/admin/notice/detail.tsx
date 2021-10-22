@@ -9,11 +9,15 @@ import { Table, Image, Button } from "antd";
 import useImgUp from "@/../src/hooks/useImgUp";
 
 function Detail() {
-  const [imgData, setImgData, onImgUpHadler] = useImgUp("notice");
+  const [imgData, setImgData, onImgUpHadler] = useImgUp("noticeoriginal");
 
-  const onTitle = (e: { currentTarget: { value: SetStateAction<string> } }) => {
+  const onTitle = (e: { currentTarget: { value: string; }; }) => {
     QuillStore.titleData = e.currentTarget.value;
   };
+
+  const onTextArea = (e: { currentTarget: { value: string; }; }) => {
+    noticeStore.summary = e.currentTarget.value;
+  }
 
   const onCategory = (e: any) => {
     noticeStore.selCategory = e.target.value;
@@ -30,12 +34,13 @@ function Detail() {
       .put(`/api/notice/${QuillStore.modifyId}`, {
         title: QuillStore.titleData,
         body: QuillStore.data,
-        imgurl: imgData,
+        imgurl: imgData.replace(/\/noticeoriginal\//, "/notice/"),
         category: noticeStore.selCategory,
+        summary : noticeStore.summary
       })
       .then(function (resp) {
         router.push("/admin/notice");
-        QuillStore.reset();
+        noticeStore.reset();
       });
   };
 
@@ -45,15 +50,16 @@ function Detail() {
       .post("/api/notice/", {
         title: QuillStore.titleData,
         body: QuillStore.data,
-        imgurl: imgData,
+        imgurl: imgData.replace(/\/noticeoriginal\//, "/notice/"),
         category: noticeStore.selCategory,
+        summary : noticeStore.summary
       })
       .then(function (resp) {
         router.push("/admin/notice");
-        QuillStore.reset();
+        noticeStore.reset();
       });
     //router.push("./confirm");
-  }, [QuillStore.data, QuillStore.titleData, imgData, noticeStore.selCategory]);
+  }, [QuillStore.data, QuillStore.titleData, imgData, noticeStore.selCategory, noticeStore.summary]);
 
   console.log("noticeStore?.category", noticeStore?.category);
 
@@ -65,6 +71,7 @@ function Detail() {
         onChange={onTitle}
         value={QuillStore.titleData}
       />
+      <textarea onChange={onTextArea} value={noticeStore.summary} />
       <div>
         <span>
           {imgData !== undefined ? (

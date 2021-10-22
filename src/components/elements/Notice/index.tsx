@@ -26,7 +26,7 @@ function Notice() {
     <NoticeBox>
       <dt>트레바리 이용약관 개정 안내</dt>
       <dd className="desc">2021. 10. 01. 시행</dd>
-      <dd className="writtenDate">2021.092.</dd>
+      <dd className="writtenDate">2021.09.23</dd>
     </NoticeBox>
   );
 }
