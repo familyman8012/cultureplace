@@ -12,7 +12,8 @@ export const ProductUploadForm = css`
       height: 170px;
       border: 1px solid #ddd;
     }
-    input:not([type="checkbox"]) {
+    input:not([type="checkbox"]),
+    input:not([type="radio"]) {
       width: calc(100% - 255px);
       height: 170px;
       margin-bottom: 0;
@@ -27,7 +28,8 @@ export const ProductUploadForm = css`
   }
 
   select,
-  input:not([type="checkbox"]) {
+  input:not([type="checkbox"]),
+  input:not([type="radio"]) {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -38,7 +40,8 @@ export const ProductUploadForm = css`
     font-size: 14px;
   }
 
-  input[type="checkbox"] {
+  input[type="checkbox"],
+  input[type="radio"] {
     border: 1px solid;
     appearance: auto;
     margin-left: 30px;

@@ -6,7 +6,6 @@ import Title from "../src/components/elements/Title";
 import Layout from "../src/components/layouts";
 import { fetchPosts } from "../src/hooks/api/usePosts";
 import Product from "../pages/api/models/product";
-import Mainvisimg from "../pages/api/models/mainvisimg";
 import dbConnect from "./api/middleware/dbConnect";
 import Slider from "../src/components/views/Slider";
 import Card from "../src/components/elements/Card";
@@ -14,16 +13,11 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import { SwiperSlide } from "swiper/react";
 import { css } from "@emotion/react";
-import { useMainimg } from "../src/hooks/api/useMainimg";
-import styled from "@emotion/styled";
 
 dayjs.locale("ko");
 
-const Home = ({ SsrData }: any) => {
-  const { status, data, error } = useQuery("posts", () => fetchPosts(SsrData));
-
-  const { mainVisImgs, products } = data;
-
+const Home = ({ products }: any) => {
+  const { status, data, error } = useQuery("posts", () => fetchPosts(products));
   const sliderOption = {
     749: {
       slidesPerView: 1,
@@ -49,26 +43,19 @@ const Home = ({ SsrData }: any) => {
   ];
 
   const genreData = [
-    products.filter((el: any) => el.genre === "영화"),
-    products.filter((el: any) => el.genre === "음악"),
-    products.filter((el: any) => el.genre === "서울걷기"),
-    products.filter((el: any) => el.genre === "소극장"),
-    products.filter((el: any) => el.genre === "성장하기"),
+    data.filter((el: any) => el.genre === "영화"),
+    data.filter((el: any) => el.genre === "음악"),
+    data.filter((el: any) => el.genre === "서울걷기"),
+    data.filter((el: any) => el.genre === "소극장"),
+    data.filter((el: any) => el.genre === "성장하기"),
   ];
 
   return (
     <Layout>
       <React.Fragment>
-        <Slider>
-          {mainVisImgs?.map((el: any) => (
-            <SwiperSlide key={el._id}>
-              <img src={el.pclocation} alt={el.alt} />
-            </SwiperSlide>
-          ))}
-        </Slider>
-        {genreTitle.map((el: any, i) => {
+        {genreTitle.map((el, i) => {
           return (
-            <React.Fragment key={el._id}>
+            <>
               <Title>{el}</Title>
               <div
                 css={css`
@@ -79,13 +66,13 @@ const Home = ({ SsrData }: any) => {
               >
                 <Slider breakPoint={sliderOption} i={i}>
                   {genreData[i]?.map((el: any, i: number) => (
-                    <SwiperSlide key={el._id}>
-                      <Card data={el} />
+                    <SwiperSlide>
+                      <Card key={el.id} data={el} />
                     </SwiperSlide>
                   ))}
                 </Slider>
               </div>
-            </React.Fragment>
+            </>
           );
         })}
       </React.Fragment>
@@ -97,16 +84,6 @@ export async function getServerSideProps() {
   const queryClient = new QueryClient();
   await dbConnect();
   const result = await Product.find({}, { createdAt: false, updatedAt: false });
-  const result2 = await Mainvisimg.find(
-    {},
-    { showNum: false, createdAt: false, updatedAt: false }
-  );
-
-  const mainVisImgs = result2.map((doc) => {
-    const mainVisImg = doc.toObject();
-    mainVisImg._id = mainVisImg._id.toString();
-    return mainVisImg;
-  });
 
   const products = result.map((doc) => {
     const product = doc.toObject();
@@ -115,17 +92,12 @@ export async function getServerSideProps() {
     return product;
   });
 
-  const SsrData = {
-    mainVisImgs,
-    products,
-  };
-
-  await queryClient.prefetchQuery("posts", () => fetchPosts(SsrData));
+  await queryClient.prefetchQuery("posts", () => fetchPosts(products));
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      SsrData,
+      products,
     },
   };
 }

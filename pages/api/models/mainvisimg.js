@@ -5,8 +5,9 @@ const MODEL_NAME = "Mainvisimg";
 const schema = new Schema(
   {
     pclocation: String,
-    molocation:String,
-    showNum: { type: Number, default: 0 }
+    molocation: String,
+    showNum: { type: Number, default: 0 },
+    alt: String,
   },
   {
     timestamps: true,

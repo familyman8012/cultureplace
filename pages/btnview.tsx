@@ -26,7 +26,7 @@ const BlogMain = css`
 function Btnview() {
   return (
     <>
-      <Card type="basic" />
+      {/* <Card type="basic" />
       <Card type="other" />
       <Card type="event" />
       <Card type="blog" />
@@ -35,7 +35,7 @@ function Btnview() {
         css={css`
           ${BlogMain}
         `}
-      />
+      /> */}
       <div
         css={css`
           width: 500px;
