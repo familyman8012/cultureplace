@@ -3,7 +3,7 @@ import Title from "../src/components/elements/Title";
 
 import Layout from "../src/components/layouts";
 
-import Notice from "../src/components/elements/Notice";
+import Notice from "../src/components/elements/MainNotice";
 import Search from "../src/components/elements/Search";
 import FloatingCard from "../src/components/elements/FloatingCard";
 

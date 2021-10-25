@@ -15,27 +15,27 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import { SwiperSlide } from "swiper/react";
 import { css } from "@emotion/react";
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
+import MainNotice from "../src/components/elements/MainNotice";
 
 dayjs.locale("ko");
 
 const Home = ({ SsrData }: any) => {
-
   const [windowWidthSize, setWindowWidthSize] = useState<number>(1000);
   const handleResize = debounce(() => {
     setWindowWidthSize(window.innerWidth);
   }, 25);
   useEffect(() => {
     setWindowWidthSize(window.innerWidth);
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const { status, data, error } = useQuery("posts", () => fetchPosts(SsrData));
 
-  const { mainVisImgs, products, notices } = data;
+  const { mainVisImgs, products, blogData, noticeData } = data;
 
   const sliderOption = {
     749: {
@@ -69,15 +69,16 @@ const Home = ({ SsrData }: any) => {
     products.filter((el: any) => el.genre === "성장하기"),
   ];
 
-  const blogData = notices.filter((el:any) => el.category=== "블로그");
-
   return (
     <Layout>
       <React.Fragment>
         <Slider>
           {mainVisImgs?.map((el: any) => (
             <SwiperSlide key={el._id}>
-              <img src={windowWidthSize > 560 ? el.pclocation : el.molocation} alt={el.alt} />
+              <img
+                src={windowWidthSize > 560 ? el.pclocation : el.molocation}
+                alt={el.alt}
+              />
             </SwiperSlide>
           ))}
         </Slider>
@@ -103,10 +104,29 @@ const Home = ({ SsrData }: any) => {
             </React.Fragment>
           );
         })}
-      <Title>블로그</Title>
-      <div css={css`display:flex;justify-content:space-between;`}>
-      {blogData?.map((el : any) => <Card type="blog" data={el} />)}
-      </div>
+        <Title>블로그</Title>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          {blogData?.map((el: any) => (
+            <Card type="blog" data={el} />
+          ))}
+        </div>
+        <Title>트레바리 공지</Title>
+        <div
+          css={css`
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+          `}
+        >
+          {noticeData.map((el: any) => (
+            <MainNotice title={el.title} desc={el.summary} />
+          ))}
+        </div>
       </React.Fragment>
     </Layout>
   );
@@ -115,40 +135,38 @@ const Home = ({ SsrData }: any) => {
 export async function getServerSideProps() {
   const queryClient = new QueryClient();
   await dbConnect();
-  const result = await Product.find({}, { createdAt: false, updatedAt: false });
-  const result2 = await Mainvisimg.find(
-    {},
-    { showNum: false, createdAt: false, updatedAt: false }
-  );
 
-  const result3 = await Notice.find(
-    {},
-    { createdAt: false, updatedAt: false }
-  );
+  const [result, result2, result3, result4] = await Promise.all([
+    Mainvisimg.find({}, { showNum: false, createdAt: false, updatedAt: false }),
+    Product.find({}, { createdAt: false, updatedAt: false }),
+    Notice.find(
+      { category: "블로그" },
+      { createdAt: false, updatedAt: false }
+    ).limit(3),
+    Notice.find(
+      { category: "공지사항" },
+      { createdAt: false, updatedAt: false }
+    ).limit(4),
+  ]);
 
-  const mainVisImgs = result2.map((doc) => {
-    const mainVisImg = doc.toObject();
-    mainVisImg._id = mainVisImg._id.toString();
-    return mainVisImg;
-  });
-
-  const products = result.map((doc) => {
-    const product = doc.toObject();
-    product._id = product._id.toString();
-    product.firstmeet = product.firstmeet.toString();
-    return product;
-  });
-
-  const notices = result3.map((doc) => {
-    const notice = doc.toObject();
-    notice._id = notice._id.toString();
-    return notice;
-  });
+  function createSSrData(data: any) {
+    const sData = data.map((doc: any) => {
+      const newData = doc.toObject();
+      for (var temp in newData) {
+        if (typeof newData[temp] !== "string") {
+          newData[temp] = newData[temp].toString();
+        }
+      }
+      return newData;
+    });
+    return sData;
+  }
 
   const SsrData = {
-    mainVisImgs,
-    products,
-    notices
+    mainVisImgs: createSSrData(result),
+    products: createSSrData(result2),
+    blogData: createSSrData(result3),
+    noticeData: createSSrData(result4),
   };
 
   await queryClient.prefetchQuery("posts", () => fetchPosts(SsrData));

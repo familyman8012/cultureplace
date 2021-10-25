@@ -3,6 +3,11 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import React from "react";
 
+interface INotice {
+  title: string;
+  desc: string;
+}
+
 const NoticeBox = styled.dl`
   width: 50rem;
   border-bottom: 1px solid #ecece9;
@@ -21,14 +26,14 @@ const NoticeBox = styled.dl`
   }
 `;
 
-function Notice() {
+function MainNotice({ title, desc }: INotice) {
   return (
     <NoticeBox>
-      <dt>트레바리 이용약관 개정 안내</dt>
-      <dd className="desc">2021. 10. 01. 시행</dd>
+      <dt>{title}</dt>
+      <dd className="desc">{desc}</dd>
       <dd className="writtenDate">2021.09.23</dd>
     </NoticeBox>
   );
 }
 
-export default Notice;
+export default MainNotice;

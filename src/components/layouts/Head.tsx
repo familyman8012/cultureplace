@@ -26,15 +26,19 @@ const Header = styled.div`
 function Head() {
   return (
     <Header>
-      <h1>CULTURE PLACE</h1>
+      <h1>
+        <Link href="/main">
+          <a>CULTURE PLACE</a>
+        </Link>
+      </h1>
       <ul>
         <li>
-          <Link href="/">
+          <Link href="/oneday">
             <a>1Day Club</a>
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/month">
             <a>1Month Club</a>
           </Link>
         </li>

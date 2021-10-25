@@ -4,24 +4,9 @@ import Product from "../models/product";
 const productRouter = createHandler();
 
 productRouter.get(async (req, res) => {
-  console.log(req.query);
-  const { page, meetingcycle } = req.query;
-
-  const limit = 8;
-
   try {
-    const [products, productsCount] = await Promise.all([
-      Product.find({ meetingcycle })
-        .skip((page - 1) * limit)
-        .limit(limit),
-      Product.count(),
-    ]);
-    
-    console.log(productsCount);
-
-    const totalPages = Math.ceil(productsCount / limit);
-
-    return res.send({ products, totalPages });
+    const products = await Product.find({});
+    return res.send(products);
   } catch {
     console.log(err);
     res.status(500).send(err);
