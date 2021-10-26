@@ -68,7 +68,7 @@ export default function QuillEditor({ mountBody }) {
           [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
           [{ direction: "rtl" }], // text direction
           ["clean"], // remove formatting button
-          ["hr", "blockquote", "link", "code-block", "formula", "image", "video"], // media
+          ["table", "hr", "blockquote", "link", "code-block", "formula", "image", "video"], // media
         ],
         handlers: {
           'hr': customHrHandler
@@ -77,7 +77,10 @@ export default function QuillEditor({ mountBody }) {
       Quill.register({
         'formats/hr': Hr
       });
-      
+      Quill.register({
+        'modules/tableUI': quillTableUI.default
+      }, true)
+
       Quill.register("modules/htmlEditButton", htmlEditButton);
       quillInstance.current = new window.Quill(quillElement.current, {
         modules: {
@@ -88,7 +91,13 @@ export default function QuillEditor({ mountBody }) {
           },
           // syntax: true,
           toolbar: toolbarOptions,
-          htmlEditButton: {}
+          htmlEditButton: {},
+          table: true,
+          tableUI: true,
+          imageResize: {
+            // See optional "config" below
+             modules: [ 'Resize', 'DisplaySize']
+          }
         },
         placeholder: "본문 입력",
         theme: "snow",
