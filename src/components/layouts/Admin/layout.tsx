@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { prodUpStore, QuillStore } from "@/../src/mobx/store";
 import { MenuInfo } from "rc-menu/lib/interface";
 
+import "antd/dist/antd.css";
+
 const { Content, Footer, Sider } = Layout;
 
 type Props = {

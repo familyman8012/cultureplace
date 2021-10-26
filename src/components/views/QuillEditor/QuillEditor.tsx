@@ -14,9 +14,7 @@ export default function QuillEditor({ mountBody }) {
   const [quillView, setQuillView] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
       setQuillView(true);
-    }, 100);
   }, []);
 
   useEffect(() => {
@@ -48,7 +46,7 @@ export default function QuillEditor({ mountBody }) {
           ["blockquote", "link", "code-block", "formula", "image", "video"], // media
         ],
       };
-
+      Quill.register("modules/htmlEditButton", htmlEditButton);
       quillInstance.current = new window.Quill(quillElement.current, {
         modules: {
           history: {
@@ -58,6 +56,7 @@ export default function QuillEditor({ mountBody }) {
           },
           // syntax: true,
           toolbar: toolbarOptions,
+          htmlEditButton: {}
         },
         placeholder: "본문 입력",
         theme: "snow",

@@ -3,6 +3,7 @@
   padding: 0;
   -webkit-text-size-adjust: none;
   word-break: keep-all;
+  line-height: 1.5;
   box-sizing: border-box;
   font-family: "Spoqa Han Sans Neo", "sans-serif";
 }
@@ -100,7 +101,7 @@ button {
   cursor: pointer;
 }
 a {
-  color: inherit;
+  color: unset;
   text-decoration: none;
 }
 a:hover,

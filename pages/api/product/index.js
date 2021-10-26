@@ -4,24 +4,38 @@ import Product from "../models/product";
 const productRouter = createHandler();
 
 productRouter.get(async (req, res) => {
-  console.log(req.query);
-  const { page, meetingcycle } = req.query;
+  console.log(req.query.page === undefined);
+  const { page, meetingcycle, limit, genre } = req.query;
+  
+  const Numberlimit = Number(limit);
 
-  const limit = 8;
+  console.log(page, meetingcycle, limit, "장르르르르르르르", genre);
+
+  const condition = () => {
+    if (genre === undefined) {
+      return {meetingcycle};
+    } else {
+      return {genre, meetingcycle}
+    }
+  }
 
   try {
+    if (req.query.page === undefined) {
+      const products = await Product.find({});
+      return res.send(products);
+    } 
+    else 
+    {
     const [products, productsCount] = await Promise.all([
-      Product.find({ meetingcycle })
-        .skip((page - 1) * limit)
-        .limit(limit),
-      Product.count(),
+      
+      Product.find(condition())
+        .skip((page - 1) * Numberlimit)
+        .limit(Numberlimit),
+      Product.find(condition()).count(),
     ]);
-    
-    console.log(productsCount);
-
-    const totalPages = Math.ceil(productsCount / limit);
-
+    const totalPages = Math.ceil(productsCount / Numberlimit);
     return res.send({ products, totalPages });
+    }       
   } catch {
     console.log(err);
     res.status(500).send(err);

@@ -9,16 +9,18 @@ type Props = {
 
 const TitleArea = styled.div`
   display: flex;
-  margin-top: 5rem;
+  margin: 8rem 0 3.6rem;
+
   h2 {
     font-size: 2.4rem;
+    font-weight:500;
     line-height: 1;
   }
   a {
     margin-left: auto;
     align-items: center;
     font-size: 1.6rem;
-    color: ${({ theme }: any) => theme.color.sub};
+    color: ${({ theme }: any) => theme.color.gray};
   }
 `;
 

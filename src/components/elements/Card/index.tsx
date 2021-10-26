@@ -40,6 +40,7 @@ const typeStyle = ({ type }: StyledComponentProps) => {
       }
       .txtbox {
         height: 17.6rem;
+        padding: 1.2rem;
         dt {
           font-size: 2rem;
         }
@@ -55,8 +56,10 @@ const typeStyle = ({ type }: StyledComponentProps) => {
         height: 22.9rem;
       }
       .txtbox {
+        padding: 1.2rem 0;
         dt {
           font-size: 1.6rem;
+          font-weight:500;
           color: #7b7b7b;
         }
         dd {
@@ -146,10 +149,11 @@ const CardWrap = styled("div")`
   .imgbox {
     overflow: hidden;
     width: 100%;
+    img {height:100%}
   }
   .txtbox {
     position: relative;
-    padding: 1.2rem;
+    
 
     dd {
       &.desc {
@@ -171,6 +175,7 @@ const CardWrap = styled("div")`
       }
       span {
         display: block;
+        color: ${({ theme }: any) => theme.color.gray};
       }
     }
   }

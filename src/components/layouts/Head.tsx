@@ -14,7 +14,7 @@ const Header = styled.div`
       margin-right: 4rem;
       a {
         font-size: 14px;
-        color: ${({ theme }: any) => theme.color.sub};
+        color: ${({ theme }: any) => theme.color.gray};
         &:hover {
           color: ${({ theme }: any) => theme.color.brand};
         }
@@ -43,7 +43,7 @@ function Head() {
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/event">
             <a>이벤트</a>
           </Link>
         </li>

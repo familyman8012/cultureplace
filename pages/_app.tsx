@@ -4,7 +4,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
-import "antd/dist/antd.css";
+
 
 
 // Import Swiper styles

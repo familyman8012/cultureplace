@@ -69,9 +69,9 @@ function Detail() {
         type="text"
         name="title"
         onChange={onTitle}
-        value={QuillStore.titleData}
+        defaultValue={QuillStore.titleData}
       />
-      <textarea onChange={onTextArea} value={noticeStore.summary} />
+      <textarea onChange={onTextArea} defaultValue={noticeStore.summary} />
       <div>
         <span>
           {imgData !== undefined ? (
@@ -98,9 +98,9 @@ function Detail() {
         />
       </div>
       <div>
-        <select onChange={onCategory} value={noticeStore.selCategory}>
+        <select onChange={onCategory} defaultValue={noticeStore.selCategory}>
           {noticeStore?.categoryData.map((item: string) => (
-            <option value={item} key={item}>
+            <option defaultValue={item} key={item}>
               {item}
             </option>
           ))}

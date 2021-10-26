@@ -2,7 +2,7 @@
 import React, { useRef, Fragment, LegacyRef, useEffect } from "react";
 import axios from "axios";
 import { QueryClient, useInfiniteQuery, useQueryClient } from "react-query";
-import { InView } from "react-intersection-observer";
+
 import Link from "next/link";
 import { css } from "@emotion/react";
 import Card from "../src/components/elements/Card";
@@ -11,24 +11,22 @@ import useIntersectionObserver from "../src/hooks/useIntersectionObserver";
 import { KMS } from "aws-sdk";
 
 const fetchAnime = async (page: any) => {
-  const res = await axios.get(`/api/product?meetingcycle=1day&limit=8&page=${page}`);
-  console.log("res", res);
+  const res = await axios.get(`/api/product?meetingcycle=1day&limit=8&page=${page}&genre=이벤트`);
   return res.data;
 };
 
 export default function Home() {
 
-  // 페이지 진입시 기존 데이터 덮어쓰지는 부분 방지
-  const queryClient = useQueryClient()
-  useEffect(() => {
-    queryClient.invalidateQueries('day')
-  }, [])
-
+    // 페이지 진입시 기존 데이터 덮어쓰지는 부분 방지
+    const queryClient = useQueryClient()
+    useEffect(() => {
+      queryClient.invalidateQueries('event1')
+    }, [])
+    
   const pageNum = useRef(1);
 
-
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    "day",
+    "event1",
     async ({ pageParam = pageNum.current }) => {
       const res = await fetchAnime(pageParam);
       pageNum.current = pageNum.current + 1;
@@ -44,8 +42,6 @@ export default function Home() {
       staleTime: 3000,
     }
   );
-
-
 
   const loadMoreButtonRef = React.useRef(null);
 
@@ -71,9 +67,10 @@ export default function Home() {
               <Fragment key={i}>
                 {group.products?.map((data: any, key?: React.Key) => (
                   <Link href="/detail/1">
-                    <Card
+                    <Card                    
                       key={key}
                       data={data}
+                      type="event"
                       css={css`
                         width: calc(25% - 24px);
                         margin: 12px;

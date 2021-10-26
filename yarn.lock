@@ -6879,6 +6879,11 @@ queue@6.0.2:
   dependencies:
     inherits "~2.0.3"
 
+quill-divider@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/quill-divider/-/quill-divider-0.1.0.tgz#9d2d226a529fc70b48d56698f58df919716e9900"
+  integrity sha512-XvVkM9sWG7k/aD/bSnNuOndArHVDtqEGgyoN+v7Io7cRmL52Fg9bj0ZnXUlB4qQNoo6n/iydJxbBhCaU+ET7QA==
+
 qw@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/qw/-/qw-1.0.1.tgz#efbfdc740f9ad054304426acb183412cc8b996d4"
