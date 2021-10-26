@@ -34,7 +34,7 @@ function Detail() {
       .put(`/api/notice/${QuillStore.modifyId}`, {
         title: QuillStore.titleData,
         body: QuillStore.data,
-        imgurl: imgData.replace(/\/noticeoriginal\//, "/notice/"),
+        imgurl: imgData,
         category: noticeStore.selCategory,
         summary : noticeStore.summary
       })
@@ -50,7 +50,7 @@ function Detail() {
       .post("/api/notice/", {
         title: QuillStore.titleData,
         body: QuillStore.data,
-        imgurl: imgData.replace(/\/noticeoriginal\//, "/notice/"),
+        imgurl: imgData,
         category: noticeStore.selCategory,
         summary : noticeStore.summary
       })

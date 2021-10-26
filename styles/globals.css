@@ -80,8 +80,7 @@ img {
   border: 0 none;
 }
 img {
-  display: block;
-  width: 100%;
+  
   vertical-align: middle;
 }
 dl,
@@ -276,4 +275,18 @@ textarea {
       format("woff"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Thin.ttf")
       format("truetype");
+}
+
+
+.ql-color .ql-picker-options [data-value=custom-color] {
+  background: none !important;
+  width: 100% !important;
+  height: 20px !important;
+  text-align: center;
+}
+.ql-color .ql-picker-options [data-value=custom-color]:before {
+  content: 'Custom Color';
+}
+.ql-color .ql-picker-options [data-value=custom-color]:hover {
+  border-color: transparent !important;
 }

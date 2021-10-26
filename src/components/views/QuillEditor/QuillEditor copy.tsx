@@ -3,34 +3,36 @@ import { useState, useEffect, useRef } from "react";
 import ReactS3Client from "react-aws-s3-typescript";
 import { QuillStore } from "@/../src/mobx/store";
 
+
 import dayjs from "dayjs";
 
-export default function QuillEditor({ mountBody }) {
+export default function QuillEditor() {
   const quillElement = useRef();
   const quillInstance = useRef();
 
   const [isError, setIsError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [quillView, setQuillView] = useState(false);
+
 
   useEffect(() => {
-      setQuillView(true);
-  }, []);
+    setIsLoaded(prev => !prev);
+    console.log(isLoaded)
+  },[]);
 
   useEffect(() => {
+    console.log("aaaaa")
     if (isLoaded) {
       /* isLoaded가 true인 상태에서 rerenderBody를 통해 body 적용시 Quill 초기화 없이
                innerHTML만 body로 바꿉니다. 이 조건이 없을 시 툴바가 중복되어 여러 개 나타나게
                됩니다. */
       const quill = quillInstance.current;
       quill.root.innerHTML = QuillStore.data;
+      console.log("quill.root quill.root느느느느느느는ㄴ", quill.root)
       return;
     }
     if (quillElement.current && window.Quill) {
       /* isLoaded가 false일 때는 Quill을 초기화합니다. */
-
-
-      /* hr 태그생성 */
+      console.log("bbbbbbssssssssasdasdas")
       var Embed = Quill.import('blots/block/embed');
       class Hr extends Embed {
         static create(value) {
@@ -39,20 +41,21 @@ export default function QuillEditor({ mountBody }) {
             node.setAttribute('style', "width:100%;border-bottom:1px solid #f3f3f6;");
             return node;
         }
-      }
+    }
 
-      Hr.blotName = 'hr'; //now you can use .ql-hr classname in your toolbar
-      Hr.className = 'hr';
-      Hr.tagName = 'hr';
+    Hr.blotName = 'hr'; //now you can use .ql-hr classname in your toolbar
+    Hr.className = 'hr';
+    Hr.tagName = 'hr';
 
-      var customHrHandler = function(){
-        // get the position of the cursor
-        var range = quill.getSelection();
-        if (range) {
-            // insert the <hr> where the cursor is
-            quill.insertEmbed(range.index,"hr","null")
-        }
+    var customHrHandler = function(){
+      // get the position of the cursor
+      var range = quill.getSelection();
+      if (range) {
+          // insert the <hr> where the cursor is
+          quill.insertEmbed(range.index,"hr","null")
       }
+  }
+
 
       /* Quill 옵션을 원하는 대로 수정하세요. */
       const toolbarOptions = {
@@ -61,24 +64,28 @@ export default function QuillEditor({ mountBody }) {
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           [{ align: [] }],
           ["bold", "italic", "underline", "strike"], // toggled buttons
-          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+          [{'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}, { background: [] }], // dropdown with defaults from theme
           [{ header: 1 }, { header: 2 }], // custom button values
           [{ list: "ordered" }, { list: "bullet" }],
           [{ script: "sub" }, { script: "super" }], // superscript/subscript
           [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
           [{ direction: "rtl" }], // text direction
+          ["table", "hr", "blockquote", "link", "code-block", "formula", "image", "video"], // media
           ["clean"], // remove formatting button
-          ["hr", "blockquote", "link", "code-block", "formula", "image", "video"], // media
         ],
         handlers: {
           'hr': customHrHandler
-        }
+      }
       };
       Quill.register({
         'formats/hr': Hr
-      });
-      
+    });
       Quill.register("modules/htmlEditButton", htmlEditButton);
+      Quill.register({
+        'modules/tableUI': quillTableUI.default
+      }, true)
+      
+      
       quillInstance.current = new window.Quill(quillElement.current, {
         modules: {
           history: {
@@ -88,11 +95,29 @@ export default function QuillEditor({ mountBody }) {
           },
           // syntax: true,
           toolbar: toolbarOptions,
-          htmlEditButton: {}
+          htmlEditButton: {},
+          table: true,
+          tableUI: true,
+          imageResize: {
+            // See optional "config" below
+             modules: [ 'Resize', 'DisplaySize']
+        }
         },
         placeholder: "본문 입력",
         theme: "snow",
       });
+
+      // customize the color tool handler
+      quillInstance.current.getModule('toolbar').addHandler('color', (value) => {
+
+  // if the user clicked the custom-color option, show a prompt window to get the color
+  if (value == 'custom-color') {
+      value = prompt('Enter Hex/RGB/RGBA');
+  }
+
+  quillInstance.current.format('color', value);
+});
+     
 
       const quill = quillInstance.current;
 
@@ -167,20 +192,23 @@ export default function QuillEditor({ mountBody }) {
       });
 
       setIsLoaded(true);
+
+
+      
+
     } else {
       /* quill.min.js가 로드되어 있지 않아 window.Quill이 undefined이면 isError가
                계속 변경되면서 재시도합니다. */
       setIsError((prevIsError) => !prevIsError);
     }
-  }, [isError, mountBody]);
+  }, []);
 
-  if (!quillView)
-    return (
-      <div
-        style={{ display: "flex", height: "200px", justifyContent: "center" }}
-      >
-        ...로딩중
-      </div>
-    );
-  return <div ref={quillElement}></div>;
+  const tabelAdd = () => {
+    const table = quillInstance.current.getModule('table');
+    table.insertTable(3, 3)
+  }
+
+
+  return <><div ref={quillElement}></div>
+  <button onClick={tabelAdd}>테이블 추가</button></>;
 }

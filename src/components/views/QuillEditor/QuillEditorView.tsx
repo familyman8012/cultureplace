@@ -14,12 +14,10 @@ function QuillEditorView({ category }: Props) {
 
   /* 외부에서 body의 수정이 일어난 경우 body에 자동으로 적용되지 않습니다!
      이 함수를 호출했을 때 컴포넌트 내 useEffect가 실행되어 body의 수정 사항이 적용됩니다.*/
-  function rerenderBody() {
-    setMountBody((mb) => !mb);
-  }
 
   useEffect(() => {
-    rerenderBody()
+    setMountBody((mb) => !mb);
+   
   }, [])
 
   return (
@@ -35,19 +33,23 @@ function QuillEditorView({ category }: Props) {
         />
         <script src="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.js"></script>
         {/* <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/highlight.min.js"></script> */}
-        <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.min.js" type="text/javascript"></script>
         <script src="https://unpkg.com/quill-html-edit-button@2.2.7/dist/quill.htmlEditButton.min.js"></script>
+        <script src="https://unpkg.com/quill-table-ui@1.0.5/dist/umd/index.js" type="text/javascript"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.snow.min.css" rel="stylesheet" />
+<link href="https://unpkg.com/quill-table-ui@1.0.5/dist/index.css" rel="stylesheet" />
+<script src="https://unpkg.com/@felrov/quill-image-resize-module"></script>
         {/* <link
           rel="stylesheet"
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/styles/default.min.css"
         /> */}
-        <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css" />
+
       </Head>
 
       <h1 className={styles.title}>{category}</h1>
 
       <div style={{ width: "80%", marginTop: "20px" }}>
-        <QuillEditor mountBody={mountBody} />
+        <QuillEditor mountBody={mountBody}  />
       </div>
       <div style={{ width: "80%" }}>
         <p>QuillStore 미리보기</p>
