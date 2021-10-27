@@ -17,7 +17,6 @@ function QuillEditorView({ category }: Props) {
 
   useEffect(() => {
     setMountBody((mb) => !mb);
-   
   }, [])
 
   return (
@@ -34,11 +33,11 @@ function QuillEditorView({ category }: Props) {
         <script src="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.js"></script>
         {/* <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/highlight.min.js"></script> */}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.min.js" type="text/javascript"></script>
-        <script src="https://unpkg.com/quill-html-edit-button@2.2.7/dist/quill.htmlEditButton.min.js"></script>
-        <script src="https://unpkg.com/quill-table-ui@1.0.5/dist/umd/index.js" type="text/javascript"></script>
+        <script src="/script/quill.htmlEditButton.min.js"></script>
+        <script src="/script/table.js" type="text/javascript"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.snow.min.css" rel="stylesheet" />
 <link href="https://unpkg.com/quill-table-ui@1.0.5/dist/index.css" rel="stylesheet" />
-<script src="https://unpkg.com/@felrov/quill-image-resize-module"></script>
+<script src="/script/imgresize.js"></script>
         {/* <link
           rel="stylesheet"
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/styles/default.min.css"

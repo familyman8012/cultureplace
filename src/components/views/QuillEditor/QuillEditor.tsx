@@ -29,6 +29,9 @@ export default function QuillEditor({ mountBody }) {
     if (quillElement.current && window.Quill) {
       /* isLoaded가 false일 때는 Quill을 초기화합니다. */
 
+      setTimeout(() => {
+        
+
 
       /* hr 태그생성 */
       var Embed = Quill.import('blots/block/embed');
@@ -176,6 +179,9 @@ export default function QuillEditor({ mountBody }) {
       });
 
       setIsLoaded(true);
+
+
+    }, 100);
     } else {
       /* quill.min.js가 로드되어 있지 않아 window.Quill이 undefined이면 isError가
                계속 변경되면서 재시도합니다. */
