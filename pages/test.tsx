@@ -15,7 +15,7 @@ function Test() {
         <Title>오늘의 인기 TOP 10</Title>
         Test
         <img src="/images/arrowbtn.svg" />
-        <Notice />
+        {/* <Notice /> */}
         <Search />
       </div>
     </Layout>

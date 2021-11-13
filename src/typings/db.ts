@@ -1,11 +1,23 @@
 export interface IProduct {
-  products: readonly any[] | undefined;
-  title: String;
-  imgurl: String;
-  location: String;
-  meetday: String;
+  _id: string;
+  title: string;
+  desc: string;
+  todo: string;
+  people: string;
+  peopleshow: boolean;
+  imgurl: string;
+  location: string;
+  meetingcycle: string;
+  meetday: string;
   firstmeet: Date;
-  body: String;
+  body: string;
+  genre: string;
+  comment: string[];
+  price: number;
+  quanity: number;
+  islive: boolean;
+  joinMembr: string[];
+  favoriteduser: string[];
 }
 
 export interface INotice {

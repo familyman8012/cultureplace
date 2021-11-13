@@ -5,13 +5,14 @@ import type { AppProps } from "next/app";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 
-
-
 // Import Swiper styles
-import 'swiper/scss'
-import 'swiper/scss/navigation'
-import 'swiper/scss/pagination'
+import "swiper/scss";
+import "swiper/scss/navigation";
+import "swiper/scss/pagination";
 import { ThemeProvider } from "@emotion/react";
+
+//next-auth
+import { Provider } from "next-auth/client";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -25,13 +26,21 @@ function MyApp({ Component, pageProps }: AppProps) {
               brandbg: "#ffecd9",
               darkgray: "#f4eeea",
               gray: "#838380",
-              lightgaray: "#6e6e6c",
+              lightgray: "#6e6e6c",
               white: "#fff;",
-              event: "#1778b5",
-            },
+              event: "#1778b5"
+            }
           }}
         >
-          <Component {...pageProps} />
+          <Provider
+            options={{
+              clientMaxAge: 0,
+              keepAlive: 0
+            }}
+            session={pageProps.session}
+          >
+            <Component {...pageProps} />
+          </Provider>
         </ThemeProvider>
       </Hydrate>
       <ReactQueryDevtools />

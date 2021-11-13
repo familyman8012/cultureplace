@@ -9,7 +9,7 @@ type ReturnTypes<T = any> = [T, Dispatch<SetStateAction<T>>, Handler];
 
 const useImgUp = <T = any>(path = "content"): ReturnTypes<T> => {
   const [data, setData] = useState<any>(undefined);
-  const handler = useCallback(async (e) => {
+  const handler = useCallback(async e => {
     const file = e.target.files[0];
     const nowDate = dayjs(Date.now()).format("YYMMDDHHMM");
     const fileName = `${nowDate}_${file?.name.replace(
@@ -22,7 +22,7 @@ const useImgUp = <T = any>(path = "content"): ReturnTypes<T> => {
       dirName: String(path),
       region: "ap-northeast-2",
       accessKeyId: String(process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID),
-      secretAccessKey: String(process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY),
+      secretAccessKey: String(process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY)
     };
 
     const s3 = new ReactS3Client(s3Config);

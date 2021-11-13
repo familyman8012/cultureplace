@@ -17,6 +17,7 @@ import { SwiperSlide } from "swiper/react";
 import { css } from "@emotion/react";
 import { debounce } from "lodash";
 import MainNotice from "../src/components/elements/MainNotice";
+import Link from "next/link";
 
 dayjs.locale("ko");
 
@@ -40,17 +41,17 @@ const Home = ({ SsrData }: any) => {
   const sliderOption = {
     749: {
       slidesPerView: 1,
-      spaceBetween: 20,
+      spaceBetween: 20
     },
     750: {
       slidesPerView: 2,
-      spaceBetween: 20,
+      spaceBetween: 20
     },
 
     751: {
       slidesPerView: 4,
-      spaceBetween: 30,
-    },
+      spaceBetween: 30
+    }
   };
 
   const genreTitle = [
@@ -58,7 +59,7 @@ const Home = ({ SsrData }: any) => {
     "음악듣고 맥주마시고",
     "서울즐기기",
     "대학로, 추억, 칵테일, 마로니에 공원",
-    "N잡러, 같이 가치 UP",
+    "N잡러, 같이 가치 UP"
   ];
 
   const genreData = [
@@ -66,7 +67,7 @@ const Home = ({ SsrData }: any) => {
     products.filter((el: any) => el.genre === "음악"),
     products.filter((el: any) => el.genre === "서울걷기"),
     products.filter((el: any) => el.genre === "소극장"),
-    products.filter((el: any) => el.genre === "성장하기"),
+    products.filter((el: any) => el.genre === "성장하기")
   ];
 
   return (
@@ -96,7 +97,9 @@ const Home = ({ SsrData }: any) => {
                 <Slider breakPoint={sliderOption} i={i}>
                   {genreData[i]?.map((el: any, i: number) => (
                     <SwiperSlide key={el._id}>
-                      <Card data={el} />
+                      <Link href={`/detailview/${el._id}`}>
+                        <Card data={el} />
+                      </Link>
                     </SwiperSlide>
                   ))}
                 </Slider>
@@ -112,7 +115,9 @@ const Home = ({ SsrData }: any) => {
           `}
         >
           {blogData?.map((el: any) => (
-            <Card type="blog" data={el} />
+            <Link href={`/notice/${el._id}`}>
+              <Card type="blog" data={el} />
+            </Link>
           ))}
         </div>
         <Title>트레바리 공지</Title>
@@ -123,9 +128,16 @@ const Home = ({ SsrData }: any) => {
             justify-content: space-between;
           `}
         >
-          {noticeData.map((el: any) => (
-            <MainNotice title={el.title} desc={el.summary} />
-          ))}
+          {noticeData.map((el: any) => {
+            console.log("el", el);
+            return (
+              <Link href={`/notice/${el._id}`}>
+                <a>
+                  <MainNotice title={el.title} desc={el.summary} />
+                </a>
+              </Link>
+            );
+          })}
         </div>
       </React.Fragment>
     </Layout>
@@ -146,7 +158,7 @@ export async function getServerSideProps() {
     Notice.find(
       { category: "공지사항" },
       { createdAt: false, updatedAt: false }
-    ).limit(4),
+    ).limit(4)
   ]);
 
   function createSSrData(data: any) {
@@ -166,7 +178,7 @@ export async function getServerSideProps() {
     mainVisImgs: createSSrData(result),
     products: createSSrData(result2),
     blogData: createSSrData(result3),
-    noticeData: createSSrData(result4),
+    noticeData: createSSrData(result4)
   };
 
   await queryClient.prefetchQuery("posts", () => fetchPosts(SsrData));
@@ -174,8 +186,8 @@ export async function getServerSideProps() {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      SsrData,
-    },
+      SsrData
+    }
   };
 }
 

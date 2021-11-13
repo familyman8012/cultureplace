@@ -1,13 +1,189 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { css, keyframes } from "@emotion/react";
 
-export const ProductUploadForm = css`
-  width: 49rem;
+const breakpoints = [760, 1100];
+const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
+
+export const WrapIndexContent = styled.div`
+  width: 80%;
   margin: 0 auto;
-
-  > div {
+  ${mq[0]} {
+    width: 100%;
+  }
+  ${mq[1]} {
+    width: 90%;
+  }
+  .rc-pagination {
     display: flex;
-    span {
+    margin-top: 30px;
+    justify-content: center;
+    .rc-pagination-item,
+    .rc-pagination-item-link {
+      border: 1px solid #fff;
+      background-color: rgba(255, 255, 255, 0.2);
+      a {
+        color: #fff;
+      }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .rc-pagination-item-active {
+      background: rgba(255, 194, 112, 0.5);
+    }
+  }
+`;
+
+export const IndexTable = styled.table`
+  width: 100%;
+  box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+  ${mq[0]} {
+    width: 80%;
+    margin: 30px auto;
+  }
+  tbody tr {
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    ${mq[0]} {
+      display: block;
+      overflow: hidden;
+      margin-bottom: 30px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      &:hover {
+        background-color: inherit;
+      }
+    }
+  }
+  th {
+    padding: 15px 0;
+    color: #fff;
+    font-weight: 400;
+    background-color: #55608f;
+    ${mq[0]} {
+      display: none;
+    }
+  }
+  td {
+    padding: 10px 0;
+    text-align: center;
+    color: #fff;
+    font-weight: 100;
+    img {
+      width: 100px;
+    }
+    background-color: rgba(255, 255, 255, 0.2);
+    &.col_wrap button {
+      padding: 10px;
+      color: #fff;
+      border-radius: 10px;
+      background: #ef6973;
+    }
+    ${mq[0]} {
+      display: block;
+      padding: 5px 0;
+    }
+    ${mq[1]} {
+      font-size: 13px;
+      img {
+        width: 80px;
+      }
+      button {
+        padding: 8px;
+        font-size: 13px;
+      }
+    }
+  }
+`;
+
+const glowing = keyframes`
+0% { background-position: 0 0; }
+50% { background-position: 400% 0; }
+100% { background-position: 0 0; }
+`;
+
+export const GlowBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 40px;
+  margin-left: auto;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  ${mq[0]} {
+    margin: 50px auto;
+  }
+  &:before {
+    content: "";
+    background: linear-gradient(
+      45deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000
+    );
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: ${glowing} 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+  }
+  &:active {
+    color: #000;
+    &:after {
+      background: transparent;
+    }
+  }
+  &:hover:before {
+    opacity: 1;
+  }
+  &:after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+  }
+`;
+
+export const BasicInfoForm = styled.div`
+  width: 50%;
+  margin: 0 auto;
+  padding: 30px;
+  background: #fff;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 11%), 0 2px 2px rgb(0 0 0 / 11%),
+    0 4px 4px rgb(0 0 0 / 11%), 0 8px 8px rgb(0 0 0 / 11%),
+    0 16px 16px rgb(0 0 0 / 11%), 0 32px 32px rgb(0 0 0 / 11%);
+
+  .box_imgupload {
+    display: flex;
+    .imgArea {
       width: 255px;
       height: 170px;
       border: 1px solid #ddd;
@@ -40,6 +216,32 @@ export const ProductUploadForm = css`
     font-size: 14px;
   }
 
+  .box_check_area {
+    display: flex;
+    align-items: center;
+    label {
+      margin: 0;
+    }
+    input {
+      width: fit-content !important;
+      margin: 0 0 0 50px !important;
+    }
+  }
+  .box_radio_area {
+    display: flex;
+    label {
+      width: 80px;
+      display: flex;
+      align-items: center;
+      height: fit-content;
+      &:nth-child(3) {
+        margin-left: 50px;
+      }
+    }
+    input {
+      margin: 0 !important;
+    }
+  }
   input[type="checkbox"],
   input[type="radio"] {
     border: 1px solid;

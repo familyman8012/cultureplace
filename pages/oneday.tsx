@@ -11,21 +11,23 @@ import useIntersectionObserver from "../src/hooks/useIntersectionObserver";
 import { KMS } from "aws-sdk";
 
 const fetchAnime = async (page: any) => {
-  const res = await axios.get(`/api/product?meetingcycle=1day&limit=8&page=${page}`);
+  const res = await axios.get(
+    `/api/product?meetingcycle=1day&limit=12&page=${page}`
+  );
   console.log("res", res);
   return res.data;
 };
 
 export default function Home() {
-
   // 페이지 진입시 기존 데이터 덮어쓰지는 부분 방지
-  const queryClient = useQueryClient()
-  useEffect(() => {
-    queryClient.invalidateQueries('day')
-  }, [])
+  const queryClient = useQueryClient();
 
   const pageNum = useRef(1);
 
+  useEffect(() => {
+    console.log(pageNum.current);
+    queryClient.invalidateQueries("day");
+  }, []);
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     "day",
@@ -37,23 +39,29 @@ export default function Home() {
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage: any) => {
-        console.log("pageNum.current", pageNum.current, "lastPage.totalPages", lastPage.totalPages)
-        return pageNum.current < lastPage.totalPages ? pageNum.current : undefined ;
+        console.log(
+          "pageNum.current",
+          pageNum.current,
+          "lastPage.totalPages",
+          lastPage.totalPages
+        );
+        return pageNum.current <= lastPage.totalPages + 1
+          ? pageNum.current
+          : undefined;
       },
       // getNextPageParam: (lastPage: any) => pageNum.current,
-      staleTime: 3000,
+      staleTime: 3000
     }
   );
-
-
 
   const loadMoreButtonRef = React.useRef(null);
 
   useIntersectionObserver({
     root: null,
+    rootMargin: "200px",
     target: loadMoreButtonRef,
     onIntersect: fetchNextPage,
-    enabled: hasNextPage,
+    enabled: hasNextPage
   });
 
   return (
@@ -70,7 +78,7 @@ export default function Home() {
             return (
               <Fragment key={i}>
                 {group.products?.map((data: any, key?: React.Key) => (
-                  <Link href="/detail/1">
+                  <Link href={`/detailview/${data?._id}`}>
                     <Card
                       key={key}
                       data={data}

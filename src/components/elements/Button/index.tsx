@@ -6,17 +6,17 @@ import { darken, lighten } from "polished";
 const sizes: any = {
   xs: {
     height: "3rem",
-    fontSize: "1.4rem",
+    fontSize: "1.4rem"
   },
   s: {
-    height: "3.8rem",
+    height: "3.8rem"
   },
   m: {
-    height: "4.8rem",
+    height: "4.8rem"
   },
   l: {
-    height: "5.6rem",
-  },
+    height: "5.6rem"
+  }
 };
 
 const colorStyle = ({ theme, color, outline, favorite }: any) => {
@@ -79,12 +79,13 @@ const StyledButton = styled.button`
 `;
 
 const Button: FC<any> = ({ children, ...rest }) => {
+  console.log({ ...rest });
   return <StyledButton {...rest}>{children}</StyledButton>;
 };
 
 Button.defaultProps = {
   height: "5.6rem",
-  fontSize: "1.6rem",
+  fontSize: "1.6rem"
 };
 
 export default Button;

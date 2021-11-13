@@ -72,6 +72,9 @@ table {
   font-size: 16px;
   line-height: 1;
 }
+body a {
+  color: inherit;
+}
 em {
   font-style: normal;
 }
@@ -80,7 +83,7 @@ img {
   border: 0 none;
 }
 img {
-  
+  width: 100%;
   vertical-align: middle;
 }
 dl,
@@ -146,17 +149,7 @@ caption {
 }
 
 /* form */
-input,
-select,
-textarea,
-button {
-  vertical-align: middle;
-  border: none;
-  border-radius: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
+
 label {
   vertical-align: middle;
 }
@@ -193,6 +186,22 @@ textarea {
   z-index: 1000;
 }
 
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+caption {
+  display: none;
+}
+
+.ant-collapse.ant-collapse-icon-position-left {
+  border: none;
+}
+
+.ant-collapse .ant-collapse-content {
+  border-top: none;
+}
+
 /* 폰트 */
 /**
  * Copyright (c) 2015 Spoqa, Inc.
@@ -227,6 +236,7 @@ textarea {
       format("woff"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf")
       format("truetype");
+  font-display: swap;
 }
 
 @font-face {
@@ -239,6 +249,7 @@ textarea {
       format("woff"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.ttf")
       format("truetype");
+  font-display: swap;
 }
 
 @font-face {
@@ -251,6 +262,7 @@ textarea {
       format("woff"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf")
       format("truetype");
+  font-display: swap;
 }
 
 @font-face {
@@ -263,6 +275,7 @@ textarea {
       format("woff"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.ttf")
       format("truetype");
+  font-display: swap;
 }
 
 @font-face {
@@ -275,18 +288,20 @@ textarea {
       format("woff"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Thin.ttf")
       format("truetype");
+  font-display: swap;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap");
 
-.ql-color .ql-picker-options [data-value=custom-color] {
+.ql-color .ql-picker-options [data-value="custom-color"] {
   background: none !important;
   width: 100% !important;
   height: 20px !important;
   text-align: center;
 }
-.ql-color .ql-picker-options [data-value=custom-color]:before {
-  content: 'Custom Color';
+.ql-color .ql-picker-options [data-value="custom-color"]:before {
+  content: "Custom Color";
 }
-.ql-color .ql-picker-options [data-value=custom-color]:hover {
+.ql-color .ql-picker-options [data-value="custom-color"]:hover {
   border-color: transparent !important;
 }

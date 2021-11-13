@@ -3,10 +3,15 @@ import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import { useSession } from "next-auth/client";
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+import _ from "lodash";
 
 dayjs.locale("ko");
 
 interface ICard {
+  _id: string;
   summary?: string;
   title: string;
   desc: string;
@@ -22,6 +27,7 @@ interface ICard {
   comment: string;
   price: number;
   quanity: number;
+  favoriteduser: [];
 }
 
 interface StyledComponentProps {
@@ -36,6 +42,7 @@ const typeStyle = ({ type }: StyledComponentProps) => {
       width: 25.7rem;
       border-radius: 0.8rem;
       .imgbox {
+        position: relative;
         height: 17rem;
       }
       .txtbox {
@@ -59,7 +66,7 @@ const typeStyle = ({ type }: StyledComponentProps) => {
         padding: 1.2rem 0;
         dt {
           font-size: 1.6rem;
-          font-weight:500;
+          font-weight: 500;
           color: #7b7b7b;
         }
         dd {
@@ -113,7 +120,7 @@ const typeStyle = ({ type }: StyledComponentProps) => {
       .imgbox {
         overflow: hidden;
 
-      border-radius: 10px;
+        border-radius: 10px;
       }
       .txtbox {
         dt {
@@ -149,11 +156,12 @@ const CardWrap = styled("div")`
   .imgbox {
     overflow: hidden;
     width: 100%;
-    img {height:100%}
+    img {
+      height: 100%;
+    }
   }
   .txtbox {
     position: relative;
-    
 
     dd {
       &.desc {
@@ -182,6 +190,22 @@ const CardWrap = styled("div")`
   ${typeStyle}
 `;
 
+const FavoriteBtn = styled.div<{ on: boolean }>`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 37px;
+  height: 37px;
+  background: url(${({ on }) =>
+      on ? "/images/main_favorite_on.png" : "/images/main_favorite.png"})
+    no-repeat left top;
+  background-size: 37px;
+
+  &.on {
+    background: url("/images/main_favorite_on.png") no-repeat left top;
+  }
+`;
+
 const Card: FC<StyledComponentProps> = ({ type = "basic", data, ...rest }) => {
   const firstMeetDay = dayjs(data.firstmeet);
   const startTime = useMemo(
@@ -193,9 +217,75 @@ const Card: FC<StyledComponentProps> = ({ type = "basic", data, ...rest }) => {
     [data.firstmeet]
   );
 
+  console.log(data);
+  const [session] = useSession();
+
+  const favoriteChk = useMemo(
+    () => data?.favoriteduser?.includes(String(session?.user.uid)),
+    [data?.favoriteduser, session?.user.uid]
+  );
+
+  console.log("favoriteChk favoriteChk", favoriteChk);
+
+  const variables = {
+    _id: data?._id,
+    favorite: favoriteChk,
+    userid: session?.user?.uid
+  };
+
+  const queryClient = useQueryClient();
+
+  console.log("data 느느느느는", data);
+
+  const favoriteMutation = useMutation(
+    () => axios.post("/api/favorite", variables),
+    {
+      onMutate: async () => {
+        await queryClient.cancelQueries("posts");
+        const previousDetail = queryClient.getQueryData<any>("posts");
+        const updateProduct = previousDetail?.products.filter(
+          (el: any) => el._id === data?._id
+        );
+        if (previousDetail) {
+          if (!favoriteChk) {
+            updateProduct[0].favoriteduser = [
+              updateProduct[0].favoriteduser,
+              session?.user.uid
+            ];
+            queryClient.setQueryData<any>("posts", {
+              ...previousDetail,
+              products: [...previousDetail.products, ...updateProduct]
+            });
+          } else {
+            updateProduct[0].favoriteduser =
+              updateProduct[0].favoriteduser.filter(
+                (el: any) => el !== session?.user.uid
+              );
+            queryClient.setQueryData<any>("posts", {
+              ...previousDetail,
+              products: [...previousDetail.products, ...updateProduct]
+            });
+          }
+        }
+      },
+      // onSuccess: () => queryClient.invalidateQueries("detailViewData"),
+      onError: (error, variables, context) => {
+        // I will fire first
+        console.log(error, variables);
+      }
+    }
+  );
+
   return (
     <CardWrap type={type} data={data} {...rest}>
       <div className="imgbox">
+        <FavoriteBtn
+          on={favoriteChk ? true : false}
+          onClick={e => {
+            e.stopPropagation();
+            favoriteMutation.mutate();
+          }}
+        />
         <img src={data.imgurl} alt="모임사진" />
       </div>
       <dl className="txtbox">
@@ -211,7 +301,13 @@ const Card: FC<StyledComponentProps> = ({ type = "basic", data, ...rest }) => {
             </span>
           </dd>
         )}
-        {type === "blogMain" || type === "blog" && (<><p>{data.summary}</p><dd className="create_at">2021.09.23</dd></>)}
+        {type === "blogMain" ||
+          (type === "blog" && (
+            <>
+              <p>{data.summary}</p>
+              <dd className="create_at">2021.09.23</dd>
+            </>
+          ))}
       </dl>
     </CardWrap>
   );

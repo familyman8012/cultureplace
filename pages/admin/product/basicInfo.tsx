@@ -1,42 +1,38 @@
-/** @jsxImportSource @emotion/react */
-import React, { useCallback, useState } from "react";
-import { css } from "@emotion/react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { observer } from "mobx-react";
-import { prodUpStore } from "@/../src/mobx/store";
+import router from "next/router";
+// mobx
 import { runInAction } from "mobx";
-import { useRouter } from "next/router";
-import AdminLayout from "../../../src/components/layouts/Admin/layout";
-
-import { Image } from "antd";
-import useImgUp from "@/../src/hooks/useImgUp";
-import { ProductUploadForm } from "./styles";
+import { observer } from "mobx-react";
+import { prodUpStore } from "@src/mobx/store";
+// custom hook, css
+import useImgUp from "@src/hooks/useImgUp";
+import AdminLayout from "@src/components/layouts/Admin/layout";
+import { BasicInfoForm } from "./styles";
 
 function App() {
-  // 라우터
-  const router = useRouter();
-
   //리액트 hook form
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm({ defaultValues: prodUpStore.data });
 
-  //이미지 업로드 훅
+  // 이미지 업로드 HOOK
   const [imgData, setImgData, onImgUpHadler] = useImgUp("cardoriginal");
+
+  // 원데이 세션인지 확인
   const [is1day, setIs1day] = useState(true);
 
   const onSubmit = useCallback(
-    (data) => {
-      console.log(data);
+    data => {
       if (imgData === undefined && prodUpStore.data === null) {
         return alert("대표 이미지를 등록하셔야 합니다.");
       }
 
       const productData = {
         ...data,
-        imgurl: `${imgData !== undefined ? imgData : prodUpStore.data.imgurl}`,
+        imgurl: `${imgData !== undefined ? imgData : prodUpStore.data.imgurl}`
       };
       runInAction(() => {
         prodUpStore.addProduct(productData);
@@ -48,27 +44,13 @@ function App() {
 
   return (
     <AdminLayout>
-      <div
-        css={css`
-          ${ProductUploadForm};
-        `}
-      >
-        <div>
-          <span>
+      <BasicInfoForm>
+        <div className="box_imgupload">
+          <span className="imgArea">
             {imgData !== undefined ? (
-              <Image
-                width={255}
-                height={170}
-                src={imgData}
-                alt="모임대표이미지 등록"
-              />
+              <img src={imgData} alt="모임대표이미지" />
             ) : prodUpStore.data !== null ? (
-              <Image
-                width={255}
-                height={170}
-                src={prodUpStore.data.imgurl}
-                alt="모임대표이미지 등록"
-              />
+              <img src={prodUpStore.data.imgurl} alt="모임대표이미지" />
             ) : null}
           </span>
           <input
@@ -84,46 +66,55 @@ function App() {
             type="text"
             placeholder="제목"
             id="title"
-            {...register("title", { required: true, maxLength: 80 })}
+            {...register("title", { required: true, maxLength: 12 })}
           />
-          {errors.title && <span>This field is required</span>}
+          {errors.title && errors.title.type === "required" && (
+            <p>모임명을 입력해주세요.</p>
+          )}
+          {errors.title && errors.title.type === "maxLength" && (
+            <p>12자 안으로 올바르게 올려주세요.</p>
+          )}
+
           <label htmlFor="desc">설명</label>
           <input
             type="text"
             id="desc"
             placeholder="ex)가을에 와인한잔에 로맨스 영화 한편"
-            {...register("desc", { required: true, maxLength: 80 })}
+            {...register("desc", { required: true, maxLength: 60 })}
           />
-          {errors.desc && <span>This field is required</span>}
+          {errors.desc && errors.desc.type === "required" && (
+            <p>설명을 입력해주세요.</p>
+          )}
+          {errors.desc && errors.desc.type === "maxLength" && (
+            <p>60자 안으로 올바르게 올려주세요.</p>
+          )}
+
           <label htmlFor="todo">대표적 할일</label>
           <input
             type="text"
             id="todo"
             placeholder="ex)짐캐리 『이터널 선샤인』"
-            {...register("todo", { required: true, maxLength: 80 })}
+            {...register("todo", { required: true, maxLength: 12 })}
           />
-          {errors.todo && <span>This field is required</span>}
-          <label htmlFor="people">모임장 이름 및 설명</label>
+          {errors.todo && errors.todo.type === "required" && (
+            <p>모임에서 할 일을 입력해주세요.</p>
+          )}
+          {errors.todo && errors.todo.type === "maxLength" && (
+            <p>12자 안으로 올바르게 올려주세요.</p>
+          )}
+
+          <label htmlFor="people">모임장 이름</label>
           <input
             type="text"
             id="people"
             placeholder="모임장"
-            {...register("people", { required: true, maxLength: 80 })}
+            {...register("people", { required: true })}
           />
-          {errors.people && <span>This field is required</span>}
-          <div
-            css={css`
-              display: flex;
-              align-items: center;
-              label {
-                margin: 0;
-              }
-              input {
-                width: fit-content !important;
-                margin: 0 0 0 50px !important;
-              }
-            `}
-          >
+          {errors.people && errors.people.type === "required" && (
+            <p>모임장 이름을 올려주세요.</p>
+          )}
+
+          <div className="box_check_area">
             <label htmlFor="peopleshow">people show</label>
             <input
               type="checkbox"
@@ -144,6 +135,7 @@ function App() {
             <option value="직접해보기">직접해보기</option>
             <option value="이벤트">이벤트</option>
           </select>
+
           <label htmlFor="locaition">아지트 선택</label>
           <select id="locaition" {...register("location")}>
             <option value="강남 아지트">강남 아지트</option>
@@ -151,23 +143,8 @@ function App() {
             <option value="대학로 아지트">대학로 아지트</option>
             <option value="홍대 아지트">홍대 아지트</option>
           </select>
-          <div
-            css={css`
-              display: flex;
-              label {
-                width: 80px;
-                display: flex;
-                align-items: center;
-                height: fit-content;
-                &:nth-child(3) {
-                  margin-left: 50px;
-                }
-              }
-              input {
-                margin: 0 !important;
-              }
-            `}
-          >
+
+          <div className="box_radio_area">
             <label>모임기간</label>
             <label htmlFor="field-1day">
               <input
@@ -193,6 +170,7 @@ function App() {
               1Week
             </label>
           </div>
+
           {!is1day && (
             <>
               <label htmlFor="meetday">모임일 선택</label>
@@ -204,6 +182,7 @@ function App() {
               </select>
             </>
           )}
+
           <label htmlFor="firstmeet">첫 모임일</label>
           <input
             type="datetime-local"
@@ -211,7 +190,10 @@ function App() {
             id="firstmeet"
             {...register("firstmeet", { required: true })}
           />
-          {errors.firstmeet && <span>This field is required</span>}
+          {errors.firstmeet && errors.firstmeet.type === "required" && (
+            <p>첫 모임 일을 입력해주세요.</p>
+          )}
+
           <label htmlFor="comment">하고 싶은 말(20자 안으로)</label>
           <input
             type="text"
@@ -219,10 +201,15 @@ function App() {
             id="comment"
             {...register("comment", { required: true, maxLength: 20 })}
           />
-          {errors.comment && <span>This field is required</span>}
+          {errors.comment && errors.comment.type === "required" && (
+            <p>간단 하고 싶은 말을 입력해주세요.</p>
+          )}
+          {errors.comment && errors.comment.type === "maxLength" && (
+            <p>20자 안으로 올바르게 올려주세요.</p>
+          )}
           <input type="submit" value="다음" />
         </form>
-      </div>
+      </BasicInfoForm>
     </AdminLayout>
   );
 }

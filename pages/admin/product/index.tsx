@@ -1,26 +1,49 @@
-import { Table, Image, Button } from "antd";
-import AdminLayout from "@/../src/components/layouts/Admin/layout";
-import router from "next/router";
-import axios from "axios";
-import { QuillStore, prodUpStore } from "@/../src/mobx/store";
-import { runInAction } from "mobx";
+import React, { useCallback, useMemo, useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "react-query";
+import axios from "axios";
+import { runInAction } from "mobx";
+import { prodUpStore } from "@src/mobx/store";
+import AdminLayout from "@src/components/layouts/Admin/layout";
+import { WrapIndexContent, IndexTable, GlowBtn } from "./styles";
+import { IProduct } from "@src/typings/db";
+import "rc-pagination/assets/index.css";
+import Pagination from "rc-pagination";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
-export default function list({ products }: any) {
+dayjs.locale("ko");
+
+export default function list() {
   const queryClient = useQueryClient();
 
   //불러오기
-  const { status, data, error } = useQuery<any, Error>("listData", async () => {
-    const res = await axios.get("/api/product");
-    return res.data;
-  });
+  const { status, data, error } = useQuery<IProduct[], Error>(
+    "listData",
+    async () => {
+      const res = await axios.get("/api/product");
+      return res.data;
+    }
+  );
+
+  /* 테이블 data 구성 및 pagination */
+  const [curPage, setCurPage] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
+  const dataLength = useMemo(() => data?.length, [data]);
+  const startPage = useMemo(
+    () => curPage * pageSize - (pageSize - 1) - 1,
+    [curPage]
+  );
+  const viewData = useMemo(() => curPage * pageSize, [curPage]);
+  const handlePageChange = useCallback((page: number) => {
+    setCurPage(page);
+  }, []);
 
   //상풍등록하러가기
-  const writeProduct = () => {
+  const writeProduct = useCallback(() => {
     runInAction(() => {
       prodUpStore.moveCreateProduct();
     });
-  };
+  }, []);
 
   //상풍수정하러가기)
   const modifyProduct = (_id: string) => {
@@ -32,7 +55,7 @@ export default function list({ products }: any) {
   //상풍삭제
   const deleteMutation = useMutation(
     (_id: string) =>
-      axios.delete(`/api/product/${_id}`).then((res) => {
+      axios.delete(`/api/product/${_id}`).then(res => {
         return res.data;
       }),
     {
@@ -40,94 +63,57 @@ export default function list({ products }: any) {
       onError: (error, variables, context) => {
         // I will fire first
         console.log(error, variables);
-      },
+      }
     }
   );
-
-  const columns = [
-    {
-      key: "1",
-      title: "대표이미지",
-      dataIndex: "imgurl",
-      width: "30%",
-      render: (imgurl: string) => (
-        <Image
-          width={127.5}
-          height={85}
-          src={imgurl}
-          alt="모임대표이미지 등록"
-        />
-      ),
-    },
-    {
-      key: "2",
-      title: "모임명",
-      dataIndex: "title",
-    },
-    {
-      key: "3",
-      title: "모임장소",
-      dataIndex: "location",
-    },
-    {
-      key: "4",
-      title: "모임주기",
-      dataIndex: "meetday",
-    },
-    {
-      key: "5",
-      title: "첫모임일",
-      dataIndex: "firstmeet",
-    },
-    {
-      key: "6",
-      title: "보기/삭제",
-      dataIndex: "_id",
-      render: (_id: string) => (
-        <>
-          <Button onClick={() => modifyProduct(_id)}>수정</Button>
-          <Button onClick={() => deleteMutation.mutate(_id)}>삭제</Button>
-        </>
-      ),
-    },
-  ];
 
   return (
     <AdminLayout>
       {status === "loading" ? (
-        "Loading..."
+        <span>Loading...</span>
       ) : status === "error" ? (
         <span>Error: {error?.message}</span>
       ) : (
-        <div style={{ width: "80rem", margin: "0 auto" }}>
-          <Table columns={columns} dataSource={data} rowKey="_id" />
-
-          <span onClick={writeProduct}>상품등록</span>
-        </div>
+        <WrapIndexContent>
+          <IndexTable>
+            <thead>
+              <tr>
+                <th scope="col">대표이미지</th>
+                <th scope="col">모임명</th>
+                <th scope="col">모임장소</th>
+                <th scope="col">모임주기</th>
+                <th scope="col">첫모임일</th>
+                <th scope="col">삭제</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.slice(startPage, viewData)?.map(el => (
+                <tr key={el._id} onClick={() => modifyProduct(el._id)}>
+                  <td>
+                    <img src={el.imgurl} alt={el.title} />
+                  </td>
+                  <td>{el.title}</td>
+                  <td>{el.location}</td>
+                  <td>{el.meetday}</td>
+                  <td>{dayjs(el.firstmeet).format(`YY.MM.DD (ddd)`)}</td>
+                  <td className="col_wrap">
+                    <button onClick={() => deleteMutation.mutate(el._id)}>
+                      삭제
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </IndexTable>
+          <Pagination
+            onChange={handlePageChange}
+            current={curPage}
+            pageSize={pageSize}
+            total={dataLength}
+          />
+          <GlowBtn onClick={writeProduct}>상품등록</GlowBtn>
+        </WrapIndexContent>
       )}
-      );
     </AdminLayout>
   );
 }
-
-// export async function getServerSideProps() {
-//   const queryClient = new QueryClient();
-//   await dbConnect();
-//   const result = await Product.find({}, { createdAt: false, updatedAt: false });
-
-//   const products = result.map((doc) => {
-//     const product = doc.toObject();
-//     product._id = product._id.toString();
-//     product.firstmeet = product.firstmeet.toString();
-//     return product;
-//   });
-
-//   await queryClient.prefetchQuery("posts", () => fetchPosts(products));
-
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//       products,
-//     },
-//   };
-// }

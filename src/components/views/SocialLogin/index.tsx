@@ -1,0 +1,51 @@
+import React from "react";
+import { useRouter } from "next/router";
+import {
+  providers,
+  signIn,
+  getSession,
+  csrfToken,
+  getProviders
+} from "next-auth/client";
+import { ISignIn } from "@/signin";
+import { ProviderType } from "next-auth/providers";
+
+export default function SocialLogin({ providers, csrfToken }: ISignIn) {
+  const {
+    query: { callbackUrl }
+  } = useRouter();
+
+  return (
+    <div>
+      {Object.values(providers).map((provider: any) => {
+        if (provider.name === "Custom Provider") {
+          return;
+        }
+        const providerList = () => {
+          if (provider.name === "Kakao") {
+            return "카카오";
+          } else if (provider.name === "Google") {
+            return "구글";
+          }
+        };
+        const providerName = providerList();
+        return (
+          <div key={provider.name} className="box_login_social">
+            <button
+              className={provider.name}
+              onClick={() =>
+                signIn(provider.id, {
+                  callbackUrl: "/"
+                })
+              }
+            >
+              <span className="btn_inner">
+                {providerName}로 1초 만에 로그인
+              </span>
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

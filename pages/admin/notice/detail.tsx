@@ -11,13 +11,13 @@ import useImgUp from "@/../src/hooks/useImgUp";
 function Detail() {
   const [imgData, setImgData, onImgUpHadler] = useImgUp("noticeoriginal");
 
-  const onTitle = (e: { currentTarget: { value: string; }; }) => {
+  const onTitle = (e: { currentTarget: { value: string } }) => {
     QuillStore.titleData = e.currentTarget.value;
   };
 
-  const onTextArea = (e: { currentTarget: { value: string; }; }) => {
+  const onTextArea = (e: { currentTarget: { value: string } }) => {
     noticeStore.summary = e.currentTarget.value;
-  }
+  };
 
   const onCategory = (e: any) => {
     noticeStore.selCategory = e.target.value;
@@ -36,7 +36,7 @@ function Detail() {
         body: QuillStore.data,
         imgurl: imgData,
         category: noticeStore.selCategory,
-        summary : noticeStore.summary
+        summary: noticeStore.summary
       })
       .then(function (resp) {
         router.push("/admin/notice");
@@ -52,14 +52,20 @@ function Detail() {
         body: QuillStore.data,
         imgurl: imgData,
         category: noticeStore.selCategory,
-        summary : noticeStore.summary
+        summary: noticeStore.summary
       })
       .then(function (resp) {
         router.push("/admin/notice");
         noticeStore.reset();
       });
     //router.push("./confirm");
-  }, [QuillStore.data, QuillStore.titleData, imgData, noticeStore.selCategory, noticeStore.summary]);
+  }, [
+    QuillStore.data,
+    QuillStore.titleData,
+    imgData,
+    noticeStore.selCategory,
+    noticeStore.summary
+  ]);
 
   console.log("noticeStore?.category", noticeStore?.category);
 

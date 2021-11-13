@@ -66,10 +66,10 @@ function Btnview() {
         <Button color="gray" size="l">
           BUTTON
         </Button>
-        <Button color="lightgaray" size="s">
+        <Button color="lightgray" size="s">
           BUTTON
         </Button>
-        <Button color="lightgaray" size="xs">
+        <Button color="lightgray" size="xs">
           BUTTON
         </Button>
       </div>

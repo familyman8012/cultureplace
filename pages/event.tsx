@@ -11,18 +11,19 @@ import useIntersectionObserver from "../src/hooks/useIntersectionObserver";
 import { KMS } from "aws-sdk";
 
 const fetchAnime = async (page: any) => {
-  const res = await axios.get(`/api/product?meetingcycle=1day&limit=8&page=${page}&genre=이벤트`);
+  const res = await axios.get(
+    `/api/product?meetingcycle=1day&limit=8&page=${page}&genre=이벤트`
+  );
   return res.data;
 };
 
 export default function Home() {
+  // 페이지 진입시 기존 데이터 덮어쓰지는 부분 방지
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries("event1");
+  }, []);
 
-    // 페이지 진입시 기존 데이터 덮어쓰지는 부분 방지
-    const queryClient = useQueryClient()
-    useEffect(() => {
-      queryClient.invalidateQueries('event1')
-    }, [])
-    
   const pageNum = useRef(1);
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
@@ -35,11 +36,18 @@ export default function Home() {
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage: any) => {
-        console.log("pageNum.current", pageNum.current, "lastPage.totalPages", lastPage.totalPages)
-        return pageNum.current < lastPage.totalPages ? pageNum.current : undefined ;
+        console.log(
+          "pageNum.current",
+          pageNum.current,
+          "lastPage.totalPages",
+          lastPage.totalPages
+        );
+        return pageNum.current < lastPage.totalPages
+          ? pageNum.current
+          : undefined;
       },
       // getNextPageParam: (lastPage: any) => pageNum.current,
-      staleTime: 3000,
+      staleTime: 3000
     }
   );
 
@@ -49,7 +57,7 @@ export default function Home() {
     root: null,
     target: loadMoreButtonRef,
     onIntersect: fetchNextPage,
-    enabled: hasNextPage,
+    enabled: hasNextPage
   });
 
   return (
@@ -66,8 +74,8 @@ export default function Home() {
             return (
               <Fragment key={i}>
                 {group.products?.map((data: any, key?: React.Key) => (
-                  <Link href="/detail/1">
-                    <Card                    
+                  <Link href={`/detailview/${data._id}`}>
+                    <Card
                       key={key}
                       data={data}
                       type="event"

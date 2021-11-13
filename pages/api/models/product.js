@@ -16,17 +16,21 @@ const schema = new Schema(
     firstmeet: { type: Date, required: true },
     body: { type: String, required: true },
     genre: { type: String, required: true },
-    comment: { type: String, required: true },
+    comment: { type: Array, default: [], required: true },
     price: { type: Number, required: true, default: 35000 },
     quanity: { type: Number, required: true, default: 15 },
-    islive : {type:Boolean, required:true, default:true},
+    islive: { type: Boolean, required: true, default: true },
     joinMembr: {
       type: Array,
-      default: [],
+      default: []
     },
+    favoriteduser: {
+      type: Array,
+      default: []
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 

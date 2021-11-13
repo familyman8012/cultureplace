@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/client";
 
 const Header = styled.div`
   display: flex;
@@ -23,7 +24,14 @@ const Header = styled.div`
   }
 `;
 
+const Login = styled.div`
+  margin-left: auto;
+  color: ${({ theme }: any) => theme.color.brand};
+`;
+
 function Head() {
+  const [session, loading] = useSession();
+
   return (
     <Header>
       <h1>
@@ -53,6 +61,15 @@ function Head() {
           </Link>
         </li>
       </ul>
+      <Login>
+        {!session && <Link href="/signin">로그인</Link>}
+        {session && (
+          <>
+            {session.user.email}
+            <button onClick={() => signOut()}>Sign out</button>
+          </>
+        )}
+      </Login>
     </Header>
   );
 }

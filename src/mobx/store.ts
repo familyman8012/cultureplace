@@ -1,31 +1,8 @@
-import axios from "axios";
+import { IProduct } from "@src/typings/db";
+import axios, { AxiosResponse } from "axios";
 import router from "next/router";
 
 const { observable } = require("mobx");
-
-// const userStore = observable({
-//   isLoggingIn: false,
-//   data: null,
-//   logIn(data: any) {
-//     this.isLoggingIn = true;
-//     setTimeout(() => {
-//       this.data = data;
-//       this.isLoggingIn = false;
-//       postStore.data.push(1);
-//     }, 2000);
-//   },
-//   logOut() {
-//     this.data = null;
-//   },
-// });
-
-// const postStore = observable({
-//   data: [],
-//   addPost(data: any) {
-//     this.data.push(data);
-//   },
-// });
-
 const QuillStore = observable({
   state: null,
   modifyId: null,
@@ -43,7 +20,7 @@ const QuillStore = observable({
       this.titleData = resp.data[0].title;
       this.data = resp.data[0].body;
     });
-  },
+  }
 });
 
 const prodUpStore = observable({
@@ -55,17 +32,17 @@ const prodUpStore = observable({
     prodUpStore.data = null;
     router.push("/admin/product/basicInfo");
   },
-  moveModifyProduct(data: string) {
+  moveModifyProduct(_id: string) {
     QuillStore.dir = "prodcont";
     prodUpStore.state = "modify";
     prodUpStore.data = null;
-    axios.get(`/api/product/${data}`).then((resp: any) => {
+    axios.get(`/api/product/${_id}`).then((resp: AxiosResponse<IProduct[]>) => {
       this.data = resp.data[0];
       QuillStore.data = prodUpStore.data.body;
       router.push("/admin/product/basicInfo");
     });
   },
-  addProduct(data: any) {
+  addProduct(data: IProduct) {
     if (this.data === null) {
       this.data = data;
     } else {
@@ -79,14 +56,21 @@ const prodUpStore = observable({
   },
   get viewProduct() {
     return this.data.length;
-  },
+  }
 });
 
 const noticeStore = observable({
   imgurl: null,
   selCategory: "공지사항",
-  categoryData: ["공지사항", "블로그", "가이드", "멤버십 혜택", "사람들", "소식"],
-  summary : null,
+  categoryData: [
+    "공지사항",
+    "블로그",
+    "가이드",
+    "멤버십 혜택",
+    "사람들",
+    "소식"
+  ],
+  summary: null,
   moveCreateNotice() {
     noticeStore.reset();
     QuillStore.state = "create";
@@ -110,7 +94,7 @@ const noticeStore = observable({
     this.imgurl = null;
     this.selCategory = "공지사항";
     this.summary = null;
-  },
+  }
 });
 
 export { prodUpStore, QuillStore, noticeStore };
