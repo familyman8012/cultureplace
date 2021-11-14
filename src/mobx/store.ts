@@ -27,15 +27,15 @@ const prodUpStore = observable({
   state: null,
   data: null,
   moveCreateProduct() {
+    prodUpStore.reset();
     QuillStore.dir = "prodcont";
     prodUpStore.state = "create";
-    prodUpStore.data = null;
     router.push("/admin/product/basicInfo");
   },
   moveModifyProduct(_id: string) {
+    prodUpStore.reset();
     QuillStore.dir = "prodcont";
     prodUpStore.state = "modify";
-    prodUpStore.data = null;
     axios.get(`/api/product/${_id}`).then((resp: AxiosResponse<IProduct[]>) => {
       this.data = resp.data[0];
       QuillStore.data = prodUpStore.data.body;

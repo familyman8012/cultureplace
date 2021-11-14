@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import ReactS3Client from "react-aws-s3-typescript";
 import { QuillStore } from "@/../src/mobx/store";
+import { QuillStyle } from "./styles";
 
 import dayjs from "dayjs";
 
@@ -208,5 +209,9 @@ export default function QuillEditor({ mountBody }) {
         ...로딩중
       </div>
     );
-  return <div ref={quillElement}></div>;
+  return (
+    <QuillStyle>
+      <div ref={quillElement}></div>
+    </QuillStyle>
+  );
 }

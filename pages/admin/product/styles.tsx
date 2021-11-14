@@ -187,6 +187,9 @@ export const BasicInfoForm = styled.div`
       width: 255px;
       height: 170px;
       border: 1px solid #ddd;
+      img {
+        width: 100%;
+      }
     }
     input:not([type="checkbox"]),
     input:not([type="radio"]) {
@@ -267,8 +270,12 @@ export const BasicInfoForm = styled.div`
   }
 `;
 
-export const confirmStyle = css`
-  width: 64rem;
+export const ErrorTxt = styled.p`
+  color: red;
+`;
+
+export const ConfirmView = styled.div`
+  width: 769px;
   margin: 0 auto;
   p {
     margin-top: 10px;
@@ -318,6 +325,19 @@ export const confirmStyle = css`
     border: 1px solid #ddd;
     box-sizing: border-box;
     background: #fff;
+    h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    p {
+      font-size: 18px;
+      line-height: 1.56;
+    }
+    [data-list="bullet"] {
+      .ql-ui {
+        display: none;
+      }
+    }
   }
 `;
 export default () => <pre>Header</pre>;

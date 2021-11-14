@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import dayjs from "dayjs";
 import router from "next/router";
 // mobx
 import { runInAction } from "mobx";
@@ -8,7 +9,7 @@ import { prodUpStore } from "@src/mobx/store";
 // custom hook, css
 import useImgUp from "@src/hooks/useImgUp";
 import AdminLayout from "@src/components/layouts/Admin/layout";
-import { BasicInfoForm } from "./styles";
+import { BasicInfoForm, ErrorTxt } from "./styles";
 
 function App() {
   //리액트 hook form
@@ -16,7 +17,14 @@ function App() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm({ defaultValues: prodUpStore.data });
+  } = useForm({
+    defaultValues: prodUpStore.data && {
+      ...prodUpStore.data,
+      firstmeet: dayjs(prodUpStore.data.firstmeet).format(
+        "YYYY-MM-DD[T]HH:mm:ss"
+      )
+    }
+  });
 
   // 이미지 업로드 HOOK
   const [imgData, setImgData, onImgUpHadler] = useImgUp("cardoriginal");
@@ -69,10 +77,10 @@ function App() {
             {...register("title", { required: true, maxLength: 12 })}
           />
           {errors.title && errors.title.type === "required" && (
-            <p>모임명을 입력해주세요.</p>
+            <ErrorTxt>모임명을 입력해주세요.</ErrorTxt>
           )}
           {errors.title && errors.title.type === "maxLength" && (
-            <p>12자 안으로 올바르게 올려주세요.</p>
+            <ErrorTxt>12자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
 
           <label htmlFor="desc">설명</label>
@@ -83,10 +91,10 @@ function App() {
             {...register("desc", { required: true, maxLength: 60 })}
           />
           {errors.desc && errors.desc.type === "required" && (
-            <p>설명을 입력해주세요.</p>
+            <ErrorTxt>설명을 입력해주세요.</ErrorTxt>
           )}
           {errors.desc && errors.desc.type === "maxLength" && (
-            <p>60자 안으로 올바르게 올려주세요.</p>
+            <ErrorTxt>60자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
 
           <label htmlFor="todo">대표적 할일</label>
@@ -97,10 +105,10 @@ function App() {
             {...register("todo", { required: true, maxLength: 12 })}
           />
           {errors.todo && errors.todo.type === "required" && (
-            <p>모임에서 할 일을 입력해주세요.</p>
+            <ErrorTxt>모임에서 할 일을 입력해주세요.</ErrorTxt>
           )}
           {errors.todo && errors.todo.type === "maxLength" && (
-            <p>12자 안으로 올바르게 올려주세요.</p>
+            <ErrorTxt>12자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
 
           <label htmlFor="people">모임장 이름</label>
@@ -111,7 +119,7 @@ function App() {
             {...register("people", { required: true })}
           />
           {errors.people && errors.people.type === "required" && (
-            <p>모임장 이름을 올려주세요.</p>
+            <ErrorTxt>모임장 이름을 올려주세요.</ErrorTxt>
           )}
 
           <div className="box_check_area">
@@ -191,7 +199,7 @@ function App() {
             {...register("firstmeet", { required: true })}
           />
           {errors.firstmeet && errors.firstmeet.type === "required" && (
-            <p>첫 모임 일을 입력해주세요.</p>
+            <ErrorTxt>첫 모임 일을 입력해주세요.</ErrorTxt>
           )}
 
           <label htmlFor="comment">하고 싶은 말(20자 안으로)</label>
@@ -202,10 +210,10 @@ function App() {
             {...register("comment", { required: true, maxLength: 20 })}
           />
           {errors.comment && errors.comment.type === "required" && (
-            <p>간단 하고 싶은 말을 입력해주세요.</p>
+            <ErrorTxt>간단 하고 싶은 말을 입력해주세요.</ErrorTxt>
           )}
           {errors.comment && errors.comment.type === "maxLength" && (
-            <p>20자 안으로 올바르게 올려주세요.</p>
+            <ErrorTxt>20자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
           <input type="submit" value="다음" />
         </form>

@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import React, { useCallback, useMemo } from "react";
-import { prodUpStore, QuillStore } from "@/../src/mobx/store";
-import AdminLayout from "../../../src/components/layouts/Admin/layout";
+import React, { useCallback } from "react";
 import router from "next/router";
-import { css } from "@emotion/react";
-import { Image } from "antd";
-import { confirmStyle } from "./styles";
 import axios from "axios";
+import { prodUpStore, QuillStore } from "@src/mobx/store";
+import AdminLayout from "@src/components/layouts/Admin/layout";
+import { css } from "@emotion/react";
+import { ConfirmView } from "./styles";
+import { ProductBoxBtn } from "@src/components/views/QuillEditor/styles";
 
 function Confirm() {
+  // 데이터불러오기
   if (prodUpStore.data !== null) {
     prodUpStore.data.body = QuillStore.data;
     prodUpStore.data.imgurl = prodUpStore.data.imgurl.replace(
@@ -16,45 +17,38 @@ function Confirm() {
       "/card/"
     );
 
-    const modifyConfrimProduct = (_id: string) => {
-      axios.put(`/api/product/${_id}`, prodUpStore?.data).then(function (resp) {
-        prodUpStore.reset();
-        router.push("/admin/product");
-      });
-    };
-
+    //등록
     const saveProduct = useCallback(() => {
       axios.post("/api/product/", prodUpStore?.data).then(function (resp) {
         prodUpStore.reset();
         router.push("/admin/product");
       });
     }, []);
+
+    //수정
+    const modifyConfrimProduct = useCallback((_id: string) => {
+      axios.put(`/api/product/${_id}`, prodUpStore?.data).then(function (resp) {
+        prodUpStore.reset();
+        router.push("/admin/product");
+      });
+    }, []);
+
     return (
       <AdminLayout>
         <>
-          <div
-            css={css`
-              ${confirmStyle};
-            `}
-          >
-            <h2>{prodUpStore?.data.category} 게시판에</h2>
+          <ConfirmView>
             <div className="list">
               <h2>대표이미지</h2>
-              <span>
-                <Image
-                  width={255}
-                  height={170}
-                  src={prodUpStore?.data.imgurl}
-                  alt="모임대표이미지 등록"
-                />
-              </span>
+              <div>
+                <img src={prodUpStore?.data.imgurl} alt="모임대표이미지 등록" />
+              </div>
               <dl>
                 <dt>모임명</dt>
                 <dd>{prodUpStore?.data.title}</dd>
                 <dt>모임장소</dt>
                 <dd>{prodUpStore?.data.location}</dd>
                 <dt>모임주기</dt>
-                <dd>{prodUpStore?.data.meetday}</dd>
+                <dd>{prodUpStore?.data.meetingcycle}</dd>
                 <dt>첫모임일</dt>
                 <dd>{prodUpStore?.data.firstmeet}</dd>
                 <dt>히고 싶은 말</dt>
@@ -67,17 +61,19 @@ function Confirm() {
               />
             </div>
             <p>를 등록하시겠습니까?</p>
-            {prodUpStore.state === "create" ? (
-              <button onClick={saveProduct}>등록</button>
-            ) : (
-              <button
-                onClick={() => modifyConfrimProduct(prodUpStore?.data._id)}
-              >
-                수정
-              </button>
-            )}
-            <button onClick={() => router.back()}>뒤로</button>
-          </div>
+            <ProductBoxBtn>
+              <button onClick={() => router.back()}>뒤로</button>
+              {prodUpStore.state === "create" ? (
+                <button onClick={saveProduct}>등록</button>
+              ) : (
+                <button
+                  onClick={() => modifyConfrimProduct(prodUpStore?.data._id)}
+                >
+                  수정
+                </button>
+              )}
+            </ProductBoxBtn>
+          </ConfirmView>
         </>
         )
       </AdminLayout>

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import { observer } from "mobx-react";
 import { QuillStore } from "@/../src/mobx/store";
 import QuillEditor from "./QuillEditor";
-import styles from "../../../../styles/Home.module.css";
 
 interface Props {
   category: string;
@@ -20,6 +19,10 @@ function QuillEditorView({ category }: Props) {
   }, []);
 
   const loadTemplate = {
+    nodata() {
+      QuillStore.data = "";
+      rerenderBody();
+    },
     meet() {
       QuillStore.data = `<h2>지금까지 자기계발서는 다 소용없었다는 분들! 주목!</h2><p><br></p><p>"대박이었습니다!!!!! 100점 만점에 1500점 드리고 싶습니다."</p><p>"앞으로 제 커리어가 나름 성공한다면 봉준 님 덕이 클 거 같습니다!"</p><p>"커리어를 어떻게 발전시켜 나갈 지에 대한 방향성을 잡을 수 있어서 좋았습니다."</p><p><br></p><p>진짜 행복하고 탁월해질 수 있는 커리어를 준비하고 계신가요? 무엇을 할 때 가장 즐겁고 행복한가요? 나답게 산다는 것은 무엇일까요? 나를 한 문장으로 표현한다면?</p><p><br></p><p>살면서 꼭 한 번은 마주해야 할 질문입니다. 그러나 자기 자신을 잘 모른다면 이 질문에 답하기란 쉽지 않죠. 인생의 중요한 선택인 커리어를 준비하는 것은 생각보다 매우 긴 여정입니다. 단순히 전공을 선택하거나 첫 직장을 선택할 때 끝나지 않습니다.</p><p><br></p><p>그럼 커리어의 여정을 잘 준비하려면 어떻게 해야 할까요?</p><p><br></p><p>1. 내가 진짜 좋아하는 것은 무엇인지 2. 어떤 방식으로 일할 때, 탁월해질 수 있는지 3. 어떨 때 몰입하고, 만족감을 느끼는지 정확하게 파악하고 의도적으로 활용하는 것이 필요합니다.</p><p><br></p><p>하지만 일상에 치여 온전히 자신에게 집중할 시간이 없는 우리에게, 커리어의 여정을 다듬어 가기란 쉽지 않지요. 태니지먼트 대표 김봉준 클럽장님과 함께 #나다움 #커리어 #탁월함&amp;성장 #일의의미 #행복한직장생활 등에 대한 답을 찾아보아요!</p><p><br></p><h3>어떤 사람들과 함께 하나요?</h3><p><br></p><ol><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 진짜 자신이 좋아하고 잘하는 일에 관심이 많은 사람들</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 자신에 대한 막연하게 아는 것을 떠나 자신에 대해 진지하게 탐구할 사람들</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 강점을 기반으로 자신의 커리어를 한 단계 한 단계 구체적으로 설계하고 싶은 사람들</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 일에 대한 의미를 스스로 정의하고 만족스러운 커리어를 준비하고 싶은 사람들</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 자신만의 강점으로 탁월한 일잘러가 되고 싶은 사람들</li></ol><p><br></p><hr class="hr" style="width:100%;border-bottom:1px solid #f3f3f6;"><h2><br></h2><h2>클럽장 김봉준 님은</h2><h2 class="ql-align-center"><img src="https://cultureplace.s3-ap-northeast-2.amazonaws.com/notice/2110291110_c4ee11aa-ec58-4dc2-8921-a9d9955f6e7c.김봉준님.jpeg" width="136"></h2><p><br></p><ol><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 개인의 강점을 진단하고 개발할 수 있는 커리어 컨설팅 및 기업HR 컨설팅을 제공하는 태니지먼트를&nbsp;운영하고 있습니다.</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 개인의 강점을 진단하는 TANAGEMENT Wheel©을 개발했습니다.</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> SKT, 카카오, 대학내일, 클래스101 등 50개 기업/공공기관/대학에서 강점 개발 및 리더십 강의를 진행하고 있습니다.&nbsp;</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 이랜드에서 그룹 인재개발 팀장을 하면서 인재 육성 및 커리어 코칭을 주로 진행하였습니다. 또한 조직의 강점개발 및 몰입도 향상 프로젝트를 진행하였습니다.</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 강점 기반의 커리어 개발 및 조직 운영에 대한 책 <a href="https://book.naver.com/bookdb/book_detail.nhn?bid=15876319" target="_blank" style="color: rgb(23, 120, 181); background-color: transparent;"> 『강점 발견』</a> 을 썼습니다.</li></ol><p><br></p><hr class="hr" style="width:100%;border-bottom:1px solid #f3f3f6;"><p><br></p><h2>첫 모임의 읽을거리는?</h2><p><br></p><p class="ql-align-center"><img src="https://cultureplace.s3-ap-northeast-2.amazonaws.com/notice/2110291110_0100022299885-00.jpeg" width="200"></p><p class="ql-align-center"><a href="https://search.daum.net/search?w=bookpage&amp;bookId=5145586&amp;q=%EA%B0%95%EC%A0%90+%EB%B0%9C%EA%B2%AC" target="_blank" style="color: rgb(30, 63, 255); background-color: transparent;"> 강점 발견</a></p><p class="ql-align-center">김봉준, 장영학</p><p class="ql-align-center"><br></p><p>우리는 저마다 타고난 강점이 있습니다. 이것을 제대로 발견하고 적절히 노력하면 탁월한 성취와 성과를 거머쥘 수 있는데요. 이처럼 중요한 강점에 대해 우리는 제대로 알고 있는 걸까요?</p><p><br></p><p><span class="ql-size-small" style="color: rgb(136, 136, 136);"> ※첫 책 이후 함께 읽을 거리는 멤버들의 논의와 투표를 통해 선정됩니다. 클럽장 클럽이나 일부 클럽의 경우, 읽을거리가 정해져 있는 클럽이 있을 수 있습니다.</span></p><p><br></p><hr class="hr" style="width:100%;border-bottom:1px solid #f3f3f6;"><p><br></p><h2>앞으로 4개월 동안 우리 클럽은 이런 걸 할 거예요.</h2><p><br></p><p class="ql-align-center"><img src="https://cultureplace.s3-ap-northeast-2.amazonaws.com/notice/2110291110_book.png" width="366"></p><p><br></p><h3>두 번째 모임</h3><p>📖 이항심, 『시그니처』</p><p>이항심 진로심리 전문가가 이 책에서 말하는 '시그니처'는 남과 다른 나만의 고유성, 강점을 뜻합니다. 저자가 직접 기업인 등 리더들을 인터뷰해 그들의 '시그니처'는 무엇인지 알아 보았습니다.</p><p><br></p><h3>세 번째 모임</h3><p>📖&nbsp;피터 드러커, 『자기경영노트』</p><p>일 잘하는 사람은 타고나는 것이 아니라 만들어진다? 지식근로자를 위한 변화와 혁신의 5가지 법칙!</p><p><br></p><h3>네 번째 모임</h3><p>📖 최인철, 『굿 라이프』</p><p>우리가 가지고 있던 행복에 관한 오해들을 바로잡고,&nbsp;각자가 가지고 있는 행복 프레임을 들여다보고, 나아가 자신의 삶에 대해 각자가 가지고 있는 인생 프레임을 스스로 점검해 봅시다.</p><p><br></p><hr class="hr" style="width:100%;border-bottom:1px solid #f3f3f6;"><p class="ql-align-center"><br></p><p><span class="ql-size-small" style="color: #ff8400"> 우린 이렇게 달라질 거예요</span></p><h2>나 자신을 제대로 알고, 쓸 줄 알게 됩니다.</h2><p><br></p><ol><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 나 자신을 제대로 파악하게 됩니다.</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 자신이 어떤 사람인지 알아야 본인이 하는 일부터 업무 환경, 일하는 방식까지 빠르게 정의내릴 수 있고, 진짜 만족감을 찾을 수 있습니다.</li><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span> 지금까지 수많은 자기계발 관련 책이나 강연을 들어도 해소가 되지 않았던 분들이라면, 나다운 강점에서 시작하여 커리어를 찾아가는 여정을 함께 떠나 보시죠!</li></ol>`;
       rerenderBody();
@@ -34,44 +37,72 @@ function QuillEditorView({ category }: Props) {
     }
   };
 
+  const handleSelectTemplate = useCallback(
+    (e: { target: { value: string } }) => {
+      switch (e.target.value) {
+        case "선택안함":
+          loadTemplate.nodata();
+          break;
+        case "모임":
+          loadTemplate.meet();
+          break;
+        case "공지":
+          loadTemplate.notice();
+          break;
+        case "이벤트":
+          loadTemplate.event();
+          break;
+        default:
+          break;
+      }
+    },
+    []
+  );
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Quill Sample</title>
+        <title>글 등록</title>
         <link rel="icon" href="/favicon.ico" />
 
         {/* 관련된 리소스 로드 */}
-        <link href="/script/katex.min.css" rel="stylesheet" />
-        <script src="/script/katex.min.js"></script>
+        <link
+          href="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.css"
+          rel="stylesheet"
+        />
+        <script src="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.js"></script>
         {/* <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/highlight.min.js"></script> */}
-        <script src="/script/quill.min.js" type="text/javascript"></script>
-        <script src="/script/quill.htmlEditButton.min.js"></script>
-        <script src="/script/table.js" type="text/javascript"></script>
-        <link href="/script/quill.snow.min.css" rel="stylesheet" />
-        <link href="/script/index.css" rel="stylesheet" />
-        <script src="/script/imgresize.js"></script>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.min.js"
+          type="text/javascript"
+        ></script>
+        <script src="/script/quill/quill.htmlEditButton.min.js"></script>
+        <script src="/script/quill/table.js" type="text/javascript"></script>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.snow.min.css"
+          rel="stylesheet"
+        />
+        <link
+          href="https://unpkg.com/quill-table-ui@1.0.5/dist/index.css"
+          rel="stylesheet"
+        />
+        <script src="/script/quill/imgresize.js"></script>
         {/* <link
           rel="stylesheet"
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/styles/default.min.css"
         /> */}
       </Head>
-
-      <h1 className={styles.title}>{category}</h1>
-      <button onClick={() => loadTemplate.meet()}>모임 템플릿 불러오기</button>
-      <button onClick={() => loadTemplate.notice()}>
-        공지사항 템플릿 불러오기
-      </button>
-      <button onClick={() => loadTemplate.event()}>
-        이벤트 템플릿 불러오기
-      </button>
-      <div style={{ width: "80%", marginTop: "20px" }}>
-        <QuillEditor mountBody={mountBody} />
+      <div className="area_template_select">
+        <p>템플릿 불러오기 : </p>
+        <select onChange={handleSelectTemplate}>
+          <option value="선택안함">선택안함</option>
+          <option value="모임">모임</option>
+          <option value="공지">공지</option>
+          <option value="이벤트">이벤트</option>
+        </select>
       </div>
-      <div style={{ width: "80%" }}>
-        <p>QuillStore 미리보기</p>
-        {QuillStore.data}
-      </div>
-    </div>
+      <QuillEditor mountBody={mountBody} />
+    </>
   );
 }
 export default observer(QuillEditorView);
