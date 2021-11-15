@@ -7,8 +7,8 @@ import {
   csrfToken,
   getProviders
 } from "next-auth/client";
-import { ISignIn } from "@/signin";
 import { ProviderType } from "next-auth/providers";
+import { ISignIn } from "pages/signin";
 
 export default function SocialLogin({ providers, csrfToken }: ISignIn) {
   const {

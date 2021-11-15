@@ -13,7 +13,7 @@ export const WrapQuillText = styled.div`
   }
 `;
 
-export const ProductBoxBtn = styled.div`
+export const AdminBoxBtn = styled.div`
   display: flex;
   margin-top: 30px;
   justify-content: flex-end;

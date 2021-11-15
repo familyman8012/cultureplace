@@ -1,3 +1,4 @@
+import { IMainVis } from "@src/typings/db";
 import axios from "axios";
 import { useQuery } from "react-query";
 
@@ -7,7 +8,7 @@ const fetchMainimg = async () => {
 };
 
 const useMainimg = () => {
-  return useQuery<any, Error>("mainimgData", () => fetchMainimg());
+  return useQuery<IMainVis[], Error>("mainimgData", () => fetchMainimg());
 };
 
 export { useMainimg, fetchMainimg };

@@ -7,7 +7,7 @@ mainvisimgRouter.delete(async (req, res) => {
   try {
     const { _id } = req.query;
     console.log(_id);
-    const mainvisimgs = await Mainvisimg.findByIdAndDelete(_id, { new: true });
+    const mainvisimgs = await Mainvisimg.findByIdAndDelete(_id);
     return res.send(mainvisimgs);
   } catch {
     console.log(err);

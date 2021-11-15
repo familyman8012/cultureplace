@@ -1,33 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { INotice } from "@/../src/typings/db";
-import { Table, Image, Button } from "antd";
-import AdminLayout from "@/../src/components/layouts/Admin/layout";
-import router from "next/router";
-import axios from "axios";
-import Link from "next/link";
+import { useCallback, useMemo, useState } from "react";
 import { runInAction } from "mobx";
-import { QuillStore, noticeStore } from "@/../src/mobx/store";
-import { useNotices, fetchNotices } from "@/../src/hooks/api/useNotices";
+import { noticeStore } from "@src/mobx/store";
+import { useNotices } from "@src/hooks/api/useNotices";
 import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+import AdminLayout from "@/../src/components/layouts/Admin/layout";
+import { GlowBtn, IndexTable, WrapIndexContent } from "../product/styles";
+import "rc-pagination/assets/index.css";
+import Pagination from "rc-pagination";
 
 export default function list() {
   const queryClient = useQueryClient();
-  const { status, data, error, isFetching } = useNotices();
 
-  const writeNotice = () => {
+  //불러오기
+  const { status, data, error } = useNotices();
+
+  /* 테이블 data 구성 및 pagination */
+  const [curPage, setCurPage] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
+  const dataLength = useMemo(() => data?.length, [data]);
+  const startPage = useMemo(
+    () => curPage * pageSize - (pageSize - 1) - 1,
+    [curPage]
+  );
+  const viewData = useMemo(() => curPage * pageSize, [curPage]);
+  const handlePageChange = useCallback((page: number) => {
+    setCurPage(page);
+  }, []);
+
+  //공지사항 등록
+  const writeNotice = useCallback(() => {
     noticeStore.moveCreateNotice();
-  };
+  }, []);
 
-  const modifyNotice = (_id: string) => {
+  //공지사항 수정
+  const modifyNotice = useCallback((_id: string) => {
     runInAction(() => {
       noticeStore.moveModifyNotice(_id);
     });
-  };
+  }, []);
 
-  //상풍삭제
+  //공지사항 삭제
   const deleteMutation = useMutation(
     (_id: string) =>
-      axios.delete(`/api/notice/${_id}`).then((res) => {
+      axios.delete(`/api/notice/${_id}`).then(res => {
         return res.data;
       }),
     {
@@ -35,49 +51,53 @@ export default function list() {
       onError: (error, variables, context) => {
         // I will fire first
         console.log(error, variables);
-      },
+      }
     }
   );
-
-  const columns = [
-    {
-      key: "1",
-      title: "글제목",
-      dataIndex: "title",
-      // render: (imgurl: string) => (
-      //   <Image
-      //     width={127.5}
-      //     height={85}
-      //     src={imgurl}
-      //     alt="모임대표이미지 등록"
-      //   />
-      // ),
-    },
-    {
-      key: "2",
-      title: "보기/삭제",
-      dataIndex: "_id",
-      render: (_id: string) => (
-        <>
-          <Button onClick={() => modifyNotice(_id)}>수정</Button>
-          <Button onClick={() => deleteMutation.mutate(_id)}>삭제</Button>
-        </>
-      ),
-    },
-  ];
 
   return (
     <AdminLayout>
       {status === "loading" ? (
-        "Loading..."
+        <span>Loading...</span>
       ) : status === "error" ? (
         <span>Error: {error?.message}</span>
       ) : (
-        <div style={{ width: "80rem", margin: "0 auto" }}>
-          {data && <Table columns={columns} dataSource={data} rowKey="_id" />}
-
-          <span onClick={writeNotice}>상품등록</span>
-        </div>
+        <WrapIndexContent>
+          <IndexTable>
+            <thead>
+              <tr>
+                <th scope="col">카테고리</th>
+                <th scope="col">글 제목</th>
+                <th scope="col">보기/삭제</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.slice(startPage, viewData)?.map(el => (
+                <tr key={el._id} onClick={() => modifyNotice(el._id)}>
+                  <td>{el.category}</td>
+                  <td>{el.title}</td>
+                  <td className="col_wrap">
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        deleteMutation.mutate(el._id);
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </IndexTable>
+          <Pagination
+            onChange={handlePageChange}
+            current={curPage}
+            pageSize={pageSize}
+            total={dataLength}
+          />
+          <GlowBtn onClick={writeNotice}>공지등록</GlowBtn>
+        </WrapIndexContent>
       )}
     </AdminLayout>
   );

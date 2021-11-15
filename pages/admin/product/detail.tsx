@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import router from "next/router";
 import { observer } from "mobx-react";
 import AdminLayout from "@src/components/layouts/Admin/layout";
 import QuillEditorView from "@src/components/views/QuillEditor/QuillEditorView";
 import {
-  ProductBoxBtn,
+  AdminBoxBtn,
   WrapQuillText
 } from "@src/components/views/QuillEditor/styles";
 
@@ -23,10 +23,10 @@ function Detail() {
     <AdminLayout>
       <WrapQuillText>
         <QuillEditorView category="상품등록" />
-        <ProductBoxBtn>
+        <AdminBoxBtn>
           <button onClick={onPrev}>이전으로 가기</button>
           <button onClick={onSubmit}>확인</button>
-        </ProductBoxBtn>
+        </AdminBoxBtn>
       </WrapQuillText>
     </AdminLayout>
   );

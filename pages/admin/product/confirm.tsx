@@ -1,12 +1,10 @@
-/** @jsxImportSource @emotion/react */
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import router from "next/router";
 import axios from "axios";
 import { prodUpStore, QuillStore } from "@src/mobx/store";
 import AdminLayout from "@src/components/layouts/Admin/layout";
-import { css } from "@emotion/react";
 import { ConfirmView } from "./styles";
-import { ProductBoxBtn } from "@src/components/views/QuillEditor/styles";
+import { AdminBoxBtn } from "@src/components/views/QuillEditor/styles";
 
 function Confirm() {
   // 데이터불러오기
@@ -61,7 +59,7 @@ function Confirm() {
               />
             </div>
             <p>를 등록하시겠습니까?</p>
-            <ProductBoxBtn>
+            <AdminBoxBtn>
               <button onClick={() => router.back()}>뒤로</button>
               {prodUpStore.state === "create" ? (
                 <button onClick={saveProduct}>등록</button>
@@ -72,7 +70,7 @@ function Confirm() {
                   수정
                 </button>
               )}
-            </ProductBoxBtn>
+            </AdminBoxBtn>
           </ConfirmView>
         </>
         )

@@ -21,6 +21,17 @@ export interface IProduct {
 }
 
 export interface INotice {
-  title: String;
-  body: String;
+  _id: string;
+  category: string;
+  title: string;
+  body: string;
+  imgurl: string;
+  summary: string;
+}
+
+export interface IMainVis {
+  _id: string;
+  pclocation: string;
+  molocation: string;
+  alt: string;
 }

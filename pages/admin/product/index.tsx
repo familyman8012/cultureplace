@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { useQuery, useQueryClient, useMutation } from "react-query";
+import { useCallback, useMemo, useState } from "react";
+import { useQueryClient, useMutation } from "react-query";
+import { useProducts } from "@src/hooks/api/useProducts";
 import axios from "axios";
 import { runInAction } from "mobx";
 import { prodUpStore } from "@src/mobx/store";
 import AdminLayout from "@src/components/layouts/Admin/layout";
 import { WrapIndexContent, IndexTable, GlowBtn } from "./styles";
-import { IProduct } from "@src/typings/db";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
 import dayjs from "dayjs";
@@ -17,13 +17,7 @@ export default function list() {
   const queryClient = useQueryClient();
 
   //불러오기
-  const { status, data, error } = useQuery<IProduct[], Error>(
-    "listData",
-    async () => {
-      const res = await axios.get("/api/product");
-      return res.data;
-    }
-  );
+  const { status, data, error } = useProducts();
 
   /* 테이블 data 구성 및 pagination */
   const [curPage, setCurPage] = useState(1);
@@ -56,10 +50,11 @@ export default function list() {
   const deleteMutation = useMutation(
     (_id: string) =>
       axios.delete(`/api/product/${_id}`).then(res => {
+        console.log(res.data);
         return res.data;
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries("listData"),
+      onSuccess: () => queryClient.invalidateQueries("productData"),
       onError: (error, variables, context) => {
         // I will fire first
         console.log(error, variables);
@@ -97,7 +92,12 @@ export default function list() {
                   <td>{el.meetday}</td>
                   <td>{dayjs(el.firstmeet).format(`YY.MM.DD (ddd)`)}</td>
                   <td className="col_wrap">
-                    <button onClick={() => deleteMutation.mutate(el._id)}>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        deleteMutation.mutate(el._id);
+                      }}
+                    >
                       삭제
                     </button>
                   </td>

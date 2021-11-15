@@ -1,10 +1,11 @@
-import React, { ChangeEventHandler, useCallback, useState } from "react";
-import AdminLayout from "../../../src/components/layouts/Admin/layout";
-
-import { Image } from "antd";
-import useImgUp from "@/../src/hooks/useImgUp";
-import axios from "axios";
+import React, { useState } from "react";
 import router from "next/router";
+import axios from "axios";
+import useImgUp from "@src/hooks/useImgUp";
+import AdminLayout from "@src/components/layouts/Admin/layout";
+
+import { WrapDetailMV } from "./styles";
+import { BoxInput } from "../notice/styles";
 
 function Mainvis() {
   //이미지 업로드 훅
@@ -18,59 +19,65 @@ function Mainvis() {
     setAltText(e.target.value);
   };
 
+  console.log(imgData);
+
   const onSubmit = () => {
-    console.log("imgData", imgData, "imgData2", imgData2);
     axios
       .post("/api/mainvisimg", {
         pclocation: imgData.replace(/\/mainvispc\//, "/mainvis/"),
         molocation: imgData2.replace(/\/mainvismo\//, "/mainvis/"),
-        alt: altText,
+        alt: altText
       })
-      .then((res) => {
-        console.log("Res느느느느느111", res);
+      .then(res => {
         router.push("/admin/mainvis");
       });
   };
   return (
     <AdminLayout>
-      <div>
-        <h2>pc 버젼</h2>
-        <span>
-          <Image
-            width={255}
-            height={170}
-            src={imgData}
-            alt="모임대표이미지 등록"
-          />
-        </span>
-        <input
-          type="file"
-          id="upload"
-          className="image-upload"
-          onChange={onImgUpHadler}
-        />
-      </div>
-      <div>
-        <h2>모바일 버젼</h2>
-        <span>
-          <Image
-            width={255}
-            height={170}
-            src={imgData2}
-            alt="모임대표이미지 등록"
-          />
-        </span>
-        <input
-          type="file"
-          id="upload"
-          className="image-upload"
-          onChange={onImgUpHadler2}
-        />
-      </div>
-      <div>
-        <input type="text" onChange={onHandlerTxt} value={altText} />
-      </div>
-      <span onClick={onSubmit}>확인</span>
+      <WrapDetailMV>
+        <div className="inner">
+          <div>
+            <h2>pc 버젼</h2>
+            <div className="box_pc_img">
+              {imgData ? (
+                <img src={imgData} alt="모임대표이미지 등록" />
+              ) : (
+                "파일 선택을 클릭해서 이미지를 업로드 해주세요"
+              )}
+            </div>
+
+            <input
+              type="file"
+              id="upload"
+              className="image-upload"
+              onChange={onImgUpHadler}
+            />
+          </div>
+          <div>
+            <h2>모바일 버젼</h2>
+
+            <div className="box_mo_img">
+              {imgData2 ? (
+                <img src={imgData2} alt="모임대표이미지 등록" />
+              ) : (
+                "파일 선택을 클릭해서 이미지를 업로드 해주세요"
+              )}
+            </div>
+
+            <input
+              type="file"
+              id="upload"
+              className="image-upload"
+              onChange={onImgUpHadler2}
+            />
+          </div>
+          <BoxInput>
+            <span>alt</span>
+            <input type="text" onChange={onHandlerTxt} value={altText} />
+          </BoxInput>
+          <button onClick={onSubmit}>확인</button>
+        </div>
+      </WrapDetailMV>
     </AdminLayout>
   );
 }

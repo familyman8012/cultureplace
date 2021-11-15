@@ -1,5 +1,6 @@
-import axios from "axios";
 import { useQuery } from "react-query";
+import axios from "axios";
+import { INotice } from "@src/typings/db";
 
 const fetchNotices = async () => {
   const res = await axios.get("/api/notice");
@@ -7,7 +8,7 @@ const fetchNotices = async () => {
 };
 
 const useNotices = () => {
-  return useQuery<any, Error>("noticeData", () => fetchNotices());
+  return useQuery<INotice[], Error>("noticeData", () => fetchNotices());
 };
 
 export { useNotices, fetchNotices };

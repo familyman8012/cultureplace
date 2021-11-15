@@ -221,6 +221,7 @@ const Card: FC<StyledComponentProps> = ({ type = "basic", data, ...rest }) => {
   const [session] = useSession();
 
   const favoriteChk = useMemo(
+    //@ts-ignore
     () => data?.favoriteduser?.includes(String(session?.user.uid)),
     [data?.favoriteduser, session?.user.uid]
   );

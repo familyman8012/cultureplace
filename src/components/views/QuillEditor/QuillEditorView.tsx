@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import { observer } from "mobx-react";
 import { QuillStore } from "@/../src/mobx/store";
@@ -38,7 +38,7 @@ function QuillEditorView({ category }: Props) {
   };
 
   const handleSelectTemplate = useCallback(
-    (e: { target: { value: string } }) => {
+    (e: ChangeEvent<HTMLSelectElement>) => {
       switch (e.target.value) {
         case "선택안함":
           loadTemplate.nodata();
@@ -93,7 +93,7 @@ function QuillEditorView({ category }: Props) {
         /> */}
       </Head>
       <div className="area_template_select">
-        <p>템플릿 불러오기 : </p>
+        <p>템플릿 선택 : </p>
         <select onChange={handleSelectTemplate}>
           <option value="선택안함">선택안함</option>
           <option value="모임">모임</option>
