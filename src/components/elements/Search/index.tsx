@@ -21,13 +21,13 @@ const SearchInp = styled.div`
   button {
     width: 5.2rem;
     color: #fff;
-    background: ${({ theme }: any) => theme.color.brand};
+    background: ${({ theme }) => theme.color.brand};
 
     &:hover {
-      background: ${({ theme }: any) => lighten(0.1, theme.color.brand)};
+      background: ${({ theme }) => lighten(0.1, theme.color.brand)};
     }
     &:active {
-      background: ${({ theme }: any) => darken(0.1, theme.color.brand)};
+      background: ${({ theme }) => darken(0.1, theme.color.brand)};
     }
   }
 `;

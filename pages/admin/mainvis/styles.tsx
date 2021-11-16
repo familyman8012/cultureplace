@@ -73,3 +73,4 @@ export const WrapDetailMV = styled.div`
     background: #ffeb33;
   }
 `;
+export default () => <pre>Header</pre>;

@@ -35,3 +35,12 @@ export interface IMainVis {
   molocation: string;
   alt: string;
 }
+
+export interface ISSR {
+  SsrData: {
+    mainVisImgs: IMainVis[];
+    products: IProduct[];
+    blogData: INotice[];
+    noticeData: INotice[];
+  };
+}

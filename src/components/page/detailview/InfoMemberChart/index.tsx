@@ -87,13 +87,13 @@ const Btn = styled.div`
   padding: 0 8px;
   font-size: 14px;
   font-weight: 500;
-  color: ${({ theme }: any) => theme.color.brand};
+  color: ${({ theme }) => theme.color.brand};
   border: 1px solid;
-  border-color: ${({ theme }: any) => theme.color.brand};
+  border-color: ${({ theme }) => theme.color.brand};
   border-radius: 4px;
   &.on {
     color: #fff;
-    background: ${({ theme }: any) => theme.color.brand};
+    background: ${({ theme }) => theme.color.brand};
   }
 `;
 

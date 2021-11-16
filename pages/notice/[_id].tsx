@@ -19,7 +19,7 @@ function detailView() {
     .top {
       display: flex;
       align-items: center;
-      color: ${({ theme }: any) => theme.color.brand};
+      color: ${({ theme }) => theme.color.brand};
       .anticon-left {
         font-size: 10px;
         margin-right: 15px;

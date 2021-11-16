@@ -6,7 +6,7 @@ const Header = styled.div`
   display: flex;
   padding: 2rem 0;
   h1 {
-    color: ${({ theme }: any) => theme.color.brand};
+    color: ${({ theme }) => theme.color.brand};
   }
   ul {
     display: flex;
@@ -15,9 +15,9 @@ const Header = styled.div`
       margin-right: 4rem;
       a {
         font-size: 14px;
-        color: ${({ theme }: any) => theme.color.gray};
+        color: ${({ theme }) => theme.color.gray};
         &:hover {
-          color: ${({ theme }: any) => theme.color.brand};
+          color: ${({ theme }) => theme.color.brand};
         }
       }
     }
@@ -26,7 +26,7 @@ const Header = styled.div`
 
 const Login = styled.div`
   margin-left: auto;
-  color: ${({ theme }: any) => theme.color.brand};
+  color: ${({ theme }) => theme.color.brand};
 `;
 
 function Head() {

@@ -26,7 +26,7 @@ const Footer = styled.div`
     }
     p {
       font-size: 11px;
-      color: ${({ theme }: any) => theme.color.lightgaray};
+      color: ${({ theme }) => theme.color.lightgaray};
     }
   }
   .link_policy {

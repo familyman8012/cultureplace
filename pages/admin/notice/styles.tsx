@@ -37,3 +37,4 @@ export const BoxInput = styled.div`
     width: 50%;
   }
 `;
+export default () => <pre>Header</pre>;

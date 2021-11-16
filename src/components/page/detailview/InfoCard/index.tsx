@@ -81,7 +81,7 @@ const InfoCard = styled.div`
         font-size: 16px;
         font-weight: normal;
         &.tit {
-          color: ${({ theme }: any) => theme.color.brand};
+          color: ${({ theme }) => theme.color.brand};
           font-weight: 600;
         }
       }

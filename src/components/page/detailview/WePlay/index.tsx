@@ -17,7 +17,7 @@ const Play = styled.dl<{ bgimg: string }>`
   background-size: auto 57.5px;
   dt {
     font-size: 16px;
-    color: ${({ theme }: any) => theme.color.brand};
+    color: ${({ theme }) => theme.color.brand};
     line-height: 24px;
   }
   .desc {
@@ -25,7 +25,7 @@ const Play = styled.dl<{ bgimg: string }>`
   }
   .subdesc {
     font-size: 13px;
-    color: ${({ theme }: any) => theme.color.gray};
+    color: ${({ theme }) => theme.color.gray};
   }
 `;
 
