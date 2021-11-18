@@ -1,8 +1,8 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import React from "react";
-import SwiperCore, { Navigation, Pagination } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { css } from "@emotion/react";
+import SwiperCore, { Navigation } from "swiper";
+import { Swiper } from "swiper/react";
+import { BtnNext, BtnPrev, OneSwiper } from "./styles";
 
 interface Props {
   children: React.ReactNode;
@@ -17,23 +17,6 @@ interface Props {
 
 // install Swiper modules
 SwiperCore.use([Navigation]);
-
-const btnPrev = css`
-  position: absolute;
-  top: 50%;
-  left: -50px;
-  width: 3.7rem;
-  height: 3.7rem;
-  transform: translateY(-50%);
-  background: url("/images/arrow_swiper.png") no-repeat left top;
-  background-size: 3.7rem;
-`;
-
-const btnNext = css`
-  left: auto;
-  right: -50px;
-  transform: rotate(180deg) translateY(50%);
-`;
 
 function Slider({ children, breakPoint, i }: Props) {
   return (
@@ -51,38 +34,19 @@ function Slider({ children, breakPoint, i }: Props) {
             {children}
           </Swiper>
 
-          <div className={`swiper-btn-prev${i}`} css={btnPrev}>
+          <BtnPrev className={`swiper-btn-prev${i}`}>
             <span className="hiddenZoneV">prev</span>
-          </div>
-          <div className={`swiper-btn-next${i}`} css={[btnPrev, btnNext]}>
+          </BtnPrev>
+          <BtnNext className={`swiper-btn-next${i}`}>
             <span className="hiddenZoneV">next</span>
-          </div>
+          </BtnNext>
         </>
       ) : (
         <Swiper
           className="mySwiper"
           navigation={true}
-          // pagination={{ clickable: true }}
           css={css`
-            .swiper-button-prev,
-            .swiper-button-next {
-              width: 37px;
-              height: 37px;
-              &:after {
-                display: none;
-              }
-            }
-            .swiper-button-prev {
-              background: url("/images/arrowWhite_swiper.png") no-repeat left
-                top;
-              background-size: 37px;
-            }
-            .swiper-button-next {
-              transform: rotateX(180deg);
-              background: url("/images/arrowWhite_swiper.png") no-repeat left
-                top;
-              background-size: 37px;
-            }
+            ${OneSwiper}
           `}
         >
           <div className="swiper-wrapper">{children}</div>

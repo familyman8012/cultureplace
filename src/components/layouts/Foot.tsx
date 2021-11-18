@@ -1,42 +1,4 @@
-import styled from "@emotion/styled";
-import Link from "next/link";
-
-const Footer = styled.div`
-  display: block;
-  width: 100%;
-  padding: 5.6rem 0 5.2rem;
-  background-color: #f7f7f5;
-  * {
-    margin-bottom: 0;
-  }
-  .inner {
-    max-width: 114rem;
-    margin: 0 auto;
-  }
-  .link_menu {
-    display: flex;
-    li {
-      margin-right: 5rem;
-    }
-  }
-  .compaynyInfo {
-    margin: 5.4rem 0 1.5rem;
-    h1 {
-      margin-bottom: 1rem;
-    }
-    p {
-      font-size: 11px;
-      color: ${({ theme }) => theme.color.lightgaray};
-    }
-  }
-  .link_policy {
-    display: flex;
-    li {
-      margin-right: 1rem;
-      font-size: 12px;
-    }
-  }
-`;
+import { Footer } from "./styles";
 
 function Foot() {
   return (

@@ -3,6 +3,7 @@ import { SwiperSlide } from "swiper/react";
 import { debounce } from "lodash";
 import Slider from "@src/components/views/Slider";
 import { IMainVis } from "@src/typings/db";
+import { Mainvis } from "./styles";
 
 export interface IMainVisImgs {
   mainVisImgs: IMainVis[];
@@ -24,16 +25,18 @@ function index({ mainVisImgs }: IMainVisImgs) {
   }, []);
 
   return (
-    <Slider>
-      {mainVisImgs?.map(el => (
-        <SwiperSlide key={el._id}>
-          <img
-            src={windowWidthSize > 560 ? el.pclocation : el.molocation}
-            alt={el.alt}
-          />
-        </SwiperSlide>
-      ))}
-    </Slider>
+    <Mainvis>
+      <Slider>
+        {mainVisImgs?.map(el => (
+          <SwiperSlide key={el._id}>
+            <img
+              src={windowWidthSize > 560 ? el.pclocation : el.molocation}
+              alt={el.alt}
+            />
+          </SwiperSlide>
+        ))}
+      </Slider>
+    </Mainvis>
   );
 }
 

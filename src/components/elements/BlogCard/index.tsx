@@ -18,7 +18,7 @@ function Card({ type = "blog", data, ...rest }: IBlogCard) {
       </div>
       <dl className="txtbox">
         <dt>{data.title}</dt>
-        <p>{data.summary}</p>
+        <dd className="desc">{data.summary}</dd>
         <dd className="create_at">2021.09.23</dd>
       </dl>
     </BlogCardWrap>

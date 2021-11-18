@@ -1,6 +1,7 @@
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Product, Mainvisimg, Notice } from "../pages/api";
 import Layout from "@src/components/layouts";
+import Morebtn from "@src/components/page/main/Morebtn";
 import {
   MainVisual,
   CategoryArea,
@@ -8,6 +9,7 @@ import {
   NoticeArea
 } from "@src/components/page/main";
 import { ISSR } from "@src/typings/db";
+import React from "react";
 
 const Home = ({ SsrData }: ISSR) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
@@ -16,10 +18,10 @@ const Home = ({ SsrData }: ISSR) => {
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [
-        productsData.filter(el => el.genre === "영화"),
         productsData.filter(el => el.genre === "음악"),
         productsData.filter(el => el.genre === "서울걷기"),
         productsData.filter(el => el.genre === "소극장"),
+        productsData.filter(el => el.genre === "영화"),
         productsData.filter(el => el.genre === "성장하기")
       ];
     }
@@ -31,6 +33,7 @@ const Home = ({ SsrData }: ISSR) => {
     <Layout>
       <MainVisual mainVisImgs={mainVisImgs} />
       {genreData && <CategoryArea genreData={genreData} />}
+      <Morebtn />
       <BlogArea blogData={blogData} />
       <NoticeArea noticeData={noticeData} />
     </Layout>

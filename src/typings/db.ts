@@ -44,3 +44,10 @@ export interface ISSR {
     noticeData: INotice[];
   };
 }
+
+export interface Iinfinity {
+  products: IProduct[];
+  hasNextPage: boolean;
+}
+
+export interface IinfinityData {}

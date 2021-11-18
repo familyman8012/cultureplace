@@ -8,7 +8,6 @@ interface StyledComponentProps {
 const typeStyle = ({ type }: StyledComponentProps) => {
   if (type === "basic") {
     return css`
-      width: 25.7rem;
       border-radius: 0.8rem;
       .imgbox {
         position: relative;
@@ -86,7 +85,6 @@ const typeStyle = ({ type }: StyledComponentProps) => {
 
 export const CardWrap = styled.div`
   overflow: hidden;
-  width: 25.7rem;
   border: 1px solid #ecece9;
   dl,
   dt,

@@ -28,8 +28,17 @@ productRouter.get(async (req, res) => {
           .limit(Numberlimit),
         Product.find(condition()).count()
       ]);
-      const totalPages = Math.ceil(productsCount / Numberlimit);
-      return res.send({ products, totalPages });
+
+      const hasNextPage = page < Math.ceil(productsCount / Numberlimit);
+      console.log(
+        "page",
+        page,
+        "lastpage",
+        Math.ceil(productsCount / Numberlimit),
+        "lastPage.hasNextPage",
+        hasNextPage
+      );
+      return res.send({ products, hasNextPage });
     }
   } catch {
     console.log(err);

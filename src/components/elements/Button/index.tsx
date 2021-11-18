@@ -39,9 +39,8 @@ const colorStyle = ({ theme, color, outline, favorite }: any) => {
       border: 1px solid ${selected};
       background: #fff;
       &:hover {
-        color: #fff;
-        background: ${selected};
-        opacity: 0.3;
+        color: ${selected};
+        background: #fff6f2;
       }
     `}
     ${favorite &&

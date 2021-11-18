@@ -1,39 +1,25 @@
-import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
+import { signOut, useSession } from "next-auth/client";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/client";
-
-const Header = styled.div`
-  display: flex;
-  padding: 2rem 0;
-  h1 {
-    color: ${({ theme }) => theme.color.brand};
-  }
-  ul {
-    display: flex;
-    margin: 0 auto;
-    li {
-      margin-right: 4rem;
-      a {
-        font-size: 14px;
-        color: ${({ theme }) => theme.color.gray};
-        &:hover {
-          color: ${({ theme }) => theme.color.brand};
-        }
-      }
-    }
-  }
-`;
-
-const Login = styled.div`
-  margin-left: auto;
-  color: ${({ theme }) => theme.color.brand};
-`;
+import { throttle } from "lodash";
+import { Header, Login } from "./styles";
 
 function Head() {
-  const [session, loading] = useSession();
+  const [session] = useSession();
+  const [headPos, setHeadPos] = useState<string>("normal");
+  const handlePos = throttle(() => {
+    setHeadPos(document.documentElement.scrollTop > 64 ? "top" : "normal");
+  }, 10);
+  useEffect(() => {
+    setHeadPos(document.documentElement.scrollTop > 64 ? "top" : "normal");
+    window.addEventListener("scroll", handlePos);
+    return () => {
+      window.removeEventListener("scroll", handlePos);
+    };
+  }, []);
 
   return (
-    <Header>
+    <Header type={headPos === "top" ? "top" : "normal"}>
       <h1>
         <Link href="/main">
           <a>CULTURE PLACE</a>

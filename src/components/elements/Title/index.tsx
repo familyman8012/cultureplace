@@ -1,32 +1,18 @@
-import styled from "@emotion/styled";
+import { SerializedStyles } from "@emotion/react";
 import Link from "next/link";
 import React from "react";
+import { TitleArea } from "./styles";
 
 type Props = {
+  i?: number;
   children: React.ReactNode;
   url?: string;
+  css?: SerializedStyles;
 };
 
-const TitleArea = styled.div`
-  display: flex;
-  margin: 8rem 0 3.6rem;
-
-  h2 {
-    font-size: 2.4rem;
-    font-weight: 500;
-    line-height: 1;
-  }
-  a {
-    margin-left: auto;
-    align-items: center;
-    font-size: 1.6rem;
-    color: ${({ theme }) => theme.color.gray};
-  }
-`;
-
-function Title({ children, url = "/" }: Props) {
+function Title({ i, children, url = "/", ...rest }: Props) {
   return (
-    <TitleArea>
+    <TitleArea type={i === 0 ? "first" : "normal"} {...rest}>
       <h2>{children}</h2>
       <Link href={url}>
         <a>전체보기</a>

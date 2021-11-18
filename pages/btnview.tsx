@@ -1,41 +1,9 @@
-/** @jsxImportSource @emotion/react */
-import React from "react";
 import Button from "../src/components/elements/Button";
-import styled from "@emotion/styled";
-import { css, jsx, ThemeProvider } from "@emotion/react";
-import Card from "../src/components/elements/Card";
-
-const BlogMain = css`
-  width: 32.8rem;
-  .imgbox {
-    border-radius: 1rem;
-  }
-  .txtbox {
-    dt {
-      margin: 1.4rem 0;
-      font-size: 2rem;
-    }
-    dd {
-      &.desc {
-        font-size: 1.5rem;
-      }
-    }
-  }
-`;
+import { css } from "@emotion/react";
 
 function Btnview() {
   return (
     <>
-      {/* <Card type="basic" />
-      <Card type="other" />
-      <Card type="event" />
-      <Card type="blog" />
-      <Card
-        type="blog"
-        css={css`
-          ${BlogMain}
-        `}
-      /> */}
       <div
         css={css`
           width: 500px;

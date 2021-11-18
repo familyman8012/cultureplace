@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 
 export const BlogCardWrap = styled.div`
   overflow: hidden;
-  width: 31%;
-  border: none;
+
   dl,
   dt,
   dd {
@@ -16,22 +15,24 @@ export const BlogCardWrap = styled.div`
     width: 100%;
     border-radius: 10px;
     img {
-      height: 100%;
+      width: 100%;
     }
   }
   .txtbox {
     position: relative;
     dt {
-      margin: 0.8rem 0;
+      margin: 1.3rem 0;
       font-size: 1.9rem;
     }
     dd {
       &.desc {
-        font-size: 1.6rem;
+        color: #464646;
+        font-size: 15px;
       }
       &.create_at {
         margin-top: 0.8rem;
-        font-size: 1.4rem;
+        font-size: 12px;
+        line-height: 12px;
         color: #838380;
       }
       span {
