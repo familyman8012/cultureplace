@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const MODEL_NAME = "Product";
 
-const schema = new Schema(
+const ProductSchema = new Schema(
   {
     title: { type: String, required: true },
     desc: { type: String, required: true },
@@ -34,5 +34,14 @@ const schema = new Schema(
   }
 );
 
+// ProductSchema.virtual("reviews", {
+//   ref: "Review",
+//   localField: "_id",
+//   foreignField: "product"
+// });
+
+// ProductSchema.set("toObject", { virtuals: true });
+// ProductSchema.set("toJSON", { virtuals: true });
+
 export default mongoose.models[MODEL_NAME] ||
-  mongoose.model(MODEL_NAME, schema, "products");
+  mongoose.model(MODEL_NAME, ProductSchema, "products");

@@ -41,13 +41,26 @@ handler.post(async (req, res) => {
 });
 
 handler.get(async (req, res) => {
-  if (req.query._id !== "undefined") {
-    const users = await User.find({ _id: req.query._id })
-      .populate("payments")
-      .exec();
-
-    res.status(200).json(users);
-  }
+  const users = await User.aggregate([
+    {
+      $facet: {
+        byAgegroup: [{ $sortByCount: "$agegroup" }],
+        byGender: [{ $sortByCount: "$gender" }]
+      }
+    }
+  ]);
+  console.log(users);
+  res.status(200).send(users[0]);
 });
+
+// handler.get(async (req, res) => {
+//   if (req.query._id !== "undefined") {
+//     const users = await User.find({ _id: req.query._id })
+//       .populate("payments")
+//       .exec();
+
+//     res.status(200).json(users);
+//   }
+// });
 
 export default handler;

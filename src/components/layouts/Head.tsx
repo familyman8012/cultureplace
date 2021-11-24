@@ -21,7 +21,7 @@ function Head() {
   return (
     <Header type={headPos === "top" ? "top" : "normal"}>
       <h1>
-        <Link href="/main">
+        <Link href="/">
           <a>CULTURE PLACE</a>
         </Link>
       </h1>

@@ -72,22 +72,23 @@ export default function list() {
               </tr>
             </thead>
             <tbody>
-              {data?.slice(startPage, viewData)?.map(el => (
-                <tr key={el._id} onClick={() => modifyNotice(el._id)}>
-                  <td>{el.category}</td>
-                  <td>{el.title}</td>
-                  <td className="col_wrap">
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        deleteMutation.mutate(el._id);
-                      }}
-                    >
-                      삭제
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {data &&
+                data.slice(startPage, viewData)?.map(el => (
+                  <tr key={el._id} onClick={() => modifyNotice(el._id)}>
+                    <td>{el.category}</td>
+                    <td>{el.title}</td>
+                    <td className="col_wrap">
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          deleteMutation.mutate(el._id);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </IndexTable>
           <Pagination

@@ -9,7 +9,6 @@ import {
   NoticeArea
 } from "@src/components/page/main";
 import { ISSR } from "@src/typings/db";
-import React from "react";
 
 const Home = ({ SsrData }: ISSR) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
@@ -53,12 +52,7 @@ export async function getServerSideProps() {
     Notice.find({ category: "블로그" }, { createdAt: false, updatedAt: false })
       .limit(3)
       .lean(),
-    Notice.find(
-      { category: "공지사항" },
-      { createdAt: false, updatedAt: false }
-    )
-      .limit(4)
-      .lean()
+    Notice.find({ category: "공지사항" }).limit(4).lean()
   ]);
 
   const SsrData = {

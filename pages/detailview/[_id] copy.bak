@@ -1,0 +1,58 @@
+import { useDetailView } from "@/../src/hooks/api/useDetailView";
+import { useRouter } from "next/router";
+import Layout from "@/../src/components/layouts";
+import { css } from "@emotion/react";
+import {
+  Content,
+  DetailViewWrap,
+  EditTxt
+} from "../../src/components/page/detailview/styles";
+import {
+  BannerImg,
+  Benefit,
+  ClubDetailInfo,
+  Faq,
+  Refund,
+  WePlay,
+  InfoMemberChart,
+  InfoCard
+} from "@src/components/page/detailview";
+
+function detailView() {
+  const router = useRouter();
+  const { status, data, error } = useDetailView(router.asPath.slice(11));
+
+  return (
+    <Layout>
+      {status === "loading" ? (
+        <span>Loading...</span>
+      ) : status === "error" ? (
+        <span>Error: {error?.message}</span>
+      ) : (
+        <DetailViewWrap>
+          <Content
+            css={
+              data?.genre === "이벤트" &&
+              css`
+                margin-left: calc(320px + 5%);
+              `
+            }
+          >
+            <EditTxt dangerouslySetInnerHTML={{ __html: data?.body }} />
+            <InfoMemberChart />
+            <ClubDetailInfo />
+            <BannerImg />
+            <WePlay />
+            <Benefit />
+            <Refund />
+            <Faq />
+          </Content>
+
+          {data && <InfoCard data={data} id={router.asPath.slice(11)} />}
+        </DetailViewWrap>
+      )}
+    </Layout>
+  );
+}
+
+export default detailView;

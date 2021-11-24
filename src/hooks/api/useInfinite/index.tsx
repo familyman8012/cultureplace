@@ -6,7 +6,7 @@ import { useInfiniteQuery } from "react-query";
 const fetchPosts = async (loadData: string, pageParam: number) => {
   let url;
   switch (loadData) {
-    case "day":
+    case "oneday":
       url = `/api/product?meetingcycle=1day&limit=12&page=${pageParam}`;
       break;
     case "month":

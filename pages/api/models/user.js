@@ -15,27 +15,7 @@ const schema = new Schema(
     name: String,
     gender: String,
     agegroup: String,
-    posts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Post"
-      }
-    ],
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment"
-      }
-    ],
-    payments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Payment"
-      }
-    ],
-    image: String,
-    createdAt: Date,
-    updateAt: Date
+    image: String
   },
   {
     timestamps: true

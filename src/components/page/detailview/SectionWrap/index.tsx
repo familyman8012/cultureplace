@@ -7,8 +7,8 @@ const SectionWrap = styled.section`
   border-top: 1px solid #f3f3f6;
 `;
 
-function index({ children }: any) {
-  return <SectionWrap>{children}</SectionWrap>;
+function index({ children, ...rest }: any) {
+  return <SectionWrap {...rest}>{children}</SectionWrap>;
 }
 
 export default index;

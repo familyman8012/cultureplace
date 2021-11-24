@@ -18,15 +18,17 @@ export interface IProduct {
   islive: boolean;
   joinMembr: string[];
   favoriteduser: string[];
+  review: string[];
 }
 
 export interface INotice {
   _id: string;
-  category: string;
+  category?: string;
   title: string;
-  body: string;
-  imgurl: string;
+  body?: string;
+  imgurl?: string;
   summary: string;
+  updatedAt: string;
 }
 
 export interface IMainVis {

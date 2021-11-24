@@ -15,7 +15,7 @@ import { Router } from "../../node_modules/next/dist/client/router";
 import { ISignIn } from "../signin";
 import styled from "@emotion/styled";
 import Layout from "../../src/components/layouts";
-import RegisterForm from "./styles";
+import RegisterForm from "../../src/components/page/register/styles";
 
 export default function Register({ providers, csrfToken }: ISignIn) {
   const {

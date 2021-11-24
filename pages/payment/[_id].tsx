@@ -5,7 +5,7 @@ import { useSession } from "next-auth/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import WrapPayment from "./styles";
+import WrapPayment from "../../src/components/page/payment/styles";
 
 function payment() {
   const router = useRouter();
@@ -106,29 +106,21 @@ function payment() {
           status_en: data.status_en
         };
 
-        axios.post("/api/pay/payverify", t).then(
-          (
-            response: AxiosResponse<{
-              price: string;
-              receipt_id: string;
-              status_en: string;
-            }>
-          ) => {
-            if (response.data.status_en === "complete") {
-              const variables = {
-                data: response.data,
-                userid
-              };
-              console.log("variables variables", variables);
-              setcompleteData(variables);
-              setpayComplete(true);
-              axios.post("/api/payment/payment", variables);
-              window.BootPay.transactionConfirm(data);
-            } else {
-              window.BootPay.removePaymentWindow();
-            }
+        axios.post("/api/pay/payverify", t).then((response: any) => {
+          if (response.data.status_en === "complete") {
+            const variables = {
+              data: response.data,
+              userid
+            };
+            console.log("variables variables", variables);
+            setcompleteData(variables);
+            setpayComplete(true);
+            axios.post("/api/payment/payment", variables);
+            window.BootPay.transactionConfirm(data);
+          } else {
+            window.BootPay.removePaymentWindow();
           }
-        );
+        });
       })
       .close(function (data: any) {
         // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)

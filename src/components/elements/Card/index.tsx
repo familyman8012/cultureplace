@@ -1,17 +1,20 @@
-import { FC, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CardWrap } from "./styles";
 import FavoriteButton from "../FavoriteButton";
 import { IProduct } from "@src/typings/db";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import InfinityFavoriteBtn from "../InfinityFavoriteBtn";
+import router from "next/router";
 
 dayjs.locale("ko");
 interface ICard {
   type?: string;
   data: IProduct;
+  querykey?: string;
 }
 
-function Card({ type = "basic", data, ...rest }: ICard) {
+function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
   const firstMeetDay = dayjs(data.firstmeet);
   const startTime = useMemo(
     () => firstMeetDay.format(`MM/DD(${firstMeetDay.format("ddd")}) HH:mm`),
@@ -27,7 +30,11 @@ function Card({ type = "basic", data, ...rest }: ICard) {
   return (
     <CardWrap type={type} {...rest}>
       <div className="imgbox">
-        <FavoriteButton data={data} />
+        {querykey === "/" ? (
+          <FavoriteButton data={data} />
+        ) : (
+          <InfinityFavoriteBtn data={data} querykey={querykey} />
+        )}
         <img src={imgurl} alt="모임사진" />
       </div>
       <dl className="txtbox">

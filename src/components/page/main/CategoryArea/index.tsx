@@ -50,7 +50,7 @@ function index({ genreData }: IGenreData) {
                   <SwiperSlide key={el._id}>
                     <Link href={`/detailview/${el._id}`}>
                       <a>
-                        <Card data={el} />
+                        <Card data={el} querykey="/" />
                       </a>
                     </Link>
                   </SwiperSlide>

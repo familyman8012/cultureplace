@@ -1,94 +1,125 @@
-import BannerImg from "@/../src/components/page/detailview/BannerImg";
-import Benefit from "@/../src/components/page/detailview/Benefit";
-import ClubDetailInfo from "@/../src/components/page/detailview/ClubDetailInfo";
-import Faq from "@/../src/components/page/detailview/Faq";
-import Refund from "@/../src/components/page/detailview/Refund";
-import WePlay from "@/../src/components/page/detailview/WePlay";
-import { useDetailView } from "@/../src/hooks/api/useDetailView";
-import styled from "@emotion/styled";
+import { useDetailView } from "@src/hooks/api/useDetailView";
 import { useRouter } from "next/router";
-import React from "react";
-import InfoMemberChart from "../../src/components/page/detailview/InfoMemberChart";
-import InfoCard from "../../src/components/page/detailview/InfoCard";
+import { GetStaticPaths } from "next";
+import { dehydrate, QueryClient } from "react-query";
+import { dbConnect, Product } from "../../pages/api";
+import Layout from "@src/components/layouts";
+import { IProduct } from "@src/typings/db";
 import { css } from "@emotion/react";
-import Layout from "@/../src/components/layouts";
+import {
+  Content,
+  DetailViewWrap,
+  EditTxt
+} from "@src/components/page/detailview/styles";
+import {
+  BannerImg,
+  Benefit,
+  ClubDetailInfo,
+  Faq,
+  Refund,
+  WePlay,
+  InfoMemberChart,
+  InfoCard
+} from "@src/components/page/detailview";
+import React from "react";
+import Modal from "@src/components/elements/Modal";
+import Review from "@src/components/page/detailview/Review";
+import { useSession } from "next-auth/client";
 
-function detailView() {
-  const router = useRouter();
-  const { _id } = router.query;
-  const { status, data, error, isFetching } = useDetailView(String(_id));
-
-  console.log("data", data);
-
-  const DetailViewWrap = styled.div`
-    max-width: 1240px;
-    margin: 0 auto;
-  `;
-
-  const Content = styled.div`
-    width: calc(100% - 350px);
-    margin-top: 30px;
-    &.event {
-      margin-left: calc(320px + 5%);
-      InfoCard {
-        left: 0;
-        right: auto;
-      }
-    }
-  `;
-
-  const EditTxt = styled.div`
-    * {
-      font-size: 18px;
-      line-height: 1.8;
-    }
-
-    h2 {
-      font-size: 28px;
-      font-weight: bold;
-    }
-    li {
-      margin-left: 5rem;
-      list-style: disc;
-    }
-    .ql-align-center {
-      text-align: center;
-    }
-    .ql-size-small {
-      display: block;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    hr {
-      border-top: none;
-    }
-  `;
-
-  return (
-    <Layout>
-      <DetailViewWrap>
-        <Content
-          css={
-            data?.genre === "이벤트" &&
-            css`
-              margin-left: calc(320px + 5%);
-            `
-          }
-        >
-          <EditTxt dangerouslySetInnerHTML={{ __html: data?.body }} />
-          <InfoMemberChart />
-          <ClubDetailInfo />
-          <BannerImg />
-          <WePlay />
-          <Benefit />
-          <Refund />
-          <Faq />
-        </Content>
-
-        {data && <InfoCard data={data} id={_id} />}
-      </DetailViewWrap>
-    </Layout>
-  );
+export interface IDetail {
+  item: IProduct;
 }
 
+const detailView = ({ item }: IDetail) => {
+  const [session] = useSession();
+  const router = useRouter();
+  const { _id } = router.query;
+
+  return (
+    <>
+      {item && _id && session && (
+        <>
+          <DetailViewWrap>
+            <Content
+              css={
+                item?.genre === "이벤트" &&
+                css`
+                  margin-left: calc(320px + 5%);
+                `
+              }
+            >
+              {/* <EditTxt dangerouslySetInnerHTML={{ __html: item?.body }} />
+              <InfoMemberChart />
+              <ClubDetailInfo item={item} /> */}
+              <Review id={String(_id)} session={session} />
+
+              {/* <BannerImg />
+              <WePlay />
+              <Benefit />
+              <Refund title={item.title} />
+              <Faq /> */}
+            </Content>
+
+            {/* <InfoCard data={item} id={router.asPath.slice(11)} /> */}
+          </DetailViewWrap>
+        </>
+      )}
+    </>
+  );
+};
+
 export default detailView;
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true // --> false 시 1,2,3외에는 404
+  };
+};
+
+export async function getStaticProps(ctx: any) {
+  await dbConnect();
+
+  const _id = ctx.params?._id;
+  const result = await Product.find(
+    { _id },
+    { createdAt: false, updatedAt: false }
+  ).lean();
+
+  const data = JSON.parse(JSON.stringify(result[0]));
+
+  return {
+    props: {
+      item: data
+    }
+  };
+}
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   return {
+//     paths: [
+//       { params: { _id: "1" } },
+//       { params: { _id: "2" } },
+//       { params: { _id: "3" } },
+//       { params: { _id: "4" } },
+//       { params: { _id: "5" } }
+//     ],
+//     fallback: true // --> false 시 1,2,3외에는 404
+//   };
+// };
+
+// export const getStaticProps: GetStaticProps = async ctx => {
+
+//   await dbConnect();
+
+//   const _id = ctx.params?._id;
+//   const res = Product.find({_id}, { createdAt: false, updatedAt: false }).lean();
+
+//   const data = JSON.parse(JSON.stringify(res));
+
+//   return {
+//     props: {
+//       item: data
+//     }
+//   };
+// };

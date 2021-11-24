@@ -1,61 +1,59 @@
-import React from "react";
-import styled from "@emotion/styled";
+import React, { useMemo } from "react";
 import Title from "../Title";
 import SectionWrap from "../SectionWrap";
+import { ClubInfoTable } from "./style";
+import { IDetail } from "pages/detailview/[_id]";
+import dayjs from "dayjs";
 
-const Table = styled.table`
-  width: 690px;
-  th,
-  td {
-    padding-bottom: 12px;
-    vertical-align: top;
-    ul {
-      margin-left: 5rem;
-    }
-    li {
-      list-style: disc;
-    }
-  }
-  th {
-    width: 80px;
-    text-align: left;
-  }
-`;
+function index({ item }: IDetail) {
+  const { firstmeet, location, meetday, title, todo } = item;
+  const day = useMemo(
+    () => dayjs(firstmeet).add(4, "month").format("YYYY년 MM월 DD일"),
+    []
+  );
 
-function index() {
+  const meetCycleArray: string[] = [];
+
+  const meetCycleDay = (i = 0) => {
+    return `${i + 1}회차 ${dayjs(firstmeet)
+      .add(2 * i, "week")
+      .format("YYYY.MM.DD(ddd)")}`;
+  };
+
+  const meetCycleFunc = () => {
+    for (let i = 0; i < 4; i++) {
+      meetCycleArray.push(meetCycleDay(i));
+    }
+  };
+  meetCycleFunc();
   return (
     <SectionWrap>
       <Title>클럽 상세 안내</Title>
-      <Table>
+      <ClubInfoTable>
         <tbody>
           <tr>
             <th scope="row">멤버십</th>
-            <td>결제일부터 2022년 03월 09일까지</td>
+            <td>결제일부터 {day}까지</td>
           </tr>
           <tr>
             <th scope="row">모임장소</th>
-            <td>
-              안국 아지트 | 서울특별시 종로구 율곡로10길 12, 안국역/종로3가역
-              도보 7분 거리
-            </td>
+            <td>{location}</td>
           </tr>
           <tr>
             <th scope="row">모임일정</th>
             <td>
-              매달 세 번째 수요일, 19시 40분 ~ 22시 40분
+              {meetday}
               <br />
-              1회차 2021.11.17(수)
-              <br />
-              2회차 2021.12.15(수)
-              <br />
-              3회차 2022.1.19(수)
-              <br />
-              4회차 2022.2.16(수)
-              <br />
+              {meetCycleArray.map(el => (
+                <React.Fragment key={el}>
+                  {el}
+                  <br />
+                </React.Fragment>
+              ))}
             </td>
           </tr>
           <tr>
-            <th scope="row">독후감</th>
+            <th scope="row">메모리얼 리뷰</th>
             <td>
               매 모임 2일 전까지 클럽 모임 페이지에 제출 | 최소 글자수 400자
             </td>
@@ -64,9 +62,7 @@ function index() {
             <th scope="row">공지사항</th>
             <td>
               <ul>
-                <li>
-                  [내 강점으로 배우는 나 활용법]클럽의 모임 인원은 10명입니다.
-                </li>
+                <li>[{`${title} - ${todo}`} ]의 모임 인원은 10명입니다.</li>
                 <li>
                   첫 모임 9일 전까지 모임 인원이 충족되지 않으면 모집 기간
                   연장을 위해 전체 일정을 1개월씩 연기할 수 있습니다.
@@ -80,7 +76,7 @@ function index() {
             </td>
           </tr>
         </tbody>
-      </Table>
+      </ClubInfoTable>
     </SectionWrap>
   );
 }
