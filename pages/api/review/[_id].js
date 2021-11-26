@@ -7,14 +7,13 @@ reviewRouter.get(async (req, res) => {
   try {
     const { _id, page } = req.query;
 
-    console.log("page느느느는", page);
-
     const [reviews, count] = await Promise.all([
       Review.find({ product: _id })
-        .sort({ updatedAt: -1 })
         .skip((page - 1) * 5)
-        .limit(5),
-      Review.find().count()
+        .limit(5)
+        .populate({ path: "product" })
+        .sort({ updatedAt: -1 }),
+      Review.find({ product: _id }).count()
     ]);
 
     return res.send({ reviews, count });
@@ -46,44 +45,20 @@ reviewRouter.delete(async (req, res) => {
   }
 });
 
-// reviewRouter.delete(async (req, res) => {
-//   try {
-//     const { _id, reviewid } = req.query;
-//     console.log(reviewid);
-//     const products = await Product.updateOne(
-//       { _id },
-//       { $pull: { review: { _id: reviewid } } }
-//     );
-//     return res.send(products);
-//   } catch {
-//     console.log(err);
-//     res.status(500).send(err);
-//   }
-// });
+reviewRouter.put(async (req, res) => {
+  try {
+    const { _id } = req.query;
 
-// productRouter.get(async (req, res) => {
-//   try {
-//     const { _id } = req.query;
-//     const products = await Product.find({ _id });
-//     return res.send(products);
-//   } catch {
-//     console.log(err);
-//     res.status(500).send(err);
-//   }
-// });
-
-// productRouter.put(async (req, res) => {
-//   try {
-//     const { _id } = req.query;
-//     const products = await Product.findByIdAndUpdate(_id, req.body, {
-//       new: true
-//     });
-//     return res.send(products);
-//   } catch {
-//     console.log(err);
-//     res.status(500).send(err);
-//   }
-// });
+    console.log("req.query", req.query, "req.body", req.body);
+    const reviews = await Review.findByIdAndUpdate(_id, req.body, {
+      new: true
+    });
+    return res.send(reviews);
+  } catch {
+    console.log(err);
+    res.status(500).send(err);
+  }
+});
 
 // productRouter.delete(async (req, res) => {
 //   try {

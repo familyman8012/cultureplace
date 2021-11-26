@@ -2,17 +2,19 @@ import styled from "@emotion/styled";
 
 const RegisterForm = styled.div` 
 width: 49rem;
-margin: 5rem auto;
+margin: 10rem auto;
 h2 {
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
+  font-size:26px;
 }
-.h1 {
-  margin-top: 8rem;
-  color: white;
-  font-size: 25px;
-  padding-bottom: 0px;
+label {
+  vertical-align: middle;
+  margin-top: 30px;
+  margin-bottom: 5px;
+  display: block;
+  color: #616161;
+  font-size:14px;
 }
-
 .form {
   max-width: 80rem;
   margin: 0 auto;
@@ -24,7 +26,7 @@ h2 {
 }
 
 select,
-input:not([type=checkbox]):not([type=radio]) {
+input:not([type=checkbox]):not([type=radio]):not([type=submit]) {
   display: block;
   box-sizing: border-box;
   width: 100%;
@@ -36,7 +38,6 @@ input:not([type=checkbox]):not([type=radio]) {
 }
 
 .box_radio {
-padding:20px 0;
 input[type=radio] {
   margin-left:50px;
   margin-right:10px;
@@ -74,13 +75,55 @@ input[type="submit"],
 }
 input[type="submit"] {
   margin-bottom: 0;
+  border: none;
 }
 .txt_read_yakawn {
   margin: 0 0 1.5rem;
   padding: 1.5rem 0;
   text-align: center;
+  font-size: 12px;
+  color: rgba(0,0,0,.85);
   border-bottom: 1px solid rgba(16, 22, 26, 0.15);
+  a {    color: #1890ff;}
 }
+
+.box_login_social button {
+  display: block;
+  width: 100%;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  color: #3a3a3a;
+  line-height: 48px;
+  text-align: center;
+  font-weight: 700;
+  border: 1px solid #aaa;
+  .btn_inner {
+    padding-left: 3rem;
+    margin-left: -3rem;
+    
+    font-size: 14px;
+    font-weight: 500;
+}
+  &.Kakao {
+    border: none;
+    background-color: #ffe812!important;
+    .btn_inner {
+     
+      background: url("/images/ico_kakao.png") no-repeat 0;
+      background-size: 2.4rem;
+  }
+}
+&.Google {
+  background-color: #fff;
+   .btn_inner {
+    background: url("/images/ico_google.png") no-repeat 0;
+    background-size: 2.4rem;
+}
+}
+}
+
+
+
 .notice_yakwan {
   font-size: 12px;
   text-align: center;

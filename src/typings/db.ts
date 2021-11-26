@@ -52,4 +52,31 @@ export interface Iinfinity {
   hasNextPage: boolean;
 }
 
+export interface IReview {
+  _id: string;
+  content: string;
+  username: string;
+  userid: string;
+  product: IProduct;
+  title: string;
+  updatedAt: Date;
+  createdAt: Date;
+}
+
+export interface IReviewEdit {
+  title: string;
+  content: string;
+  username: string;
+  userid: string;
+  product: string;
+}
+
+// export interface IReviewModal extends IReviewEdit {
+//   state: string;
+// }
+
+// interface StringOnly {
+//   [key: string]: string
+// }
+
 export interface IinfinityData {}

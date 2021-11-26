@@ -8,8 +8,7 @@ const ReviewSchema = new Schema(
     userid: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     username: { type: String, required: true },
     title: { type: String, required: true },
-    content: { type: String, required: true },
-    active: { type: Boolean, default: false }
+    content: { type: String, required: true }
   },
   {
     timestamps: true

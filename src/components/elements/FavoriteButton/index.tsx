@@ -7,10 +7,23 @@ import { IProduct } from "@src/typings/db";
 
 export interface IFavoritebtn {
   data: IProduct;
+  querykey?: string;
 }
 
-function index({ data }: IFavoritebtn) {
+export interface Ipages {
+  hasNextPage: boolean;
+  products: IProduct[];
+}
+
+export interface IinfinityFavorite {
+  pageParams: number[];
+  pages: Ipages;
+}
+
+function index({ data, querykey }: IFavoritebtn) {
   const queryClient = useQueryClient();
+
+  console.log("querykey", querykey);
 
   const [session] = useSession();
   const favoriteChk = useMemo(
@@ -27,8 +40,20 @@ function index({ data }: IFavoritebtn) {
     () => axios.post("/api/favorite", variables),
     {
       onMutate: async () => {
-        await queryClient.cancelQueries("posts");
-        const previousDetail = queryClient.getQueryData<IProduct[]>("posts");
+        await queryClient.cancelQueries("list");
+        let previousDetail;
+        let previousLoadDetail;
+        if (querykey === "posts") {
+          previousDetail = queryClient.getQueryData<IProduct[]>("posts");
+        } else if (querykey === "oneday" || querykey === "month") {
+          previousLoadDetail = queryClient.getQueryData<{
+            pages: Ipages[];
+            pageParams: number[];
+          }>(["list", querykey]);
+          console.log("querykey", querykey);
+          previousDetail = previousLoadDetail?.pages[0].products;
+        }
+
         const updateProduct = previousDetail?.filter(
           el => el._id === data?._id
         );
@@ -38,19 +63,29 @@ function index({ data }: IFavoritebtn) {
               String(...updateProduct[0].favoriteduser),
               String(session?.user.uid)
             ];
-            {
+            if (querykey === "posts") {
               queryClient.setQueryData("posts", [...previousDetail]);
+            } else if (querykey === "oneday" || querykey === "month") {
+              queryClient.setQueryData(["list", querykey], previousLoadDetail);
             }
           } else {
             updateProduct[0].favoriteduser =
               updateProduct[0].favoriteduser.filter(
                 el => el !== session?.user.uid
               );
-            queryClient.setQueryData("posts", [...previousDetail]);
+            if (querykey === "posts") {
+              queryClient.setQueryData("posts", [...previousDetail]);
+            } else if (querykey === "oneday" || querykey === "month") {
+              queryClient.setQueryData(["list", querykey], previousLoadDetail);
+            }
           }
         }
       },
-      // onSuccess: () => queryClient.invalidateQueries("detailViewData"),
+      onSuccess: () => {
+        if (querykey === "posts") {
+          queryClient.resetQueries("list");
+        }
+      },
       onError: (error, variables, context) => {
         // I will fire first
         console.log(error, variables);

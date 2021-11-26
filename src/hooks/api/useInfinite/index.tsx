@@ -3,9 +3,9 @@ import axios from "axios";
 import { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 
-const fetchPosts = async (loadData: string, pageParam: number) => {
+const fetchPosts = async (querykey: string, pageParam: number) => {
   let url;
-  switch (loadData) {
+  switch (querykey) {
     case "oneday":
       url = `/api/product?meetingcycle=1day&limit=12&page=${pageParam}`;
       break;
@@ -19,12 +19,12 @@ const fetchPosts = async (loadData: string, pageParam: number) => {
   return res.data;
 };
 
-const useInfinity = (loadData: string) => {
+const useInfinity = (querykey: string) => {
   const pageNum = useRef(1);
   return useInfiniteQuery(
-    loadData,
+    ["list", querykey],
     async ({ pageParam = pageNum.current }) => {
-      const res = await fetchPosts(loadData, pageParam);
+      const res = await fetchPosts(querykey, pageParam);
       pageNum.current = pageNum.current + 1;
       return res;
     },
@@ -41,6 +41,7 @@ const useInfinity = (loadData: string) => {
         if (lastPage.hasNextPage) {
           return pageNum.current;
         }
+
         return undefined;
       },
       staleTime: 3000

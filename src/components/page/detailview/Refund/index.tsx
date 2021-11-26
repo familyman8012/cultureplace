@@ -7,7 +7,7 @@ import Link from "next/link";
 
 function index({ title }: { title: string }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const handlerViewMore = useCallback(() => {
+  const openModal = useCallback(() => {
     setModalOpen(prev => !prev);
   }, []);
   return (
@@ -15,11 +15,11 @@ function index({ title }: { title: string }) {
       <SectionWrap>
         <Title>환불안내</Title>
         <p>결제 당일 및 12월 03일 이전까지 전액 환불 가능</p>
-        <ViewMore onClick={handlerViewMore}>더보기</ViewMore>
+        <ViewMore onClick={openModal}>더보기</ViewMore>
       </SectionWrap>
 
       {modalOpen && (
-        <Modal title={`[${title}] 환불안내`} onClick={handlerViewMore}>
+        <Modal title={`[${title}] 환불안내`} onClick={openModal}>
           <RefundTable>
             <colgroup>
               <col width="50%" />

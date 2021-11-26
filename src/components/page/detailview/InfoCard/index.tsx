@@ -8,6 +8,8 @@ import { session, useSession } from "next-auth/client";
 import router from "next/router";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import { FavoriteBtn } from "@src/components/elements/FavoriteButton/styles";
+import FavoriteButton from "@src/components/elements/FavoriteButton";
 
 dayjs.locale("ko");
 
@@ -94,7 +96,7 @@ const InfoCard = styled.div`
   }
 `;
 
-const FavoriteButton = styled.button<{ favorite: boolean }>`
+const FavoriteButton2 = styled.button<{ favorite: boolean }>`
   width: 56px;
   height: 56px;
   border-radius: 4px;
@@ -208,10 +210,11 @@ function index({ data, id }: any) {
             <div className="comment">#{comment}</div>
             <div className="price">{price}원</div>
             <div className="box_btn">
-              <FavoriteButton
+              {/* <FavoriteButton
                 favorite={favorite}
                 onClick={() => favoriteMutation.mutate()}
-              />
+              /> */}
+              <FavoriteButton data={data} />
               <Button color="brand" size="l" onClick={() => linkPay(id)}>
                 달라지는 4개월, 지금 시작
               </Button>

@@ -8,7 +8,7 @@ const fetchDetailView = async (_id: string) => {
 };
 
 const useDetailView = (_id: string) => {
-  return useQuery<IProduct | null, Error>(
+  return useQuery<IProduct, Error>(
     ["detailViewData", _id],
     async () => await fetchDetailView(_id)
   );

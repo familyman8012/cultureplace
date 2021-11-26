@@ -1,78 +1,128 @@
-import React, { useCallback, useState } from "react";
-import { css } from "@emotion/react";
-import axios from "axios";
-import SectionWrap from "../SectionWrap";
-import { ReviewTitle } from "./style";
+import { useCallback, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useReview } from "@src/hooks/api/useReview";
-import styled from "@emotion/styled";
+import axios from "axios";
+import SectionWrap from "../SectionWrap";
 import ListItem from "./ListItem";
-import "rc-pagination/assets/index.css";
+import ReviewModal from "./ReviewModal";
 import Pagination from "rc-pagination";
 import Button from "@src/components/elements/Button";
-import ReviewModal from "@src/components/views/ReviewModal";
+import { ReviewList, ReviewTitle, WriteBtn } from "./style";
+import "rc-pagination/assets/index.css";
+import { IProduct, IReview } from "@src/typings/db";
+import { Session } from "next-auth";
 
-function index({ id, session }: { id: string; session: any }) {
+export interface IReviewModify {
+  [key: string]: string;
+}
+
+function index({
+  item,
+  id,
+  session
+}: {
+  item: IProduct;
+  id: string;
+  session: Session;
+}) {
+  console.log(session);
+
   const [review, setReview] = useState({
     title: "",
-    username: session.user.name,
+    username: String(session.user.name),
     content: "",
     userid: session.user.uid,
     product: id
   });
   const [curPage, setCurPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalState, setmodalState] = useState({ _id: "", state: "" });
 
-  const [modalState, setmodalState] = useState("");
+  const { status, data: reviewData, error } = useReview(id, curPage);
 
   const handlePageChange = useCallback((page: number) => {
     setCurPage(page);
   }, []);
 
-  const {
-    status,
-    data: reviewData,
-    error,
-    isPreviousData
-  } = useReview(id, curPage);
-
-  const ReviewList = styled.div`
-    .rc-pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-  `;
-
-  const WriteBtn = css`
-    display: flex;
-    width: 100px;
-    justify-content: center;
-    align-items: center;
-    margin-left: auto;
-  `;
-  const [modalOpen, setModalOpen] = useState(false);
-  const handlerViewMore = useCallback(() => {
+  const openModal = useCallback(() => {
     setReview({ ...review, title: "", content: "", username: "" });
-    setmodalState("save");
+    setmodalState(
+      !modalOpen ? { _id: "", state: "save" } : { _id: "", state: "" }
+    );
     setModalOpen(prev => !prev);
   }, []);
 
+  const modifyModal = ({
+    title,
+    content,
+    username,
+    _id,
+    state
+  }: IReviewModify) => {
+    openModal();
+    setReview({ ...review, title, content, username });
+    setmodalState({ _id, state });
+  };
+
+  const queryClient = useQueryClient();
+
+  const saveReviewMutation = useMutation(
+    () => axios.post(`/api/review/${id}`, review).then(res => console.log(res)),
+    {
+      onSuccess: () => queryClient.invalidateQueries("reviewData"),
+      onError: (error, variables, context) => {
+        // I will fire first
+        console.log(error, variables);
+      }
+    }
+  );
+
+  const updateReviewMutation = useMutation(
+    (_id: string) =>
+      axios.put(`/api/review/${_id}`, review).then(res => console.log(res)),
+    {
+      onSuccess: () => queryClient.invalidateQueries("reviewData"),
+      onError: (error, variables, context) => {
+        // I will fire first
+        console.log(error, variables);
+      }
+    }
+  );
+
+  const delReviewMutation = useMutation(
+    (_id: string) =>
+      axios.delete(`/api/review/${_id}`).then(res => console.log(res)),
+    {
+      onSuccess: () => queryClient.invalidateQueries("reviewData"),
+      onError: (error, variables, context) => {
+        // I will fire first
+        console.log(error, variables);
+      }
+    }
+  );
+
+  console.log("item 은은은", item);
+
   return (
     <SectionWrap>
-      {session !== undefined && (
+      {status === "loading" ? (
+        "Loading..."
+      ) : status === "error" ? (
+        <span>Error: {error?.message}</span>
+      ) : (
         <>
           <ReviewTitle>멤버들은 이렇게 느꼈어요.</ReviewTitle>
           <ReviewList>
             <ul className="list">
-              {reviewData?.reviews.map((el: any, i: string) => {
+              {reviewData?.reviews.map((el: IReview, i: string) => {
+                console.log("typescript 를 알아내자.", el);
                 return (
                   <ListItem
-                    key={el._id}
+                    key={el.title}
                     data={el}
-                    review={review}
-                    setReview={setReview}
-                    setmodalState={setmodalState}
-                    handlerViewMore={handlerViewMore}
+                    session={session}
+                    modifyModal={modifyModal}
+                    delReviewMutation={delReviewMutation}
                   />
                 );
               })}
@@ -88,19 +138,20 @@ function index({ id, session }: { id: string; session: any }) {
               size="xs"
               outline
               css={WriteBtn}
-              onClick={handlerViewMore}
+              onClick={openModal}
             >
               리뷰등록
             </Button>
           </ReviewList>
           {modalOpen && (
             <ReviewModal
-              handlerViewMore={handlerViewMore}
+              openModal={openModal}
               review={review}
               setReview={setReview}
-              session={session}
-              id={id}
+              saveReviewMutation={saveReviewMutation}
+              updateReviewMutation={updateReviewMutation}
               modalState={modalState}
+              item={item}
             />
           )}
         </>

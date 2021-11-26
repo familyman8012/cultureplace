@@ -1,63 +1,93 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import Modal from "@src/components/elements/Modal";
-import axios from "axios";
-import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { IProduct, IReviewEdit } from "@src/typings/db";
+import React, { Dispatch, SetStateAction } from "react";
+import { UseMutationResult } from "react-query";
+import { ProductInfo, ReviewWrite, SaveButton, WriteArea } from "./style";
+
+interface IReviewModal {
+  openModal: () => void;
+  saveReviewMutation: UseMutationResult<void, unknown, void, unknown>;
+  updateReviewMutation: UseMutationResult<void, unknown, string, unknown>;
+  review: IReviewEdit;
+  setReview: Dispatch<SetStateAction<IReviewEdit>>;
+  modalState: { _id: string; state: string };
+  item: IProduct;
+}
 
 function index({
-  handlerViewMore,
-  session,
-  id,
+  openModal,
+  saveReviewMutation,
+  updateReviewMutation,
   review,
   setReview,
-  modalState
-}: any) {
-  const onWriteReview = (target: any, e: { target: { value: any } }) => {
+  modalState,
+  item
+}: IReviewModal) {
+  const onWriteReview = (target: string, e: { target: { value: string } }) => {
     setReview({ ...review, [target]: e.target.value });
   };
 
-  const queryClient = useQueryClient();
-  const saveReviewMutation = useMutation(
-    () => axios.post(`/api/review/${id}`, review).then(res => console.log(res)),
-    {
-      onSuccess: () => queryClient.invalidateQueries("reviewData"),
-      onError: (error, variables, context) => {
-        // I will fire first
-        console.log(error, variables);
-      }
-    }
-  );
+  const { imgurl, title, todo } = item;
+
   return (
-    <Modal title={`환불안내`} onClick={handlerViewMore}>
-      <input
-        type="text"
-        id="title"
-        placeholder="제목"
-        value={review.title}
-        onChange={e => onWriteReview("title", e)}
-      />
-      <input
-        type="text"
-        id="username"
-        value={review.username}
-        onChange={e => onWriteReview("username", e)}
-        placeholder="이름"
-      />
-      <textarea
-        id="content"
-        css={css`
-          border: 1px solid;
-        `}
-        value={review.content}
-        onChange={e => onWriteReview("content", e)}
-        placeholder="어떤 점이 좋으셨나요?"
-      ></textarea>
-      {modalState === "save" && (
-        <span onClick={() => saveReviewMutation.mutate()}>글등록</span>
-      )}
-      {modalState === "modify" && (
-        <span onClick={() => saveReviewMutation.mutate()}>수정</span>
-      )}
+    <Modal title="리뷰등록" onClick={openModal}>
+      <ReviewWrite>
+        <ProductInfo>
+          <span className="thumb">
+            <img src={imgurl} alt={title} />
+          </span>
+          <span className="txt">
+            {title} : {todo}
+          </span>
+        </ProductInfo>
+        <WriteArea>
+          <input
+            type="text"
+            id="title"
+            placeholder="제목"
+            value={review.title}
+            onChange={e => onWriteReview("title", e)}
+          />
+          <input
+            type="text"
+            id="username"
+            value={review.username}
+            onChange={e => onWriteReview("username", e)}
+            placeholder="이름"
+          />
+          <textarea
+            id="content"
+            css={css`
+              border: 1px solid;
+            `}
+            value={review.content}
+            onChange={e => onWriteReview("content", e)}
+            placeholder="어떤 점이 좋으셨나요?"
+          ></textarea>
+          {modalState.state === "save" && (
+            <SaveButton
+              onClick={() => {
+                saveReviewMutation.mutate();
+                openModal();
+              }}
+            >
+              글등록
+            </SaveButton>
+          )}
+          {modalState.state === "modify" && (
+            <SaveButton
+              onClick={() => {
+                updateReviewMutation.mutate(modalState._id);
+                openModal();
+              }}
+            >
+              수정
+            </SaveButton>
+          )}
+        </WriteArea>
+      </ReviewWrite>
     </Modal>
   );
 }

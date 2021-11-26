@@ -1,19 +1,11 @@
-import React, { useState, useRef } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-  providers,
-  signIn,
-  getSession,
-  csrfToken,
-  getProviders
-} from "next-auth/client";
+import { getProviders } from "next-auth/client";
 import SocialLogin from "../../src/components/views/SocialLogin";
-import { Router } from "../../node_modules/next/dist/client/router";
 import { ISignIn } from "../signin";
-import styled from "@emotion/styled";
 import Layout from "../../src/components/layouts";
 import RegisterForm from "../../src/components/page/register/styles";
 

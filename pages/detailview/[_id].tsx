@@ -1,7 +1,7 @@
 import { useDetailView } from "@src/hooks/api/useDetailView";
 import { useRouter } from "next/router";
 import { GetStaticPaths } from "next";
-import { dehydrate, QueryClient } from "react-query";
+import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Product } from "../../pages/api";
 import Layout from "@src/components/layouts";
 import { IProduct } from "@src/typings/db";
@@ -48,19 +48,19 @@ const detailView = ({ item }: IDetail) => {
                 `
               }
             >
-              {/* <EditTxt dangerouslySetInnerHTML={{ __html: item?.body }} />
+              <EditTxt dangerouslySetInnerHTML={{ __html: item?.body }} />
               <InfoMemberChart />
-              <ClubDetailInfo item={item} /> */}
-              <Review id={String(_id)} session={session} />
+              <ClubDetailInfo item={item} />
+              <Review item={item} id={String(_id)} session={session} />
 
-              {/* <BannerImg />
+              <BannerImg />
               <WePlay />
               <Benefit />
               <Refund title={item.title} />
-              <Faq /> */}
+              <Faq />
             </Content>
 
-            {/* <InfoCard data={item} id={router.asPath.slice(11)} /> */}
+            <InfoCard data={item} />
           </DetailViewWrap>
         </>
       )}

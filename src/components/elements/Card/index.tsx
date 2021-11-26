@@ -1,11 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { CardWrap } from "./styles";
 import FavoriteButton from "../FavoriteButton";
 import { IProduct } from "@src/typings/db";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
-import InfinityFavoriteBtn from "../InfinityFavoriteBtn";
-import router from "next/router";
 
 dayjs.locale("ko");
 interface ICard {
@@ -30,11 +28,7 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
   return (
     <CardWrap type={type} {...rest}>
       <div className="imgbox">
-        {querykey === "/" ? (
-          <FavoriteButton data={data} />
-        ) : (
-          <InfinityFavoriteBtn data={data} querykey={querykey} />
-        )}
+        <FavoriteButton data={data} querykey={querykey} />
         <img src={imgurl} alt="모임사진" />
       </div>
       <dl className="txtbox">

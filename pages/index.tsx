@@ -9,10 +9,13 @@ import {
   NoticeArea
 } from "@src/components/page/main";
 import { ISSR } from "@src/typings/db";
+import { useProducts } from "@src/hooks/api/useProducts";
 
 const Home = ({ SsrData }: ISSR) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
   const { data: productsData } = useQuery("posts", () => SsrData.products);
+
+  console.log(" SsrData.products", SsrData.products);
 
   function getGenreData() {
     if (Array.isArray(productsData)) {
