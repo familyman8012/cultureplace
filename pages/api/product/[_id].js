@@ -9,7 +9,6 @@ productRouter.get(async (req, res) => {
     const products = await Product.find({ _id });
     return res.send(products);
   } catch {
-    console.log(err);
     res.status(500).send(err);
   }
 });
@@ -22,7 +21,6 @@ productRouter.put(async (req, res) => {
     });
     return res.send(products);
   } catch {
-    console.log(err);
     res.status(500).send(err);
   }
 });
@@ -30,11 +28,9 @@ productRouter.put(async (req, res) => {
 productRouter.delete(async (req, res) => {
   try {
     const { _id } = req.query;
-    console.log(_id);
     const products = await Product.findByIdAndDelete(_id);
     return res.send(products);
   } catch {
-    console.log(err);
     res.status(500).send(err);
   }
 });

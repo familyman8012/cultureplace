@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useReview } from "@src/hooks/api/useReview";
 import axios from "axios";
@@ -10,28 +10,19 @@ import Button from "@src/components/elements/Button";
 import { ReviewList, ReviewTitle, WriteBtn } from "./style";
 import "rc-pagination/assets/index.css";
 import { IProduct, IReview } from "@src/typings/db";
-import { Session } from "next-auth";
+import { useSession } from "next-auth/client";
 
 export interface IReviewModify {
   [key: string]: string;
 }
 
-function index({
-  item,
-  id,
-  session
-}: {
-  item: IProduct;
-  id: string;
-  session: Session;
-}) {
-  console.log(session);
-
+function index({ item, id }: { item: IProduct; id: string }) {
+  const [session] = useSession();
   const [review, setReview] = useState({
     title: "",
-    username: String(session.user.name),
+    username: String(session?.user.name),
     content: "",
-    userid: session.user.uid,
+    userid: session?.user.uid,
     product: id
   });
   const [curPage, setCurPage] = useState(1);
@@ -103,6 +94,13 @@ function index({
 
   console.log("item 은은은", item);
 
+  console.log("reviewData?.reviews", reviewData?.reviews.length);
+
+  const reviewBtnShow = useMemo(
+    () => item.joinMembr.some(x => x === session?.user.uid),
+    []
+  );
+
   return (
     <SectionWrap>
       {status === "loading" ? (
@@ -114,18 +112,22 @@ function index({
           <ReviewTitle>멤버들은 이렇게 느꼈어요.</ReviewTitle>
           <ReviewList>
             <ul className="list">
-              {reviewData?.reviews.map((el: IReview, i: string) => {
-                console.log("typescript 를 알아내자.", el);
-                return (
-                  <ListItem
-                    key={el.title}
-                    data={el}
-                    session={session}
-                    modifyModal={modifyModal}
-                    delReviewMutation={delReviewMutation}
-                  />
-                );
-              })}
+              {reviewData?.reviews.length === 0 ? (
+                <div>리뷰가 아직 등록되지 않았습니다.</div>
+              ) : (
+                reviewData?.reviews.map((el, i) => {
+                  console.log("reviewData", reviewData);
+                  return (
+                    <ListItem
+                      key={el.title}
+                      data={el}
+                      session={session}
+                      modifyModal={modifyModal}
+                      delReviewMutation={delReviewMutation}
+                    />
+                  );
+                })
+              )}
             </ul>
             <Pagination
               onChange={handlePageChange}
@@ -133,15 +135,17 @@ function index({
               pageSize={5}
               total={reviewData?.count}
             />
-            <Button
-              color="brand"
-              size="xs"
-              outline
-              css={WriteBtn}
-              onClick={openModal}
-            >
-              리뷰등록
-            </Button>
+            {reviewBtnShow && (
+              <Button
+                color="brand"
+                size="xs"
+                outline
+                css={WriteBtn}
+                onClick={openModal}
+              >
+                리뷰등록
+              </Button>
+            )}
           </ReviewList>
           {modalOpen && (
             <ReviewModal

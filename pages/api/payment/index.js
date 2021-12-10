@@ -1,23 +1,41 @@
 import createHandler from "../middleware";
 import Payment from "../models/payment";
 import User from "../models/user";
+import Product from "../models/product";
 
 const handler = createHandler();
 
-// handler.get(async (req, res) => {
-//   const posts = await Post.find().sort({ _id: -1 }).exec();
-//   res.status(200).json(posts);
-// });
+handler.get(async (req, res) => {
+  const { userid } = req.query;
+  if (userid !== "undefined") {
+    const result = await Payment.find({ userid });
+    return res.status(200).json(result);
+  }
+});
 
 handler.post(async (req, res) => {
-  console.log("req.body 느느느는555", req.body);
   var payments = new Payment(req.body);
   try {
     const result = await payments.save();
-    console.log("result", result);
     return res.status(200).json({ result });
   } catch (error) {
     return res.status(400).send(error.message);
+  }
+});
+
+handler.put(async (req, res) => {
+  try {
+    const { _id, userid } = req.body;
+    const joinMember = await Product.updateOne(
+      { _id },
+      { $push: { joinMembr: userid } },
+      { upsert: true }
+    );
+
+    return res.send(joinMember);
+  } catch {
+    console.log(err);
+    res.status(500).send(err);
   }
 });
 

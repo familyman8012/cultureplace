@@ -50,14 +50,12 @@ export default function list() {
   const deleteMutation = useMutation(
     (_id: string) =>
       axios.delete(`/api/product/${_id}`).then(res => {
-        console.log(res.data);
         return res.data;
       }),
     {
       onSuccess: () => queryClient.invalidateQueries("productData"),
       onError: (error, variables, context) => {
         // I will fire first
-        console.log(error, variables);
       }
     }
   );

@@ -28,7 +28,9 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
   return (
     <CardWrap type={type} {...rest}>
       <div className="imgbox">
-        <FavoriteButton data={data} querykey={querykey} />
+        {querykey === "posts" && (
+          <FavoriteButton data={data} querykey={querykey} />
+        )}
         <img src={imgurl} alt="모임사진" />
       </div>
       <dl className="txtbox">

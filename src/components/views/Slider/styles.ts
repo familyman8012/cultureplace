@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Btn = (props: any) =>
+const Btn = () =>
   css`
     position: absolute;
     top: 50%;

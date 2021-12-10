@@ -23,8 +23,6 @@ export interface IinfinityFavorite {
 function index({ data, querykey }: IFavoritebtn) {
   const queryClient = useQueryClient();
 
-  console.log("querykey", querykey);
-
   const [session] = useSession();
   const favoriteChk = useMemo(
     () => data?.favoriteduser?.includes(String(session?.user.uid)),
@@ -41,18 +39,8 @@ function index({ data, querykey }: IFavoritebtn) {
     {
       onMutate: async () => {
         await queryClient.cancelQueries("list");
-        let previousDetail;
-        let previousLoadDetail;
-        if (querykey === "posts") {
-          previousDetail = queryClient.getQueryData<IProduct[]>("posts");
-        } else if (querykey === "oneday" || querykey === "month") {
-          previousLoadDetail = queryClient.getQueryData<{
-            pages: Ipages[];
-            pageParams: number[];
-          }>(["list", querykey]);
-          console.log("querykey", querykey);
-          previousDetail = previousLoadDetail?.pages[0].products;
-        }
+
+        const previousDetail = queryClient.getQueryData<IProduct[]>("posts");
 
         const updateProduct = previousDetail?.filter(
           el => el._id === data?._id
@@ -63,29 +51,21 @@ function index({ data, querykey }: IFavoritebtn) {
               String(...updateProduct[0].favoriteduser),
               String(session?.user.uid)
             ];
-            if (querykey === "posts") {
-              queryClient.setQueryData("posts", [...previousDetail]);
-            } else if (querykey === "oneday" || querykey === "month") {
-              queryClient.setQueryData(["list", querykey], previousLoadDetail);
-            }
+            queryClient.setQueryData("posts", [...previousDetail]);
           } else {
             updateProduct[0].favoriteduser =
               updateProduct[0].favoriteduser.filter(
                 el => el !== session?.user.uid
               );
-            if (querykey === "posts") {
-              queryClient.setQueryData("posts", [...previousDetail]);
-            } else if (querykey === "oneday" || querykey === "month") {
-              queryClient.setQueryData(["list", querykey], previousLoadDetail);
-            }
+            queryClient.setQueryData("posts", [...previousDetail]);
           }
         }
       },
-      onSuccess: () => {
-        if (querykey === "posts") {
-          queryClient.resetQueries("list");
-        }
-      },
+      // onSuccess: () => {
+      //   if (querykey === "posts") {
+      //     queryClient.resetQueries("list");
+      //   }
+      // },
       onError: (error, variables, context) => {
         // I will fire first
         console.log(error, variables);

@@ -1,18 +1,28 @@
+import Link from "next/link";
 import { WrapLayout } from "./styles";
 
 type Props = {
   children: React.ReactNode;
 };
 
+const AdminMenu = [
+  { menuName: "상품등록", url: "/admin/product" },
+  { menuName: "공지사항", url: "/admin/notice" },
+  { menuName: "상품등록", url: "/admin/mainvis" }
+];
+
 function Adminlayout({ children }: Props) {
   return (
     <WrapLayout>
       <div className="left">
         <ul>
-          <li>상품등록</li>
-          <li>공지사항</li>
-          <li>메인비쥬얼</li>
-          <li>회원관리</li>
+          {AdminMenu.map(el => (
+            <li key={el.menuName}>
+              <Link href={el.url}>
+                <a>{el.menuName}</a>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="content">{children}</div>

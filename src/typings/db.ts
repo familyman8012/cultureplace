@@ -67,8 +67,63 @@ export interface IReviewEdit {
   title: string;
   content: string;
   username: string;
-  userid: string;
+  userid: string | undefined;
   product: string;
+}
+
+export interface IUser {
+  email: string;
+  name: string;
+  userpwd: string;
+  phone: string;
+  agegroup: string;
+  gender: string;
+}
+
+export interface IPayment {
+  data: {
+    cancelled_price: number;
+    cancelled_tax_free: number;
+    item_name: string;
+    method: string;
+    method_name: string;
+    name: string;
+    order_id: string;
+    payment_data: {
+      card_auth_no: string;
+      card_code: string;
+      card_name: string;
+      card_no: string;
+      card_quota: string;
+      g: number;
+      n: string;
+      o_id: string;
+      p: number;
+      p_at: Date;
+      pg: string;
+      pg_a: string;
+      pm: string;
+      pm_a: string;
+      receipt_id: string;
+      s: number;
+      tid: string;
+    };
+    pg: string;
+    pg_name: string;
+    price: number;
+    purchased_at: Date;
+    receipt_id: string;
+    receipt_url: string;
+    remain_price: number;
+    remain_tax_free: number;
+    requested_at: Date;
+    status: number;
+    status_en: string;
+    status_ko: string;
+    tax_free: number;
+    unit: string;
+  };
+  userid: string;
 }
 
 // export interface IReviewModal extends IReviewEdit {

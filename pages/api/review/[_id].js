@@ -49,13 +49,11 @@ reviewRouter.put(async (req, res) => {
   try {
     const { _id } = req.query;
 
-    console.log("req.query", req.query, "req.body", req.body);
     const reviews = await Review.findByIdAndUpdate(_id, req.body, {
       new: true
     });
     return res.send(reviews);
   } catch {
-    console.log(err);
     res.status(500).send(err);
   }
 });

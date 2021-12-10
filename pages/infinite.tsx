@@ -29,11 +29,9 @@ export default function Home() {
     {
       getNextPageParam() {
         return page.current;
-      },
+      }
     }
   );
-
-  console.log(data);
 
   return (
     <div

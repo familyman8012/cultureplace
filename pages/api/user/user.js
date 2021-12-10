@@ -63,4 +63,10 @@ handler.get(async (req, res) => {
 //   }
 // });
 
+handler.delete(async (req, res) => {
+  const { _id } = req.query;
+  const users = await User.remove({ _id });
+  return res.status(200).json(users);
+});
+
 export default handler;

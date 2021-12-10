@@ -37,7 +37,7 @@ function Detail() {
       .put(`/api/notice/${QuillStore.modifyId}`, {
         title: QuillStore.titleData,
         body: QuillStore.data,
-        imgurl: imgData,
+        imgurl: imgData !== "" ? imgData : noticeStore.imgurl,
         category: noticeStore.selCategory,
         summary: noticeStore.summary
       })
@@ -70,7 +70,9 @@ function Detail() {
     noticeStore.summary
   ]);
 
-  console.log("noticeStore?.category", noticeStore?.category);
+  console.log("noticeStore", noticeStore);
+
+  console.log("imgData 느느느느??!23213", typeof imgData);
 
   return (
     <AdminLayout>
@@ -96,7 +98,7 @@ function Detail() {
           </BoxInput>
           <div>
             <BoxInput>
-              {imgData !== undefined ? (
+              {imgData !== "" ? (
                 <img src={imgData} alt="모임대표이미지 등록" />
               ) : noticeStore.imgurl !== null ? (
                 <img src={noticeStore.imgurl} alt="모임대표이미지 등록" />

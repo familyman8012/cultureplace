@@ -2,7 +2,7 @@ import { Footer } from "./styles";
 
 function Foot() {
   return (
-    <Footer>
+    <Footer className="header">
       <div className="inner">
         <ul className="link_menu">
           <li>자주 묻는 질문</li>

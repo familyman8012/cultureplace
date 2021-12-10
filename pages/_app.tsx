@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -13,9 +13,26 @@ import { ThemeProvider } from "@emotion/react";
 
 //next-auth
 import { Provider } from "next-auth/client";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.beforePopState(({ url, as, options }) => {
+      // I only want to allow these two routes!
+      // if (as !== "/oneday" && as !== "/month") {
+      //   // Have SSR render bad routes as a 404.
+      //   console.log("router as", as);
+      //   return false;
+      // }
+      console.log("router as", as);
+      return true;
+    });
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>

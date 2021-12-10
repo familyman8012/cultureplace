@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import Link from "next/link";
 import { css } from "@emotion/react";
 import Card from "@src/components/elements/Card";
@@ -6,48 +12,82 @@ import Layout from "@src/components/layouts";
 import { useInfinity } from "@src/hooks/api/useInfinite";
 import { Iinfinity, IProduct } from "@src/typings/db";
 import InView from "react-intersection-observer";
+import { InfinityCardwrap, LinkCard } from "./style";
+import axios from "axios";
+import Search from "@src/components/views/Search";
+import { useQueryClient } from "react-query";
 
 interface IQuerykey {
   querykey: string;
+  type?: string;
 }
 
-export default function Infinity({ querykey }: IQuerykey) {
-  const { data, error, fetchNextPage, status } = useInfinity(querykey);
-  const [load, setLoad] = useState(false);
+export interface ISearchCondition {
+  searchInput?: string | undefined;
+  filterFind: any | undefined;
+}
 
+export default function Infinity({ querykey, type }: IQuerykey) {
+  const [searchOption, setSearchOption] = useState<ISearchCondition>({
+    searchInput: undefined,
+    filterFind: undefined
+  });
+
+  const pageNum = useRef(1);
+
+  const { data, error, fetchNextPage, status, refetch } = useInfinity(
+    querykey,
+    searchOption,
+    pageNum
+  );
+
+  const [load, setLoad] = useState(false);
+  const queryClient = useQueryClient();
   useEffect(() => {
     setLoad(true);
+    // queryClient.resetQueries("list");
+    console.log("로드시 searchOption", searchOption);
   }, []);
 
+  // const test = useCallback(() => {
+  //   console.log("버튼클릭");
+  //   pageNum.current = 1;
+
+  //   setSearchOption({ location: "강남", genre: "영화" });
+  // }, [searchOption]);
+
+  useEffect(() => {
+    refetch();
+    console.log(searchOption);
+  }, [searchOption]);
+
+  const searchFind = () => {
+    axios
+      .get("/api/product/search?search=크리스토퍼놀란의")
+      .then(res => console.log("텍스트 검색 결과", res));
+  };
+
   return (
-    <Layout>
+    <Layout type={"listCard"}>
       <React.Fragment>
+        <Search pageNum={pageNum} setSearchOption={setSearchOption} />
+
+        <span onClick={() => searchFind()}>검색버튼</span>
         {status === "loading" ? (
           <p>Loading...</p>
         ) : status === "error" ? (
           <p>Error</p>
         ) : (
-          <div
-            css={css`
-              display: flex;
-              flex-wrap: wrap;
-              margin-top: 61px;
-            `}
-          >
+          <InfinityCardwrap type={type}>
             {(data?.pages || []).map((group: Iinfinity, i: number) => {
               return (
                 <Fragment key={i}>
                   {group.products?.map((data: IProduct, i: number) => (
                     <Fragment key={i}>
                       <Link href={`/detailview/${data?._id}`}>
-                        <a
-                          css={css`
-                            width: calc(25% - 24px);
-                            margin: 12px;
-                          `}
-                        >
-                          <Card data={data} querykey={querykey} />
-                        </a>
+                        <LinkCard>
+                          <Card data={data} querykey={querykey} type={type} />
+                        </LinkCard>
                       </Link>
                     </Fragment>
                   ))}
@@ -60,12 +100,16 @@ export default function Infinity({ querykey }: IQuerykey) {
               `}
             >
               {load && (
-                <InView as="div" onChange={() => fetchNextPage()}>
+                <InView
+                  as="div"
+                  rootMargin="0px 0px 0px 300px"
+                  onChange={() => fetchNextPage()}
+                >
                   <span className="loadSelector">test</span>
                 </InView>
               )}
             </div>
-          </div>
+          </InfinityCardwrap>
         )}
       </React.Fragment>
     </Layout>

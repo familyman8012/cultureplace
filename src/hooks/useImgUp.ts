@@ -1,14 +1,23 @@
 import axios from "axios";
 import dayjs from "dayjs";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import {
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useState
+} from "react";
 import ReactS3Client from "react-aws-s3-typescript";
 import { UploadResponse } from "react-aws-s3-typescript/dist/types";
 
-type Handler = (e: any) => void;
-type ReturnTypes<T = any> = [T, Dispatch<SetStateAction<T>>, Handler];
-
-const useImgUp = <T = any>(path = "content"): ReturnTypes<T> => {
-  const [data, setData] = useState<any>(undefined);
+const useImgUp = (
+  path = "content"
+): [
+  string,
+  Dispatch<SetStateAction<string>>,
+  ChangeEventHandler<HTMLInputElement>
+] => {
+  const [data, setData] = useState("");
   const handler = useCallback(async e => {
     const file = e.target.files[0];
     const nowDate = dayjs(Date.now()).format("YYMMDDHHMM");
@@ -31,8 +40,9 @@ const useImgUp = <T = any>(path = "content"): ReturnTypes<T> => {
       const res = await s3.uploadFile(file, fileName);
 
       setData(res.location);
+      console.log("type of img", typeof res.location, res.location);
     } catch (exception) {
-      setData(exception);
+      setData(String(exception));
     }
   }, []);
   return [data, setData, handler];

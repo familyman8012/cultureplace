@@ -1,6 +1,5 @@
-import { useDetailView } from "@src/hooks/api/useDetailView";
 import { useRouter } from "next/router";
-import { GetStaticPaths } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Product } from "../../pages/api";
 import Layout from "@src/components/layouts";
@@ -35,36 +34,38 @@ const detailView = ({ item }: IDetail) => {
   const router = useRouter();
   const { _id } = router.query;
 
+  const { data } = useQuery("detail", () => item);
+
   return (
-    <>
-      {item && _id && session && (
+    <Layout>
+      {data && _id !== undefined && (
         <>
           <DetailViewWrap>
             <Content
               css={
-                item?.genre === "이벤트" &&
+                data?.genre === "이벤트" &&
                 css`
                   margin-left: calc(320px + 5%);
                 `
               }
             >
-              <EditTxt dangerouslySetInnerHTML={{ __html: item?.body }} />
+              <EditTxt dangerouslySetInnerHTML={{ __html: data?.body }} />
               <InfoMemberChart />
-              <ClubDetailInfo item={item} />
-              <Review item={item} id={String(_id)} session={session} />
+              <ClubDetailInfo item={data} />
+              <Review item={data} id={String(_id)} />
 
               <BannerImg />
               <WePlay />
               <Benefit />
-              <Refund title={item.title} />
+              <Refund title={data.title} />
               <Faq />
             </Content>
 
-            <InfoCard data={item} />
+            <InfoCard data={data} _id={String(_id)} />
           </DetailViewWrap>
         </>
       )}
-    </>
+    </Layout>
   );
 };
 
@@ -72,12 +73,12 @@ export default detailView;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [],
+    paths: [{ params: { _id: "616ef225ac3c88a818752262" } }],
     fallback: true // --> false 시 1,2,3외에는 404
   };
 };
 
-export async function getStaticProps(ctx: any) {
+export const getStaticProps: GetStaticProps = async ctx => {
   await dbConnect();
 
   const _id = ctx.params?._id;
@@ -88,12 +89,16 @@ export async function getStaticProps(ctx: any) {
 
   const data = JSON.parse(JSON.stringify(result[0]));
 
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery("detail", () => data);
+
   return {
     props: {
+      dehydratedState: dehydrate(queryClient),
       item: data
     }
   };
-}
+};
 
 // export const getStaticPaths: GetStaticPaths = async () => {
 //   return {

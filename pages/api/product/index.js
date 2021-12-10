@@ -1,21 +1,21 @@
 import createHandler from "../middleware";
 import Product from "../models/product";
+import _ from "lodash";
 
 const productRouter = createHandler();
 
 productRouter.get(async (req, res) => {
-  console.log(req.query.page === undefined);
-  const { page, meetingcycle, limit, genre } = req.query;
+  console.log("req.query", req.query);
+  const { page, meetingcycle, limit, genre, location } = req.query;
+
+  let searchOption = { meetingcycle, genre, location };
+  searchOption = _.pickBy(searchOption, (value, key) => {
+    return !_.isEmpty(value);
+  });
+
+  console.log(searchOption);
 
   const Numberlimit = Number(limit);
-
-  const condition = () => {
-    if (genre === undefined) {
-      return { meetingcycle };
-    } else {
-      return { genre, meetingcycle };
-    }
-  };
 
   try {
     if (req.query.page === undefined) {
@@ -23,21 +23,14 @@ productRouter.get(async (req, res) => {
       return res.send(products);
     } else {
       const [products, productsCount] = await Promise.all([
-        Product.find(condition())
+        Product.find(searchOption)
           .skip((page - 1) * Numberlimit)
           .limit(Numberlimit),
-        Product.find(condition()).count()
+        Product.find(searchOption).count()
       ]);
 
       const hasNextPage = page < Math.ceil(productsCount / Numberlimit);
-      console.log(
-        "page",
-        page,
-        "lastpage",
-        Math.ceil(productsCount / Numberlimit),
-        "lastPage.hasNextPage",
-        hasNextPage
-      );
+
       return res.send({ products, hasNextPage });
     }
   } catch {

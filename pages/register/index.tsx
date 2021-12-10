@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getProviders } from "next-auth/client";
@@ -8,6 +8,8 @@ import SocialLogin from "../../src/components/views/SocialLogin";
 import { ISignIn } from "../signin";
 import Layout from "../../src/components/layouts";
 import RegisterForm from "../../src/components/page/register/styles";
+import { GetServerSideProps } from "next";
+import { IUser } from "@src/typings/db";
 
 export default function Register({ providers, csrfToken }: ISignIn) {
   const {
@@ -28,26 +30,36 @@ export default function Register({ providers, csrfToken }: ISignIn) {
 
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: IUser) => {
     setLoading(true);
     const { email, name, userpwd, phone, agegroup, gender } = data;
-    try {
-      const response = await axios.post("/api/user/user", {
+
+    axios
+      .post("/api/user/user", {
         email,
         name,
         userpwd,
         phone,
         agegroup,
         gender
+      })
+      .then(function (resp) {
+        console.log("response.data", "adsadssadfs", resp.data, resp);
+      })
+      .catch((e: AxiosError) => {
+        if (axios.isAxiosError(e)) {
+          console.log({
+            e,
+            type: "axios-error"
+          });
+        } else {
+          console.log({
+            e,
+            type: "stock-error"
+          });
+        }
       });
-      console.log("response느느느는", response);
-      if (response.statusText === "OK") {
-        // router.push("/");
-        console.log("response.data", "adsadssadfs", response.data, response);
-      }
-    } catch (error: any) {
-      alert(error.response.data);
-    }
+
     setLoading(false);
   };
 
@@ -182,10 +194,10 @@ export default function Register({ providers, csrfToken }: ISignIn) {
   );
 }
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps: GetServerSideProps = async context => {
   const providers = await getProviders();
 
   return {
     props: { providers }
   };
-}
+};

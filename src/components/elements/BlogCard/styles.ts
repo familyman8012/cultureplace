@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const BlogCardWrap = styled.div`
+export const BlogCardWrap = styled.div<{ type: string }>`
   overflow: hidden;
 
   dl,
@@ -41,4 +41,19 @@ export const BlogCardWrap = styled.div`
       }
     }
   }
+  ${({ type }) => {
+    return (
+      type === "notice" &&
+      `
+    .imgbox {display:flex;height:179px;border-radius:0}
+    dt {font-weight:bold;}
+    .txtbox {
+      dd{
+        &.desc {font-size:16px;}    
+        &.create_at {font-size:14px}
+    }
+  }
+    `
+    );
+  }}
 `;

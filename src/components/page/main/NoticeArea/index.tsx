@@ -16,7 +16,6 @@ function index({ noticeData }: INoticeData) {
       <Title css={TitleML}>트레바리 공지</Title>
       <div className="box">
         {noticeData.map(el => {
-          console.log(el);
           const { _id, title, summary, updatedAt } = el;
           const upadateDay = dayjs(updatedAt).format("YYYY.MM.DD");
           return (

@@ -1,6 +1,11 @@
-import { IProduct } from "@src/typings/db";
+import { INotice, IProduct } from "@src/typings/db";
 import axios, { AxiosResponse } from "axios";
 import router from "next/router";
+
+interface IQuill {
+  title: string;
+  body: string;
+}
 
 const { observable } = require("mobx");
 const QuillStore = observable({
@@ -9,14 +14,14 @@ const QuillStore = observable({
   titleData: null,
   data: null,
   dir: null,
-  writeContent(data: any) {
+  writeContent(data: string) {
     this.data = data;
   },
   reset() {
     (this.titleData = null), (this.data = null), (this.state = null);
   },
   modifyContent(url: string) {
-    axios.get(url).then((resp: any) => {
+    axios.get(url).then((resp: { data: IQuill[] }) => {
       this.titleData = resp.data[0].title;
       this.data = resp.data[0].body;
     });
@@ -82,7 +87,7 @@ const noticeStore = observable({
     QuillStore.dir = "notice";
     QuillStore.modifyId = _id;
     await QuillStore.modifyContent(`/api/notice/${_id}`);
-    await axios.get(`/api/notice/${_id}`).then((resp: any) => {
+    await axios.get(`/api/notice/${_id}`).then((resp: { data: INotice[] }) => {
       this.imgurl = resp.data[0].imgurl;
       this.selCategory = resp.data[0].category;
       this.summary = resp.data[0].summary;
@@ -97,4 +102,46 @@ const noticeStore = observable({
   }
 });
 
-export { prodUpStore, QuillStore, noticeStore };
+const searchStore = observable({
+  searchInput: "",
+  viewSelList: -1,
+  filterFind: new Array(),
+  onInit(filterFindList: []) {
+    for (let i = 0; i < filterFindList.length; i++) {
+      this.filterFind.push([]);
+    }
+  },
+  onsearchInput(e: any) {
+    this.searchInput = e.target.value;
+  },
+  onViewSel(i: number) {
+    this.viewSelList = i;
+    console.log(this.viewSelList);
+  },
+  onCheckboxChange(i: number, value: string) {
+    if (this.filterFind[i].some((x: string) => x === value)) {
+      let newArray = [...this.filterFind[i]].filter(el => el !== value);
+      this.filterFind[i] = newArray;
+    } else {
+      let newArray = [...this.filterFind[i], value];
+      this.filterFind[i] = newArray;
+      console.log(this.filterFind);
+    }
+  },
+  onApply(pageNum: any, setSearchOption: any) {
+    pageNum.current = 1;
+    setSearchOption({
+      searchInput: this.searchInput,
+      filterFind: this.filterFind
+    });
+  },
+  onReset(pageNum: any, setSearchOption: any) {
+    pageNum.current = 1;
+    setSearchOption({
+      searchInput: undefined,
+      filterFind: undefined
+    });
+  }
+});
+
+export { prodUpStore, QuillStore, noticeStore, searchStore };

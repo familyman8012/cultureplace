@@ -11,7 +11,7 @@ export const Play = styled.dl<{ bgimg: string }>`
   width: 49%;
   margin-bottom: 30px;
   padding-top: 78px;
-  background: url(${({ bgimg }: any) => bgimg}) no-repeat left top;
+  background: url(${({ bgimg }) => bgimg}) no-repeat left top;
   background-size: auto 57.5px;
   dt {
     font-size: 16px;

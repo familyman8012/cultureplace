@@ -20,7 +20,9 @@ const BlogWidth = css`
 function index({ blogData }: IBlogData) {
   return (
     <>
-      <Title css={NoticeTitle}>블로그</Title>
+      <Title css={NoticeTitle} url="notice">
+        블로그
+      </Title>
       <WrapBlogArea>
         {blogData?.map(el => (
           <Link href={`/notice/${el._id}`} key={el._id}>

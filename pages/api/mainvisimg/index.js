@@ -5,16 +5,13 @@ const mainvisimgRouter = createHandler();
 
 mainvisimgRouter.post(async (req, res) => {
   try {
-    console.log(req.body);
     const mainvisimgs = new Mainvisimg(req.body);
     await mainvisimgs.save();
     return res.send(mainvisimgs);
   } catch {
-    console.log(err);
     res.status(500).send(err);
   }
 });
-
 
 mainvisimgRouter.get(async (req, res) => {
   try {
@@ -25,6 +22,5 @@ mainvisimgRouter.get(async (req, res) => {
     res.status(500).send(err);
   }
 });
-
 
 export default mainvisimgRouter;

@@ -55,8 +55,8 @@ function App() {
       <BasicInfoForm>
         <div className="box_imgupload">
           <span className="imgArea">
-            {imgData !== undefined ? (
-              <img src={imgData} alt="모임대표이미지" />
+            {imgData !== "" ? (
+              <img src={String(imgData)} alt="모임대표이미지" />
             ) : prodUpStore.data !== null ? (
               <img src={prodUpStore.data.imgurl} alt="모임대표이미지" />
             ) : null}
@@ -144,12 +144,13 @@ function App() {
             <option value="이벤트">이벤트</option>
           </select>
 
-          <label htmlFor="locaition">아지트 선택</label>
-          <select id="locaition" {...register("location")}>
-            <option value="강남 아지트">강남 아지트</option>
-            <option value="안국 아지트">안국 아지트</option>
-            <option value="대학로 아지트">대학로 아지트</option>
-            <option value="홍대 아지트">홍대 아지트</option>
+          <label htmlFor="location">아지트 선택</label>
+          <select id="location" {...register("location")}>
+            <option value="강남">강남 아지트</option>
+            <option value="안국">안국 아지트</option>
+            <option value="대학로">대학로 아지트</option>
+            <option value="홍대">홍대 아지트</option>
+            <option value="온라인">온라인</option>
           </select>
 
           <div className="box_radio_area">
@@ -183,10 +184,9 @@ function App() {
             <>
               <label htmlFor="meetday">모임일 선택</label>
               <select id="meetday" {...register("meetday")}>
-                <option value="1주, 3주 토요일">1주, 3주 토요일</option>
-                <option value="1주, 3주 일요일">1주, 3주 일요일</option>
-                <option value="2주, 4주 토요일">2주, 4주 토요일</option>
-                <option value="2주, 4주 일요일">2주, 4주 일요일</option>
+                <option value="매 주 목요일">매 주 목요일</option>
+                <option value="매 주 토요일">매 주 토요일</option>
+                <option value="매 주 일요일">매 주 일요일</option>
               </select>
             </>
           )}

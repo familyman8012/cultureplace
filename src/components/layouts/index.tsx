@@ -5,12 +5,13 @@ import { LayoutWrap } from "./styles";
 
 type Props = {
   children: React.ReactNode;
+  type?: string;
 };
 
-function Layout({ children }: Props) {
+function Layout({ children, type = "basic" }: Props) {
   return (
     <>
-      <LayoutWrap>
+      <LayoutWrap type={type}>
         <Header />
         {children}
       </LayoutWrap>

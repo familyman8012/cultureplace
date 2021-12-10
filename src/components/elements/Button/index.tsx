@@ -78,7 +78,6 @@ const StyledButton = styled.button`
 `;
 
 const Button: FC<any> = ({ children, ...rest }) => {
-  console.log({ ...rest });
   return <StyledButton {...rest}>{children}</StyledButton>;
 };
 

@@ -8,7 +8,7 @@ import { Item } from "./style";
 
 export interface IReviewListItem {
   data: IReview;
-  session: Session;
+  session: Session | null;
   modifyModal: ({
     title,
     content,
@@ -29,9 +29,6 @@ function ListItem({
 
   const { _id, title, content, username } = data;
 
-  console.log("data 123123123", data);
-  console.log("session", session);
-
   return (
     <Item
       onClick={() => setShow(prev => !prev)}
@@ -48,7 +45,7 @@ function ListItem({
           );
         })}
       </div>
-      {data.userid === session.user.uid && (
+      {data.userid === session?.user.uid && (
         <div className="username">
           {username}
 

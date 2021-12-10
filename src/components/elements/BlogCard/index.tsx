@@ -12,7 +12,7 @@ interface IBlogCard {
 
 function Card({ type = "blog", data, ...rest }: IBlogCard) {
   return (
-    <BlogCardWrap {...rest}>
+    <BlogCardWrap type={type} {...rest}>
       <div className="imgbox">
         <img src={data.imgurl} alt="모임사진" />
       </div>

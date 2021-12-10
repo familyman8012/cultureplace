@@ -1,6 +1,11 @@
-import { IProduct } from "@src/typings/db";
+import { IProduct, IReview } from "@src/typings/db";
 import axios from "axios";
 import { useQuery } from "react-query";
+
+interface IReivewData {
+  count: number;
+  reviews: IReview[];
+}
 
 const fetchReview = async (_id: string, page: number) => {
   console.log("fetchReview");
@@ -11,7 +16,7 @@ const fetchReview = async (_id: string, page: number) => {
 
 const useReview = (_id: string, page: number) => {
   console.log("useReview", page);
-  return useQuery<any | null, Error>(
+  return useQuery<IReivewData | null, Error>(
     ["reviewData", _id, page],
     async () => await fetchReview(_id, page),
     { keepPreviousData: true }

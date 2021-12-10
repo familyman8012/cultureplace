@@ -2,16 +2,16 @@ import { IProduct } from "@src/typings/db";
 import axios from "axios";
 import { useQuery } from "react-query";
 
-const fetchDetailView = async (_id: string) => {
+const fetchProduct = async (_id: string) => {
   const res = await axios.get(`/api/product/${_id}`);
   return res.data[0];
 };
 
-const useDetailView = (_id: string) => {
+const useProduct = (_id: string) => {
   return useQuery<IProduct, Error>(
     ["detailViewData", _id],
-    async () => await fetchDetailView(_id)
+    async () => await fetchProduct(_id)
   );
 };
 
-export { useDetailView, fetchDetailView };
+export { useProduct, fetchProduct };

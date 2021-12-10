@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 
-const WrapPayment = styled.div`
+const WrapPayment = styled.div<{ type?: string }>`
   background: #f3f3f3;
+  ${({ type }) => type === "complete" && "background: #fff;"}
   .wrap_box_area {
     display: flex;
     justify-content: center;
@@ -78,6 +79,57 @@ const WrapPayment = styled.div`
     line-height: 53px;
     cursor: pointer;
     background: #000;
+  }
+
+  .wrap_pay_complete {
+    width: 60rem;
+    margin: 5rem auto;
+    background: #fff;
+    p {
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+    ul {
+      margin: 3rem 0 0;
+      li {
+        border: 1px solid #ccc;
+        border-bottom: 0;
+        padding: 1.5rem 0;
+
+        span {
+          display: inline-block;
+          &:first-child {
+            width: 14rem;
+            padding-left: 1.5rem;
+          }
+        }
+      }
+    }
+    .box_btns {
+      width: 60rem;
+      border-top: 1px solid #6a6a6a;
+      a {
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+        border: 1px solid #6a6a6a;
+        border-top: none;
+        padding: 10px 0;
+        background: #7a7a7a;
+        color: #fff;
+        &:hover {
+          background: #6a6a6a;
+        }
+        &:last-child {
+          color: #404040;
+          background: #fff;
+          &:hover {
+            color: #404040;
+            background: #e5e5e5;
+          }
+        }
+      }
+    }
   }
 `;
 

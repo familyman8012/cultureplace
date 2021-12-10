@@ -31,7 +31,7 @@ export const BenefitList = styled.dl<{ bgimg: string }>`
   dt {
     margin-bottom: 4px;
     padding-left: 22px;
-    background: url(${({ bgimg }: any) => bgimg}) no-repeat left top;
+    background: url(${({ bgimg }) => bgimg}) no-repeat left top;
     background-size: 19px 22px;
     font-size: 16px;
     font-weight: 500;

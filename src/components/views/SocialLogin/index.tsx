@@ -1,23 +1,15 @@
-import React from "react";
 import { useRouter } from "next/router";
-import {
-  providers,
-  signIn,
-  getSession,
-  csrfToken,
-  getProviders
-} from "next-auth/client";
-import { ProviderType } from "next-auth/providers";
+import { signIn } from "next-auth/client";
 import { ISignIn } from "pages/signin";
 
-export default function SocialLogin({ providers, csrfToken }: ISignIn) {
+export default function SocialLogin({ providers }: ISignIn) {
   const {
     query: { callbackUrl }
   } = useRouter();
 
   return (
     <div>
-      {Object.values(providers).map((provider: any) => {
+      {Object.values(providers).map(provider => {
         if (provider.name === "Custom Provider") {
           return;
         }

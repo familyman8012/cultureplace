@@ -1,20 +1,31 @@
 import styled from "@emotion/styled";
 
-export const LayoutWrap = styled("div")`
+export const LayoutWrap = styled.div<{ type?: string }>`
   max-width: 110rem;
   margin: 0 auto;
   padding: 0;
+  ${({ type }) => type === "fullwidth" && "max-width:100%"}
+  ${({ type }) =>
+    type === "listCard" && "max-width:120rem;.header {.inner{width:120rem;}}"}
 `;
 
 export const Header = styled.div<{ type: string }>`
-  position: fixed;
-  top: ${({ type }) => (type === "normal" ? "0" : "-61px")};
-  transition: top 1s ease 0s;
-  display: flex;
-  width: 1100px;
-  padding: 1.7rem 0 1.8rem;
-  z-index: 1000;
+  height: 59px;
+
   background: #fff;
+  .inner {
+    display: flex;
+    position: fixed;
+    top: ${({ type }) => (type === "normal" ? "0" : "-61px")};
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 1s ease 0s;
+    width: 1100px;
+    height: 59px;
+    padding: 1.7rem 0 1.8rem;
+    z-index: 1000;
+    background: #fff;
+  }
   h1 {
     color: ${({ theme }) => theme.color.brand};
   }

@@ -24,7 +24,6 @@ const typeStyle = ({ type }: StyledComponentProps) => {
   }
   if (type === "other") {
     return css`
-      width: 34.35rem;
       border: none;
       border-radius: 0;
       .imgbox {
@@ -51,7 +50,6 @@ const typeStyle = ({ type }: StyledComponentProps) => {
   }
   if (type === "event") {
     return css`
-      width: 34.8rem;
       border-radius: 0;
       border: 1px solid #d8d8d8;
       .imgbox {
@@ -97,6 +95,7 @@ export const CardWrap = styled.div`
     overflow: hidden;
     width: 100%;
     img {
+      width: 100%;
       height: 100%;
     }
   }

@@ -19,43 +19,45 @@ function Head() {
   }, []);
 
   return (
-    <Header type={headPos === "top" ? "top" : "normal"}>
-      <h1>
-        <Link href="/">
-          <a>CULTURE PLACE</a>
-        </Link>
-      </h1>
-      <ul>
-        <li>
-          <Link href="/oneday">
-            <a>1Day Club</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/month">
-            <a>1Month Club</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/event">
-            <a>이벤트</a>
-          </Link>
-        </li>
-        <li>
+    <Header type={headPos === "top" ? "top" : "normal"} className="header">
+      <div className="inner">
+        <h1>
           <Link href="/">
-            <a>웹진</a>
+            <a>CULTURE PLACE</a>
           </Link>
-        </li>
-      </ul>
-      <Login>
-        {!session && <Link href="/signin">로그인</Link>}
-        {session && (
-          <>
-            {session.user.email}
-            <button onClick={() => signOut()}>Sign out</button>
-          </>
-        )}
-      </Login>
+        </h1>
+        <ul>
+          <li>
+            <Link href="/oneday">
+              <a>1Day Club</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/month">
+              <a>1Month Club</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/event">
+              <a>이벤트</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/">
+              <a>웹진</a>
+            </Link>
+          </li>
+        </ul>
+        <Login>
+          {!session && <Link href="/signin">로그인</Link>}
+          {session && (
+            <>
+              {session.user.email}
+              <button onClick={() => signOut()}>Sign out</button>
+            </>
+          )}
+        </Login>
+      </div>
     </Header>
   );
 }
