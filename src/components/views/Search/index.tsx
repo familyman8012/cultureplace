@@ -10,6 +10,7 @@ import {
 } from "react";
 import { searchStore, QuillStore } from "@src/mobx/store";
 import { ISearchCondition } from "../InfinityCards";
+import { QueryClient } from "react-query";
 
 const SearchWrap = styled.div`
   display: flex;
@@ -94,21 +95,43 @@ const filterFindList = [
 
 function index({
   pageNum,
+  refetch,
   setSearchOption
 }: {
   pageNum: MutableRefObject<number>;
+  refetch: any;
   setSearchOption: Dispatch<SetStateAction<ISearchCondition>>;
 }) {
-  useEffect(() => {
-    searchStore.onInit(filterFindList);
-  }, []);
-
   const handlerApply = () => {
     searchStore.onApply(pageNum, setSearchOption);
   };
   const handlerReset = () => {
+    // alert("aa");
+
+    searchStore.onInit(filterFindList);
     searchStore.onReset(pageNum, setSearchOption);
+    // alert("bb");
   };
+
+  const queryClient = new QueryClient();
+
+  useEffect(() => {
+    searchStore.onInit(filterFindList);
+    return () => {
+      searchStore.onReset(pageNum, setSearchOption);
+
+      searchStore.onInit(filterFindList);
+    };
+
+    // return () => {
+    //   console.log("화면에서 사라짐");
+    //   const aa = async () => {
+    //     await searchStore.onReset(pageNum, setSearchOption);
+    //     await refetch();
+    //   };
+    //   aa();
+    // };
+  }, []);
 
   return (
     <SearchWrap>

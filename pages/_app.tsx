@@ -14,23 +14,31 @@ import { ThemeProvider } from "@emotion/react";
 //next-auth
 import { Provider } from "next-auth/client";
 import { useRouter } from "next/router";
+import { searchStore } from "@src/mobx/store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
 
   const router = useRouter();
 
+  // queryClient.removeQueries();
   useEffect(() => {
-    router.beforePopState(({ url, as, options }) => {
-      // I only want to allow these two routes!
-      // if (as !== "/oneday" && as !== "/month") {
-      //   // Have SSR render bad routes as a 404.
-      //   console.log("router as", as);
-      //   return false;
-      // }
-      console.log("router as", as);
-      return true;
-    });
+    const handleRouteChange = (url: string) => {
+      console.log("/detailview", url.includes("/detailview"));
+      console.log(`App is changing to ${url}`);
+      if (url === "/month") {
+        queryClient.removeQueries(["list", "oneday"]);
+      } else if (url === "/oneday") {
+        queryClient.removeQueries(["list", "month"]);
+      } else if (
+        !url.includes("/detailview") &&
+        (searchStore.filterFind.every((el: []) => el.length === 0) ||
+          searchStore.searchInput !== "")
+      ) {
+        queryClient.removeQueries("list");
+      }
+    };
+    router.events.on("routeChangeStart", handleRouteChange);
   }, []);
 
   return (

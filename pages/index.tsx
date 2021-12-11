@@ -14,6 +14,8 @@ const Home = ({ SsrData }: ISSR) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
   const { data: productsData } = useQuery("posts", () => SsrData.products);
 
+  console.log("index data", productsData);
+
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [

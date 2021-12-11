@@ -16,7 +16,8 @@ import { InfinityCardwrap, LinkCard } from "./style";
 import axios from "axios";
 import Search from "@src/components/views/Search";
 import { useQueryClient } from "react-query";
-
+import { useRouter } from "next/router";
+import { searchStore } from "@src/mobx/store";
 interface IQuerykey {
   querykey: string;
   type?: string;
@@ -35,16 +36,19 @@ export default function Infinity({ querykey, type }: IQuerykey) {
 
   const pageNum = useRef(1);
 
-  const { data, error, fetchNextPage, status, refetch } = useInfinity(
+  const { data, error, fetchNextPage, status, refetch, remove } = useInfinity(
     querykey,
     searchOption,
     pageNum
   );
 
+  console.log("data", data);
+
   const [load, setLoad] = useState(false);
   const queryClient = useQueryClient();
   useEffect(() => {
     setLoad(true);
+
     // queryClient.resetQueries("list");
     console.log("로드시 searchOption", searchOption);
   }, []);
@@ -70,7 +74,11 @@ export default function Infinity({ querykey, type }: IQuerykey) {
   return (
     <Layout type={"listCard"}>
       <React.Fragment>
-        <Search pageNum={pageNum} setSearchOption={setSearchOption} />
+        <Search
+          refetch={refetch}
+          pageNum={pageNum}
+          setSearchOption={setSearchOption}
+        />
 
         <span onClick={() => searchFind()}>검색버튼</span>
         {status === "loading" ? (

@@ -11,6 +11,8 @@ productRouter.post(async (req, res) => {
 
   const Numberlimit = Number(limit);
 
+  console.log("page, limit", page, limit);
+
   try {
     const { searchInput = "", filterFind = [] } = req.body;
 
@@ -50,18 +52,32 @@ productRouter.post(async (req, res) => {
 
     // 키워드검색과 체크박스 검색 등을 합쳐서 검색 결과 가져오기
     let products;
+    let productsCount;
+    let hasNextPage;
     if (searchInput === "" && filterFind.every(el => el.length === 0)) {
       console.log("1번으로 들어왔나?", searchInput, filterFind);
-      products = await Product.find({})
-        .skip((page - 1) * Numberlimit)
-        .limit(Numberlimit);
+      [products, productsCount] = await Promise.all([
+        Product.find()
+          .skip((page - 1) * Numberlimit)
+          .limit(Numberlimit),
+        Product.find().count()
+      ]);
+      hasNextPage = page < Math.ceil(productsCount / Numberlimit);
     } else {
       console.log("2번으로 들어왔나?", searchInput, filterFind);
 
       products = await Product.aggregate(searchOp);
+      productsCount = await products.length;
+      hasNextPage = false;
     }
-    let productsCount = products.length;
-    const hasNextPage = page < Math.ceil(productsCount / Numberlimit);
+
+    console.log(
+      "productsCount page Numberlimit",
+      productsCount,
+      page,
+      Numberlimit
+    );
+    // const hasNextPage = page < Math.ceil(productsCount / Numberlimit);
     return res.send({ products, hasNextPage });
   } catch {
     res.status(500).send(err);

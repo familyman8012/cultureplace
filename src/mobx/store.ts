@@ -103,10 +103,11 @@ const noticeStore = observable({
 });
 
 const searchStore = observable({
-  searchInput: "",
   viewSelList: -1,
+  searchInput: "",
   filterFind: new Array(),
   onInit(filterFindList: []) {
+    this.filterFind = new Array();
     for (let i = 0; i < filterFindList.length; i++) {
       this.filterFind.push([]);
     }
@@ -134,14 +135,20 @@ const searchStore = observable({
       searchInput: this.searchInput,
       filterFind: this.filterFind
     });
+    this.viewSelList = -1;
   },
   onReset(pageNum: any, setSearchOption: any) {
+    this.searchInput = "";
+    // this.filterFind = [[], [], []];
+    console.log("리셋 데이터", this.searchInput);
     pageNum.current = 1;
+
     setSearchOption({
       searchInput: undefined,
       filterFind: undefined
     });
-  }
+  },
+  onReload(remove: () => void) {}
 });
 
 export { prodUpStore, QuillStore, noticeStore, searchStore };

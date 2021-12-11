@@ -11,7 +11,8 @@ const fetchPosts = async (
 ) => {
   let url;
   const { searchInput, filterFind } = searchOption;
-  console.log("searchOption, searchOption", filterFind);
+  // console.log("searchOption, searchOption", filterFind);
+
   // const searchOptionResult = _.pickBy(searchOption, (value, key) => {
   //   return !_.isEmpty(value);
   // });
@@ -57,6 +58,7 @@ const fetchPosts = async (
     default:
       break;
   }
+  console.log(url);
   res = await axios.get(`${url !== undefined && url}`);
   return res.data;
 };
@@ -72,6 +74,7 @@ const useInfinity = (
     async ({ pageParam = pageNum.current }) => {
       // console.log("searcOption useInfinity", searcOption);
       const res = await fetchPosts(querykey, pageParam, searcOption);
+
       pageNum.current = pageNum.current + 1;
       return res;
     },

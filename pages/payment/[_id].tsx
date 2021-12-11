@@ -18,6 +18,8 @@ function payment() {
 
   const { status, data, error, isLoading, isError } = useProduct(String(_id));
 
+  console.log("dataaa", data);
+
   if (isLoading) {
     return <span>Loading...</span>;
   }
@@ -29,14 +31,15 @@ function payment() {
   return (
     <>
       {!payComplete ? (
-        data &&
-        session && (
+        data && session ? (
           <PaymentInfo
             data={data}
             session={session}
             setcompleteData={setcompleteData}
             setpayComplete={setpayComplete}
           />
+        ) : (
+          <div>로그인하셔야합니다.</div>
         )
       ) : (
         <PaymentComplete completeData={completeData} />
