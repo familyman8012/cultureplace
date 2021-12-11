@@ -28,7 +28,7 @@ productRouter.post(async (req, res) => {
     const selectType = ["location", "meetday", "genre"];
 
     // 선택한 체크박스 추가
-    const matchData = [];
+    const matchData = [{ ["meetingcycle"]: { $in: [meetingcycle] } }];
     for (let i = 0; i < selectType.length; i++) {
       matchData.push(
         filterFind[i].length !== 0

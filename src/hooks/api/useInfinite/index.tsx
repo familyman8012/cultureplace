@@ -1,6 +1,6 @@
 import { Iinfinity } from "@src/typings/db";
 import axios from "axios";
-import { MutableRefObject, useRef } from "react";
+import { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import _ from "lodash";
 
@@ -9,30 +9,21 @@ const fetchPosts = async (
   pageParam: number,
   searchOption: any
 ) => {
-  let url;
   const { searchInput, filterFind } = searchOption;
-  // console.log("searchOption, searchOption", filterFind);
-
-  // const searchOptionResult = _.pickBy(searchOption, (value, key) => {
-  //   return !_.isEmpty(value);
-  // });
-  // let queryString = Object.entries(searchOptionResult)
-  //   .map(p => encodeURIComponent(p[0]) + "=" + encodeURIComponent(p[1]))
-  //   .join("&");
-  // console.log("queryString", queryString);
 
   let res;
   if (searchInput || filterFind) {
     res = await axios.post(
-      `/api/product/search?meetingcycle=1day&limit=12&page=${pageParam}`,
+      `/api/product/search?meetingcycle=${querykey}&limit=12&page=${pageParam}`,
       searchOption
     );
     return res.data;
   }
 
+  let url;
   switch (querykey) {
     case "oneday":
-      url = `/api/product?meetingcycle=1day&limit=12&page=${pageParam}`;
+      url = `/api/product?meetingcycle=oneday&limit=12&page=${pageParam}`;
       break;
     case "month":
       url = `/api/product?meetingcycle=1month&limit=8&page=${pageParam}`;
@@ -58,7 +49,6 @@ const fetchPosts = async (
     default:
       break;
   }
-  console.log(url);
   res = await axios.get(`${url !== undefined && url}`);
   return res.data;
 };
@@ -72,9 +62,7 @@ const useInfinity = (
   return useInfiniteQuery(
     ["list", querykey],
     async ({ pageParam = pageNum.current }) => {
-      // console.log("searcOption useInfinity", searcOption);
       const res = await fetchPosts(querykey, pageParam, searcOption);
-
       pageNum.current = pageNum.current + 1;
       return res;
     },

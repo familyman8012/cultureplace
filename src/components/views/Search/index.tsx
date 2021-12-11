@@ -1,16 +1,8 @@
 import styled from "@emotion/styled";
-import axios from "axios";
-import { observer, useLocalObservable } from "mobx-react";
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useState
-} from "react";
-import { searchStore, QuillStore } from "@src/mobx/store";
+import { observer } from "mobx-react";
+import { Dispatch, MutableRefObject, SetStateAction, useEffect } from "react";
+import { searchStore } from "@src/mobx/store";
 import { ISearchCondition } from "../InfinityCards";
-import { QueryClient } from "react-query";
 
 const SearchWrap = styled.div`
   display: flex;
@@ -95,43 +87,26 @@ const filterFindList = [
 
 function index({
   pageNum,
-  refetch,
   setSearchOption
 }: {
   pageNum: MutableRefObject<number>;
-  refetch: any;
   setSearchOption: Dispatch<SetStateAction<ISearchCondition>>;
 }) {
-  const handlerApply = () => {
-    searchStore.onApply(pageNum, setSearchOption);
-  };
-  const handlerReset = () => {
-    // alert("aa");
-
-    searchStore.onInit(filterFindList);
-    searchStore.onReset(pageNum, setSearchOption);
-    // alert("bb");
-  };
-
-  const queryClient = new QueryClient();
-
   useEffect(() => {
     searchStore.onInit(filterFindList);
     return () => {
       searchStore.onReset(pageNum, setSearchOption);
-
       searchStore.onInit(filterFindList);
     };
-
-    // return () => {
-    //   console.log("화면에서 사라짐");
-    //   const aa = async () => {
-    //     await searchStore.onReset(pageNum, setSearchOption);
-    //     await refetch();
-    //   };
-    //   aa();
-    // };
   }, []);
+
+  const handlerApply = () => {
+    searchStore.onApply(pageNum, setSearchOption);
+  };
+  const handlerReset = () => {
+    searchStore.onInit(filterFindList);
+    searchStore.onReset(pageNum, setSearchOption);
+  };
 
   return (
     <SearchWrap>

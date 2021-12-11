@@ -160,7 +160,7 @@ function App() {
                 {...register("meetingcycle")}
                 type="radio"
                 name="meetingcycle"
-                value="1day"
+                value="oneday"
                 id="field-1day"
                 defaultChecked={true}
                 onClick={() => setIs1day(true)}

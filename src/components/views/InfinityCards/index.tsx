@@ -13,11 +13,8 @@ import { useInfinity } from "@src/hooks/api/useInfinite";
 import { Iinfinity, IProduct } from "@src/typings/db";
 import InView from "react-intersection-observer";
 import { InfinityCardwrap, LinkCard } from "./style";
-import axios from "axios";
 import Search from "@src/components/views/Search";
-import { useQueryClient } from "react-query";
-import { useRouter } from "next/router";
-import { searchStore } from "@src/mobx/store";
+
 interface IQuerykey {
   querykey: string;
   type?: string;
@@ -36,51 +33,23 @@ export default function Infinity({ querykey, type }: IQuerykey) {
 
   const pageNum = useRef(1);
 
-  const { data, error, fetchNextPage, status, refetch, remove } = useInfinity(
+  const { data, error, fetchNextPage, status, refetch } = useInfinity(
     querykey,
     searchOption,
     pageNum
   );
 
-  console.log("data", data);
-
-  const [load, setLoad] = useState(false);
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    setLoad(true);
-
-    // queryClient.resetQueries("list");
-    console.log("로드시 searchOption", searchOption);
-  }, []);
-
-  // const test = useCallback(() => {
-  //   console.log("버튼클릭");
-  //   pageNum.current = 1;
-
-  //   setSearchOption({ location: "강남", genre: "영화" });
-  // }, [searchOption]);
-
   useEffect(() => {
     refetch();
-    console.log(searchOption);
   }, [searchOption]);
-
-  const searchFind = () => {
-    axios
-      .get("/api/product/search?search=크리스토퍼놀란의")
-      .then(res => console.log("텍스트 검색 결과", res));
-  };
 
   return (
     <Layout type={"listCard"}>
       <React.Fragment>
-        <Search
-          refetch={refetch}
-          pageNum={pageNum}
-          setSearchOption={setSearchOption}
-        />
+        {(querykey === "oneday" || querykey === "month") && (
+          <Search pageNum={pageNum} setSearchOption={setSearchOption} />
+        )}
 
-        <span onClick={() => searchFind()}>검색버튼</span>
         {status === "loading" ? (
           <p>Loading...</p>
         ) : status === "error" ? (
@@ -107,15 +76,13 @@ export default function Infinity({ querykey, type }: IQuerykey) {
                 margin-top: 200px;
               `}
             >
-              {load && (
-                <InView
-                  as="div"
-                  rootMargin="0px 0px 0px 300px"
-                  onChange={() => fetchNextPage()}
-                >
-                  <span className="loadSelector">test</span>
-                </InView>
-              )}
+              <InView
+                as="div"
+                rootMargin="0px 0px 0px 300px"
+                onChange={() => fetchNextPage()}
+              >
+                <span className="loadSelector">test</span>
+              </InView>
             </div>
           </InfinityCardwrap>
         )}
