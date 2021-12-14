@@ -23,7 +23,10 @@ function PaymentInfo({
     agree: false
   });
 
-  const chgPaymentinfo = (target: string, e: { target: { value: string } }) => {
+  const chgPaymentinfo = (
+    target: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setPaymentInfo(
       target === "agree"
         ? { ...paymentInfo, [target]: !paymentInfo.agree }
@@ -132,7 +135,7 @@ function PaymentInfo({
   }
 
   return (
-    <Layout type="fullwidth">
+    <Layout>
       <WrapPayment>
         <h2>결제</h2>
         <div className="wrap_box_area">

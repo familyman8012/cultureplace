@@ -1,3 +1,4 @@
+import { SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { Children } from "react";
 
@@ -7,8 +8,8 @@ const SectionWrap = styled.section`
   border-top: 1px solid #f3f3f6;
 `;
 
-function index({ children, ...rest }: any) {
-  return <SectionWrap {...rest}>{children}</SectionWrap>;
+function index({ children }: { children: React.ReactNode }) {
+  return <SectionWrap>{children}</SectionWrap>;
 }
 
 export default index;

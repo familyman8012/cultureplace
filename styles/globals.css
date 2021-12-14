@@ -200,6 +200,20 @@ caption {
 .ant-collapse .ant-collapse-content {
   border-top: none;
 }
+.testbg {
+  height: 150px;
+}
+.testbg0 {
+  background: khaki;
+}
+
+.testbg1 {
+  background: red;
+}
+
+.testbg2 {
+  background: blue;
+}
 
 /* 폰트 */
 /**

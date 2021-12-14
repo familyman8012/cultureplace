@@ -25,7 +25,12 @@ function index({
   modalState,
   item
 }: IReviewModal) {
-  const onWriteReview = (target: string, e: { target: { value: string } }) => {
+  const onWriteReview = (
+    target: string,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setReview({ ...review, [target]: e.target.value });
   };
 

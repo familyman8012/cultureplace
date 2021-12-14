@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-
 import React, { useRef, Fragment } from "react";
 import axios from "axios";
 import { useInfiniteQuery } from "react-query";
@@ -7,7 +5,7 @@ import { InView } from "react-intersection-observer";
 import Link from "next/link";
 import { css } from "@emotion/react";
 
-const fetchAnime = async (page: any) => {
+const fetchAnime = async (page: number) => {
   const client_id = "4mB0CC1xdwTfTQGjF1v1uO9vS2Z8ubzBPd4X0B86IEU";
   const res = await axios.get(
     `https://api.unsplash.com/search/photos?client_id=${client_id}&query=code&page=${page}`

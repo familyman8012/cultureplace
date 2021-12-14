@@ -1,22 +1,10 @@
-import axios from "axios";
 import dayjs from "dayjs";
-import {
-  ChangeEventHandler,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useState
-} from "react";
+import { ChangeEventHandler, useCallback, useState } from "react";
 import ReactS3Client from "react-aws-s3-typescript";
-import { UploadResponse } from "react-aws-s3-typescript/dist/types";
 
 const useImgUp = (
   path = "content"
-): [
-  string,
-  Dispatch<SetStateAction<string>>,
-  ChangeEventHandler<HTMLInputElement>
-] => {
+): [string, ChangeEventHandler<HTMLInputElement>] => {
   const [data, setData] = useState("");
   const handler = useCallback(async e => {
     const file = e.target.files[0];
@@ -45,7 +33,7 @@ const useImgUp = (
       setData(String(exception));
     }
   }, []);
-  return [data, setData, handler];
+  return [data, handler];
 };
 
 export default useImgUp;

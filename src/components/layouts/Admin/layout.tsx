@@ -8,7 +8,7 @@ type Props = {
 const AdminMenu = [
   { menuName: "상품등록", url: "/admin/product" },
   { menuName: "공지사항", url: "/admin/notice" },
-  { menuName: "상품등록", url: "/admin/mainvis" }
+  { menuName: "메인비쥬얼", url: "/admin/mainvis" }
 ];
 
 function Adminlayout({ children }: Props) {

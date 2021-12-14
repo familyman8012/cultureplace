@@ -45,17 +45,17 @@ const InfoMemberChart = () => {
       axios.get("/api/user/user").then((res: AxiosResponse<Istatics>) => {
         const { byGender, byAgegroup } = res.data;
         setChartData({
-          labels: ["남성", "여성"],
+          labels: ["남성", "여성", "(+_+)?"],
           datasets: [
             {
               label: "# of Votes",
               data: byGender.map(el => el.count),
-              backgroundColor: ["#ff8400", "#ffb700"]
+              backgroundColor: ["#ff8400", "#ffb700", "#dddddd"]
             }
           ]
         });
         setChartData2({
-          labels: ["20대", "30대", "40대", "50대", "60대"],
+          labels: ["20대", "30대", "40대", "50대", "60대", "(+_+)?"],
           datasets: [
             {
               label: "# of Votes",
@@ -65,7 +65,8 @@ const InfoMemberChart = () => {
                 "#ffb700",
                 "#ffd900",
                 "#a3ce50",
-                "#26b995"
+                "#26b995",
+                "#dddddd"
               ]
             }
           ]
@@ -122,14 +123,10 @@ const InfoMemberChart = () => {
     setChart({ data: data, onBtn: onBtn });
   };
 
-  const sectionChart = css`
-    background: #f7f7f9;
-  `;
-
   return (
     <>
       {load && (
-        <SectionWrap css={sectionChart}>
+        <SectionWrap>
           <Title>이번 시즌 이 클럽을 신청한 멤버는</Title>
           <InfoMemberChartBox>
             <Doughnut

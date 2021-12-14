@@ -13,7 +13,7 @@ import AdminLayout from "@src/components/layouts/Admin/layout";
 import { BoxInput, WrapNotice } from "./styles";
 
 function Detail() {
-  const [imgData, setImgData, onImgUpHadler] = useImgUp("noticeoriginal");
+  const [imgData, onImgUpHadler] = useImgUp("noticeoriginal");
 
   const onTitle = (e: ChangeEvent<HTMLInputElement>) => {
     QuillStore.titleData = e.currentTarget.value;

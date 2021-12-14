@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import router from "next/router";
@@ -27,16 +27,13 @@ function App() {
   });
 
   // 이미지 업로드 HOOK
-  const [imgData, setImgData, onImgUpHadler] = useImgUp("cardoriginal");
-
-  // 원데이 세션인지 확인
-  const [is1day, setIs1day] = useState(true);
+  const [imgData, onImgUpHadler] = useImgUp("cardoriginal");
 
   const onSubmit = useCallback(
     data => {
-      if (imgData === undefined && prodUpStore.data === null) {
-        return alert("대표 이미지를 등록하셔야 합니다.");
-      }
+      // if (imgData === undefined && prodUpStore.data === null) {
+      //   return alert("대표 이미지를 등록하셔야 합니다.");
+      // }
 
       const productData = {
         ...data,
@@ -72,7 +69,7 @@ function App() {
           <label htmlFor="title">모임명</label>
           <input
             type="text"
-            placeholder="제목"
+            placeholder="ex) 유리의 쿠킹클래스, 힙스타의 힙한 댄스"
             id="title"
             {...register("title", { required: true, maxLength: 12 })}
           />
@@ -83,11 +80,11 @@ function App() {
             <ErrorTxt>12자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
 
-          <label htmlFor="desc">설명</label>
+          <label htmlFor="desc">무엇을 하나요?</label>
           <input
             type="text"
             id="desc"
-            placeholder="ex)가을에 와인한잔에 로맨스 영화 한편"
+            placeholder="ex) 스테이크, 파스트 요리를 맛있게, 몸치도 따라하는 방송댄스"
             {...register("desc", { required: true, maxLength: 60 })}
           />
           {errors.desc && errors.desc.type === "required" && (
@@ -95,20 +92,6 @@ function App() {
           )}
           {errors.desc && errors.desc.type === "maxLength" && (
             <ErrorTxt>60자 안으로 올바르게 올려주세요.</ErrorTxt>
-          )}
-
-          <label htmlFor="todo">대표적 할일</label>
-          <input
-            type="text"
-            id="todo"
-            placeholder="ex)짐캐리 『이터널 선샤인』"
-            {...register("todo", { required: true, maxLength: 12 })}
-          />
-          {errors.todo && errors.todo.type === "required" && (
-            <ErrorTxt>모임에서 할 일을 입력해주세요.</ErrorTxt>
-          )}
-          {errors.todo && errors.todo.type === "maxLength" && (
-            <ErrorTxt>12자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
 
           <label htmlFor="people">모임장 이름</label>
@@ -122,39 +105,32 @@ function App() {
             <ErrorTxt>모임장 이름을 올려주세요.</ErrorTxt>
           )}
 
-          <div className="box_check_area">
-            <label htmlFor="peopleshow">people show</label>
-            <input
-              type="checkbox"
-              id="peopleshow"
-              placeholder="peopleshow"
-              {...register("peopleshow", {})}
-            />
-          </div>
-
           <label htmlFor="genre">장르</label>
           <select id="genre" {...register("genre")}>
             <option value="영화">영화</option>
-            <option value="음악">음악</option>
-            <option value="소극장">소극장</option>
+            <option value="미술">미술</option>
+            <option value="음식">음식</option>
+            <option value="뮤직">뮤직</option>
+            <option value="공연">공연</option>
+            <option value="번개">번개</option>
+            <option value="지식">지식</option>
             <option value="서울걷기">서울걷기</option>
-            <option value="성장하기">성장하기</option>
-            <option value="심리매력">심리매력</option>
             <option value="직접해보기">직접해보기</option>
-            <option value="이벤트">이벤트</option>
           </select>
 
-          <label htmlFor="location">아지트 선택</label>
+          <label htmlFor="location">장소 선택</label>
           <select id="location" {...register("location")}>
-            <option value="강남">강남 아지트</option>
-            <option value="안국">안국 아지트</option>
-            <option value="대학로">대학로 아지트</option>
-            <option value="홍대">홍대 아지트</option>
-            <option value="온라인">온라인</option>
+            <option value="강남">강남</option>
+            <option value="신촌">신촌</option>
+            <option value="홍대">홍대</option>
+            <option value="이태원">이태원</option>
+            <option value="대학로">대학로</option>
+            <option value="종로">종로</option>
+            <option value="온라인">온라인 아지트</option>
           </select>
 
           <div className="box_radio_area">
-            <label>모임기간</label>
+            <h2>모임기간</h2>
             <label htmlFor="field-1day">
               <input
                 {...register("meetingcycle")}
@@ -163,7 +139,6 @@ function App() {
                 value="oneday"
                 id="field-1day"
                 defaultChecked={true}
-                onClick={() => setIs1day(true)}
               />
               1Day
             </label>
@@ -174,22 +149,25 @@ function App() {
                 name="meetingcycle"
                 value="1month"
                 id="field-1month"
-                onClick={() => setIs1day(false)}
               />
               1Week
             </label>
           </div>
 
-          {!is1day && (
+          {
             <>
               <label htmlFor="meetday">모임일 선택</label>
               <select id="meetday" {...register("meetday")}>
-                <option value="매 주 목요일">매 주 목요일</option>
-                <option value="매 주 토요일">매 주 토요일</option>
-                <option value="매 주 일요일">매 주 일요일</option>
+                <option value="월요일">월요일</option>
+                <option value="화요일">화요일</option>
+                <option value="수요일">수요일</option>
+                <option value="목요일">목요일</option>
+                <option value="금요일">금요일</option>
+                <option value="토요일">토요일</option>
+                <option value="일요일">일요일</option>
               </select>
             </>
-          )}
+          }
 
           <label htmlFor="firstmeet">첫 모임일</label>
           <input
@@ -215,6 +193,24 @@ function App() {
           {errors.comment && errors.comment.type === "maxLength" && (
             <ErrorTxt>20자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
+          <label htmlFor="price">금액</label>
+          <input
+            type="number"
+            id="price"
+            placeholder="금액"
+            {...register("price", { required: true })}
+          />
+          {errors.people && errors.people.type === "required" && (
+            <ErrorTxt>금액을 입력해주세요.</ErrorTxt>
+          )}
+          <label htmlFor="saleprice">할인가</label>
+          <input
+            type="number"
+            id="saleprice"
+            placeholder="할인가"
+            {...register("saleprice")}
+          />
+
           <input type="submit" value="다음" />
         </form>
       </BasicInfoForm>

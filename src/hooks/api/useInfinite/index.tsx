@@ -2,20 +2,16 @@ import { Iinfinity } from "@src/typings/db";
 import axios from "axios";
 import { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
-import _ from "lodash";
+import { searchStore } from "@src/mobx/store";
 
-const fetchPosts = async (
-  querykey: string,
-  pageParam: number,
-  searchOption: any
-) => {
-  const { searchInput, filterFind } = searchOption;
+const fetchPosts = async (querykey: string, pageParam: number) => {
+  const { searchInput, filterFind } = searchStore.searchOption;
 
   let res;
   if (searchInput || filterFind) {
     res = await axios.post(
       `/api/product/search?meetingcycle=${querykey}&limit=12&page=${pageParam}`,
-      searchOption
+      searchStore.searchOption
     );
     return res.data;
   }
@@ -53,16 +49,11 @@ const fetchPosts = async (
   return res.data;
 };
 
-const useInfinity = (
-  querykey: string,
-  searcOption: any,
-  pageNum = useRef(1)
-) => {
-  pageNum;
+const useInfinity = (querykey: string, pageNum = useRef(1)) => {
   return useInfiniteQuery(
     ["list", querykey],
     async ({ pageParam = pageNum.current }) => {
-      const res = await fetchPosts(querykey, pageParam, searcOption);
+      const res = await fetchPosts(querykey, pageParam);
       pageNum.current = pageNum.current + 1;
       return res;
     },

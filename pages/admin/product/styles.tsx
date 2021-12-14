@@ -199,6 +199,7 @@ export const BasicInfoForm = styled.div`
     }
   }
 
+  h2,
   label {
     display: block;
     margin: 15px 0 5px;
@@ -232,12 +233,13 @@ export const BasicInfoForm = styled.div`
   }
   .box_radio_area {
     display: flex;
+    h2,
     label {
       width: 80px;
       display: flex;
       align-items: center;
       height: fit-content;
-      &:nth-child(3) {
+      &:nth-of-type(3) {
         margin-left: 50px;
       }
     }

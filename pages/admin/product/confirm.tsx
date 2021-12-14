@@ -17,6 +17,7 @@ function Confirm() {
 
     //등록
     const saveProduct = useCallback(() => {
+      console.log("prodUpStore?.data", prodUpStore?.data);
       axios.post("/api/product/", prodUpStore?.data).then(function (resp) {
         prodUpStore.reset();
         router.push("/admin/product");

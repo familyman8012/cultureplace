@@ -2,30 +2,32 @@ import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/client";
 import Link from "next/link";
 import { throttle } from "lodash";
-import { Header, Login } from "./styles";
+import { Header, Login, SearchForm } from "./styles";
 
 function Head() {
   const [session] = useSession();
-  const [headPos, setHeadPos] = useState<string>("normal");
-  const handlePos = throttle(() => {
-    setHeadPos(document.documentElement.scrollTop > 64 ? "top" : "normal");
-  }, 10);
-  useEffect(() => {
-    setHeadPos(document.documentElement.scrollTop > 64 ? "top" : "normal");
-    window.addEventListener("scroll", handlePos);
-    return () => {
-      window.removeEventListener("scroll", handlePos);
-    };
-  }, []);
 
   return (
-    <Header type={headPos === "top" ? "top" : "normal"} className="header">
+    <Header>
       <div className="inner">
         <h1>
           <Link href="/">
             <a>CULTURE PLACE</a>
           </Link>
         </h1>
+        <SearchForm>
+          <span className="btn-search"></span>
+          <label className="hiddenZoneV" htmlFor="search-input">
+            함께 하고 싶은 클럽명, 케빈이름을 검색해보세요.
+          </label>
+          <input
+            type="text"
+            name="q"
+            placeholder="함께 하고 싶은 클럽명,  케빈이름을 검색해보세요."
+            maxLength={50}
+            autoComplete="off"
+          />
+        </SearchForm>
         <ul>
           <li>
             <Link href="/oneday">

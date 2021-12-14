@@ -121,7 +121,6 @@ export const CardWrap = styled.div`
         font-size: 14px;
       }
       span {
-        display: block;
         color: ${({ theme }) => theme.color.gray};
       }
     }

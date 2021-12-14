@@ -193,7 +193,7 @@ export default function QuillEditor({ mountBody }) {
         });
 
         setIsLoaded(true);
-      }, 100);
+      }, 500);
     } else {
       /* quill.min.js가 로드되어 있지 않아 window.Quill이 undefined이면 isError가
                계속 변경되면서 재시도합니다. */

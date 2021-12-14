@@ -31,7 +31,7 @@ function index({ noticeData }: INoticeList) {
   const [tab, setTab] = useState(0);
 
   let noticeView = noticeViewFunc(tab);
-  function noticeViewFunc(tab: any) {
+  function noticeViewFunc(tab: number) {
     if (tab === 0) {
       return noticeData;
     } else {
@@ -40,7 +40,7 @@ function index({ noticeData }: INoticeList) {
   }
 
   return (
-    <Layout type="fullwidth">
+    <Layout>
       <BannerImg height="300px" bgimg="/images/notice_bannerimg.jpg" />
       <SectionNotice>
         <TabNotice>

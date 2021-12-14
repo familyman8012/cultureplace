@@ -16,11 +16,15 @@ const WrapCategoryArea = styled.div`
 
 function index({ genreData }: IGenreData) {
   const genreTitle = [
-    { title: "음악듣고 맥주마시고", url: "view/music" },
-    { title: "서울즐기기", url: "view/travel" },
+    {
+      title: "컬쳐를 직접 만드는 컬쳐아카데미(문화, 예술, 요리등 내일)",
+      url: "view/music"
+    },
+    { title: "음악으로 즐긴다.", url: "view/music" },
     { title: "대학로, 추억, 칵테일, 마로니에 공원", url: "view/theater" },
-    { title: "역시 영화가 짱이지", url: "view/movie" },
-    { title: "N잡러, 같이 가치 UP", url: "view/njob" }
+    { title: "케빈 정과 함께하는 영화 이야기", url: "view/movie" },
+    { title: "N잡러, 같이 가치 UP", url: "view/njob" },
+    { title: "사진, 여행작가 되기", url: "view/travel" }
   ];
   const sliderOption = {
     749: {
@@ -33,7 +37,7 @@ function index({ genreData }: IGenreData) {
     },
 
     751: {
-      slidesPerView: 4,
+      slidesPerView: 5,
       spaceBetween: 30
     }
   };

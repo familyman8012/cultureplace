@@ -78,7 +78,7 @@ function index() {
   return (
     <SectionWrap>
       <Title>FAQ</Title>
-      <Accordion textList={faqList} />
+      {/* <Accordion textList={faqList} /> */}
     </SectionWrap>
   );
 }

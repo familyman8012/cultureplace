@@ -1,6 +1,7 @@
 import { INotice, IProduct } from "@src/typings/db";
 import axios, { AxiosResponse } from "axios";
 import router from "next/router";
+import { ChangeEvent, MutableRefObject } from "react";
 
 interface IQuill {
   title: string;
@@ -106,13 +107,17 @@ const searchStore = observable({
   viewSelList: -1,
   searchInput: "",
   filterFind: new Array(),
+  searchOption: {
+    searchInput: undefined,
+    filterFind: undefined
+  },
   onInit(filterFindList: []) {
     this.filterFind = new Array();
     for (let i = 0; i < filterFindList.length; i++) {
       this.filterFind.push([]);
     }
   },
-  onsearchInput(e: any) {
+  onsearchInput(e: ChangeEvent<HTMLInputElement>) {
     this.searchInput = e.target.value;
   },
   onViewSel(i: number) {
@@ -129,26 +134,25 @@ const searchStore = observable({
       console.log(this.filterFind);
     }
   },
-  onApply(pageNum: any, setSearchOption: any) {
+  onApply(pageNum: MutableRefObject<number>) {
     pageNum.current = 1;
-    setSearchOption({
+    this.searchOption = {
       searchInput: this.searchInput,
       filterFind: this.filterFind
-    });
+    };
     this.viewSelList = -1;
   },
-  onReset(pageNum: any, setSearchOption: any) {
+  onReset(pageNum: MutableRefObject<number>) {
     this.searchInput = "";
     // this.filterFind = [[], [], []];
     console.log("리셋 데이터", this.searchInput);
     pageNum.current = 1;
 
-    setSearchOption({
+    this.searchOption = {
       searchInput: undefined,
       filterFind: undefined
-    });
-  },
-  onReload(remove: () => void) {}
+    };
+  }
 });
 
 export { prodUpStore, QuillStore, noticeStore, searchStore };

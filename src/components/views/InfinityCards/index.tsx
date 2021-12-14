@@ -22,32 +22,22 @@ interface IQuerykey {
 
 export interface ISearchCondition {
   searchInput?: string | undefined;
-  filterFind: any | undefined;
+  filterFind: string[] | undefined;
 }
 
 export default function Infinity({ querykey, type }: IQuerykey) {
-  const [searchOption, setSearchOption] = useState<ISearchCondition>({
-    searchInput: undefined,
-    filterFind: undefined
-  });
-
   const pageNum = useRef(1);
 
   const { data, error, fetchNextPage, status, refetch } = useInfinity(
     querykey,
-    searchOption,
     pageNum
   );
 
-  useEffect(() => {
-    refetch();
-  }, [searchOption]);
-
   return (
-    <Layout type={"listCard"}>
+    <Layout>
       <React.Fragment>
         {(querykey === "oneday" || querykey === "month") && (
-          <Search pageNum={pageNum} setSearchOption={setSearchOption} />
+          <Search pageNum={pageNum} refetch={refetch} />
         )}
 
         {status === "loading" ? (

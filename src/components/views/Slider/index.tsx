@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
-import SwiperCore, { Navigation } from "swiper";
+import SwiperCore, { Autoplay, Navigation } from "swiper";
 import { Swiper } from "swiper/react";
 import { BtnNext, BtnPrev, OneSwiper } from "./styles";
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 // install Swiper modules
-SwiperCore.use([Navigation]);
+SwiperCore.use([Autoplay, Navigation]);
 
 function Slider({ children, breakPoint, i }: Props) {
   return (
@@ -48,6 +48,11 @@ function Slider({ children, breakPoint, i }: Props) {
           css={css`
             ${OneSwiper}
           `}
+          // loop={true}
+          // autoplay={{
+          //   delay: 2500,
+          //   disableOnInteraction: false
+          // }}
         >
           <div className="swiper-wrapper">{children}</div>
         </Swiper>

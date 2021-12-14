@@ -9,13 +9,11 @@ import { BoxInput } from "../notice/styles";
 
 function Mainvis() {
   //이미지 업로드 훅
-  const [imgData, setImgData, onImgUpHadler] = useImgUp("mainvispc");
-  const [imgData2, setImgData2, onImgUpHadler2] = useImgUp("mainvismo");
+  const [imgData, onImgUpHadler] = useImgUp("mainvispc");
+  const [imgData2, onImgUpHadler2] = useImgUp("mainvismo");
   const [altText, setAltText] = useState("");
 
-  const onHandlerTxt = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const onHandlerTxt = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAltText(e.target.value);
   };
 

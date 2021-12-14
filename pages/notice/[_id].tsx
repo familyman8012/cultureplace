@@ -1,8 +1,6 @@
 import Button from "@/../src/components/elements/Button";
 import Layout from "@/../src/components/layouts";
 import { useNotice } from "@src/hooks/api/useNotices/useNotice";
-import { LeftOutlined } from "@ant-design/icons";
-import { css } from "@emotion/react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -30,9 +28,7 @@ function detailView() {
       <NoticeView>
         {data && (
           <>
-            <div className="top">
-              <LeftOutlined /> 목록
-            </div>
+            <div className="top">목록</div>
             <Title>{data?.title}</Title>
             <CreateAt>{createTime}</CreateAt>
             <img src={data?.imgurl} alt={data?.title} />

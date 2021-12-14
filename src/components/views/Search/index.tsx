@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import { observer } from "mobx-react";
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from "react";
+import { MutableRefObject, useEffect } from "react";
 import { searchStore } from "@src/mobx/store";
-import { ISearchCondition } from "../InfinityCards";
 
 const SearchWrap = styled.div`
   display: flex;
@@ -87,25 +86,26 @@ const filterFindList = [
 
 function index({
   pageNum,
-  setSearchOption
+  refetch
 }: {
   pageNum: MutableRefObject<number>;
-  setSearchOption: Dispatch<SetStateAction<ISearchCondition>>;
+  refetch: () => void;
 }) {
   useEffect(() => {
     searchStore.onInit(filterFindList);
     return () => {
-      searchStore.onReset(pageNum, setSearchOption);
-      searchStore.onInit(filterFindList);
+      handlerReset();
     };
   }, []);
 
   const handlerApply = () => {
-    searchStore.onApply(pageNum, setSearchOption);
+    searchStore.onApply(pageNum);
+    refetch();
   };
   const handlerReset = () => {
     searchStore.onInit(filterFindList);
-    searchStore.onReset(pageNum, setSearchOption);
+    searchStore.onReset(pageNum);
+    refetch();
   };
 
   return (
@@ -135,7 +135,7 @@ function index({
                       value={el}
                       checked={
                         searchStore.filterFind.every(
-                          (el: any) => el.length === 0
+                          (el: string[]) => el.length === 0
                         )
                           ? false
                           : searchStore.filterFind[i].includes(el)

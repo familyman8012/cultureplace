@@ -24,15 +24,50 @@ function index({ mainVisImgs }: IMainVisImgs) {
     };
   }, []);
 
+  const MainVisTxt = [
+    {
+      id: 1,
+      txt: (
+        <>
+          <span>문화놀이터, 컬쳐플레이스 내려온다</span>
+          <h2>
+            문화를 즐긴다. 문화를 만든다.
+            <br />
+            컬쳐플레이스 개봉박두!
+          </h2>
+          <a>컬쳐플레이스?!</a>
+        </>
+      )
+    },
+    {
+      id: 2,
+      txt: (
+        <>
+          <span>테스트</span>
+          <h2>
+            테스트
+            <br />
+            테스트
+          </h2>
+          <a>테스트?!</a>
+        </>
+      )
+    }
+  ];
+
   return (
     <Mainvis>
       <Slider>
-        {mainVisImgs?.map(el => (
-          <SwiperSlide key={el._id}>
-            <img
-              src={windowWidthSize > 560 ? el.pclocation : el.molocation}
-              alt={el.alt}
-            />
+        {MainVisTxt?.map((el, i: number) => (
+          <SwiperSlide key={el.id}>
+            {({ isActive }) => (
+              <div className={`inner ${isActive ? "on" : ""}`}>
+                <div className="txtbox">{MainVisTxt[i].txt}</div>
+                <div className="imgbox">
+                  <img src="/images/mainvisimg_1.png" alt="" />
+                </div>
+              </div>
+            )}
           </SwiperSlide>
         ))}
       </Slider>

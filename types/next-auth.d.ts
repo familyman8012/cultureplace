@@ -18,6 +18,6 @@ declare module "next-auth" {
 
 declare global {
   interface Window {
-    BootPay: any;
+    BootPay: BootpayRestClient;
   }
 }

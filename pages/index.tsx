@@ -14,11 +14,10 @@ const Home = ({ SsrData }: ISSR) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
   const { data: productsData } = useQuery("posts", () => SsrData.products);
 
-  console.log("index data", productsData);
-
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [
+        productsData.filter(el => el.todo === "직접하기"),
         productsData.filter(el => el.genre === "음악"),
         productsData.filter(el => el.genre === "서울걷기"),
         productsData.filter(el => el.genre === "소극장"),
@@ -33,10 +32,12 @@ const Home = ({ SsrData }: ISSR) => {
   return (
     <Layout>
       <MainVisual mainVisImgs={mainVisImgs} />
-      {genreData && <CategoryArea genreData={genreData} />}
-      <Morebtn />
-      <BlogArea blogData={blogData} />
-      <NoticeArea noticeData={noticeData} />
+      <div style={{ width: "1250px", margin: "0 auto" }}>
+        {genreData && <CategoryArea genreData={genreData} />}
+        <Morebtn />
+        <BlogArea blogData={blogData} />
+        <NoticeArea noticeData={noticeData} />
+      </div>
     </Layout>
   );
 };

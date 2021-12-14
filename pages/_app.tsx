@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
@@ -47,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ThemeProvider
           theme={{
             color: {
-              brand: "#ff7900",
+              brand: "#3399ff",
               brandbg: "#ffecd9",
               darkgray: "#f4eeea",
               gray: "#838380",

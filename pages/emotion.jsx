@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { jsx, ThemeProvider } from "@emotion/react";
 import React from "react";
 import styled from "@emotion/styled";
@@ -25,8 +24,8 @@ function Emotion() {
         palette: {
           blue: "#228be6",
           gray: "#495057",
-          pink: "#f06595",
-        },
+          pink: "#f06595"
+        }
       }}
     >
       <AppBlock>

@@ -3,7 +3,11 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { darken, lighten } from "polished";
 
-const sizes: any = {
+interface ISizes {
+  [key: string]: { height: string; fontSize?: string };
+}
+
+const sizes: ISizes = {
   xs: {
     height: "3rem",
     fontSize: "1.4rem"
@@ -19,11 +23,21 @@ const sizes: any = {
   }
 };
 
-const colorStyle = ({ theme, color, outline, favorite }: any) => {
+interface IColorStyle {
+  theme: { color: { [key: string]: string } };
+  color: string;
+  outline: boolean;
+  favorite: string;
+  size: string;
+}
+
+const btnStyle = ({ theme, color, outline, favorite, size }: IColorStyle) => {
   const selected = theme.color[color];
 
   return css`
     background: ${selected};
+    height: ${sizes[size].height};
+    font-size: ${sizes[size]?.fontSize};
     ${!favorite &&
     css`
       &:hover {
@@ -59,13 +73,6 @@ const colorStyle = ({ theme, color, outline, favorite }: any) => {
   `;
 };
 
-const sizeStyle = ({ size }: any) => {
-  return css`
-    height: ${sizes[size].height};
-    font-size: ${sizes[size]?.fontSize};
-  `;
-};
-
 const StyledButton = styled.button`
   width: 25rem;
   color: #fff;
@@ -73,8 +80,7 @@ const StyledButton = styled.button`
   letter-spacing: -0.05rem;
   border-radius: 0.4rem;
 
-  ${colorStyle}
-  ${sizeStyle}
+  ${btnStyle}
 `;
 
 const Button: FC<any> = ({ children, ...rest }) => {
