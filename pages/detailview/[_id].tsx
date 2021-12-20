@@ -29,7 +29,7 @@ export interface IDetail {
   item: IProduct;
 }
 
-const detailView = ({ item }: IDetail) => {
+const DetailView = ({ item }: IDetail) => {
   const [session] = useSession();
   const router = useRouter();
   const { _id } = router.query;
@@ -69,11 +69,12 @@ const detailView = ({ item }: IDetail) => {
   );
 };
 
-export default detailView;
+export default DetailView;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [{ params: { _id: "616ef449ac3c88a81875226c" } }],
+    // paths: [{ params: { _id: "616ef449ac3c88a81875226c" } }],
+    paths: [],
     fallback: true // --> false 시 1,2,3외에는 404
   };
 };

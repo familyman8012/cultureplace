@@ -16,7 +16,7 @@ export interface IReviewModify {
   [key: string]: string;
 }
 
-function index({ item, id }: { item: IProduct; id: string }) {
+function Index({ item, id }: { item: IProduct; id: string }) {
   const [session] = useSession();
   const [review, setReview] = useState({
     title: "",
@@ -164,4 +164,4 @@ function index({ item, id }: { item: IProduct; id: string }) {
   );
 }
 
-export default index;
+export default Index;

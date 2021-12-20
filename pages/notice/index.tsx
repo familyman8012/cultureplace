@@ -16,7 +16,7 @@ interface INoticeList {
   noticeData: INotice[];
 }
 
-function index({ noticeData }: INoticeList) {
+function Index({ noticeData }: INoticeList) {
   //불러오기
 
   const TabNoticeList = [
@@ -89,4 +89,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default index;
+export default Index;

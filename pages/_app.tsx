@@ -10,6 +10,11 @@ import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import { ThemeProvider } from "@emotion/react";
 
+// Import FontAwesome
+import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+
 //next-auth
 import { Provider } from "next-auth/client";
 import { useRouter } from "next/router";

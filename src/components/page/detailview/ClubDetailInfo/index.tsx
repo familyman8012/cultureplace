@@ -5,7 +5,7 @@ import { ClubInfoTable } from "./style";
 import { IDetail } from "pages/detailview/[_id]";
 import dayjs from "dayjs";
 
-function index({ item }: IDetail) {
+function Index({ item }: IDetail) {
   const { firstmeet, location, meetday, title, todo } = item;
   const day = useMemo(
     () => dayjs(firstmeet).add(4, "month").format("YYYY년 MM월 DD일"),
@@ -81,4 +81,4 @@ function index({ item }: IDetail) {
   );
 }
 
-export default index;
+export default Index;

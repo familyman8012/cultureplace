@@ -84,6 +84,7 @@ export const SearchForm = styled.form`
 `;
 
 export const Login = styled.div`
+  display: none;
   margin-left: auto;
   color: ${({ theme }) => theme.color.brand};
 `;

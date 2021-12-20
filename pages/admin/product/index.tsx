@@ -13,7 +13,7 @@ import "dayjs/locale/ko";
 
 dayjs.locale("ko");
 
-export default function list() {
+export default function List() {
   const queryClient = useQueryClient();
 
   //불러오기

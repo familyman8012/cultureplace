@@ -18,12 +18,12 @@ function Head() {
         <SearchForm>
           <span className="btn-search"></span>
           <label className="hiddenZoneV" htmlFor="search-input">
-            함께 하고 싶은 클럽명, 케빈이름을 검색해보세요.
+            함께 하고 싶은 모임명, 팀리더를 검색해보세요.
           </label>
           <input
             type="text"
             name="q"
-            placeholder="함께 하고 싶은 클럽명,  케빈이름을 검색해보세요."
+            placeholder="함께 하고 싶은 모임명,  팀리더를 검색해보세요."
             maxLength={50}
             autoComplete="off"
           />

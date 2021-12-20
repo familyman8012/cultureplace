@@ -5,7 +5,7 @@ import React, { useCallback, useState } from "react";
 import Modal from "@src/components/elements/Modal";
 import Link from "next/link";
 
-function index({ title }: { title: string }) {
+function Index({ title }: { title: string }) {
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = useCallback(() => {
     setModalOpen(prev => !prev);
@@ -72,4 +72,4 @@ function index({ title }: { title: string }) {
   );
 }
 
-export default index;
+export default Index;

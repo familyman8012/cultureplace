@@ -9,7 +9,7 @@ import { GlowBtn, IndexTable, WrapIndexContent } from "../product/styles";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
 
-export default function list() {
+export default function List() {
   const queryClient = useQueryClient();
 
   //불러오기
@@ -21,9 +21,9 @@ export default function list() {
   const dataLength = useMemo(() => data?.length, [data]);
   const startPage = useMemo(
     () => curPage * pageSize - (pageSize - 1) - 1,
-    [curPage]
+    [curPage, pageSize]
   );
-  const viewData = useMemo(() => curPage * pageSize, [curPage]);
+  const viewData = useMemo(() => curPage * pageSize, [curPage, pageSize]);
   const handlePageChange = useCallback((page: number) => {
     setCurPage(page);
   }, []);

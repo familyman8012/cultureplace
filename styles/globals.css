@@ -1,3 +1,8 @@
+@font-face {
+  font-family: MalgunGothic;
+  src: url(/public/fonts/MalgunGothic);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -13,6 +18,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 html,
 body {
   /* -webkit-font-smoothing:antialiased; */
@@ -21,10 +27,7 @@ body {
   font-size: 10px;
   color: #2c2c2a;
 }
-html {
-  overflow-y: scroll;
-  -ms-overflow-x: hidden;
-}
+
 html.laypop {
   overflow-y: hidden;
 } /* 전체 레이어팝업 일때 */
@@ -214,6 +217,14 @@ caption {
 .testbg2 {
   background: blue;
 }
+@font-face {
+  font-family: "OTWelcomeBA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/OTWelcomeBA.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
 /* 폰트 */
 /**

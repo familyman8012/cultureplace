@@ -20,7 +20,7 @@ export interface IinfinityFavorite {
   pages: Ipages;
 }
 
-function index({ data, querykey }: IFavoritebtn) {
+function Index({ data, querykey }: IFavoritebtn) {
   const queryClient = useQueryClient();
 
   const [session] = useSession();
@@ -84,4 +84,4 @@ function index({ data, querykey }: IFavoritebtn) {
   );
 }
 
-export default index;
+export default Index;

@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 
 function MyDocument() {
   return (
@@ -9,6 +8,34 @@ function MyDocument() {
           defer
           src="https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js"
         ></script>
+
+        <script
+          defer
+          src="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.js"
+        ></script>
+
+        <script
+          defer
+          src="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.min.js"
+        ></script>
+
+        <script defer src="/script/quill/quill.htmlEditButton.min.js"></script>
+
+        <script defer src="/script/quill/table.js"></script>
+        <script defer src="/script/quill/imgresize.js"></script>
+        <link
+          href="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.css"
+          rel="stylesheet"
+        />
+
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.snow.min.css"
+          rel="stylesheet"
+        />
+        <link
+          href="https://unpkg.com/quill-table-ui@1.0.5/dist/index.css"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

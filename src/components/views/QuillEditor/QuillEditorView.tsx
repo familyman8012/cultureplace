@@ -3,6 +3,7 @@ import Head from "next/head";
 import { observer } from "mobx-react";
 import { QuillStore } from "@/../src/mobx/store";
 import QuillEditor from "./QuillEditor";
+import Script from "next/script";
 
 interface Props {
   category: string;
@@ -61,37 +62,15 @@ function QuillEditorView({ category }: Props) {
 
   return (
     <>
-      <Head>
-        <title>글 등록</title>
-        <link rel="icon" href="/favicon.ico" />
+      <title>글 등록</title>
+      <link rel="icon" href="/favicon.ico" />
 
-        {/* 관련된 리소스 로드 */}
-        <link
-          href="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.css"
-          rel="stylesheet"
-        />
-        <script src="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.js"></script>
-        {/* <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/highlight.min.js"></script> */}
-        <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.min.js"
-          type="text/javascript"
-        ></script>
-        <script src="/script/quill/quill.htmlEditButton.min.js"></script>
-        <script src="/script/quill/table.js" type="text/javascript"></script>
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.snow.min.css"
-          rel="stylesheet"
-        />
-        <link
-          href="https://unpkg.com/quill-table-ui@1.0.5/dist/index.css"
-          rel="stylesheet"
-        />
-        <script src="/script/quill/imgresize.js"></script>
-        {/* <link
+      {/* 관련된 리소스 로드 */}
+
+      {/* <link
           rel="stylesheet"
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/styles/default.min.css"
         /> */}
-      </Head>
       <div className="area_template_select">
         <p>템플릿 선택 : </p>
         <select onChange={handleSelectTemplate}>

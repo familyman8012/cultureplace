@@ -9,6 +9,7 @@ import {
   NoticeArea
 } from "@src/components/page/main";
 import { ISSR } from "@src/typings/db";
+import styled from "@emotion/styled";
 
 const Home = ({ SsrData }: ISSR) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
@@ -18,7 +19,7 @@ const Home = ({ SsrData }: ISSR) => {
     if (Array.isArray(productsData)) {
       return [
         productsData.filter(el => el.todo === "직접하기"),
-        productsData.filter(el => el.genre === "음악"),
+        productsData.filter(el => el.genre === "미식"),
         productsData.filter(el => el.genre === "서울걷기"),
         productsData.filter(el => el.genre === "소극장"),
         productsData.filter(el => el.genre === "영화"),
@@ -29,15 +30,98 @@ const Home = ({ SsrData }: ISSR) => {
 
   const genreData = getGenreData();
 
+  console.log("genreData", genreData);
+
+  const CategoryWrap = styled.div`
+    width: 1148px;
+    margin: 0 auto;
+    .categoryLink {
+      margin-bottom: -30px;
+      padding: 40px 15px;
+      text-align: center;
+      overflow: auto;
+      white-space: nowrap;
+      -ms-overflow-style: none;
+      a {
+        margin-left: 16px;
+        padding: 6px 16px;
+        font-size: 14px;
+        color: #4c57fd;
+        border-radius: 17px;
+        box-shadow: 0 2px 8px 0 rgb(0 0 0 / 12%);
+        background-color: #ffffff;
+        cursor: pointer;
+        &:hover,
+        &:focus {
+          text-decoration: none;
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.05);
+        }
+        &:nth-of-type(n) {
+          color: #4c57fd;
+          &:hover,
+          &:focus {
+            color: #3d46ca;
+          }
+        }
+        &:nth-of-type(2n) {
+          color: #6053f8;
+          &:hover,
+          &:focus {
+            color: #4d42c6;
+          }
+        }
+        &:nth-of-type(3n) {
+          color: #744ff3;
+          &:hover,
+          &:focus {
+            color: #5d3fc2;
+          }
+        }
+        &:nth-of-type(4n) {
+          color: #884bee;
+          &:hover,
+          &:focus {
+            color: #6d3cbe;
+          }
+        }
+        &:nth-of-type(5n) {
+          color: #9d45e8;
+          &:hover,
+          &:focus {
+            color: #7e37ba;
+          }
+        }
+      }
+    }
+  `;
+
+  const CategoryLink = [
+    { title: "영화", url: "" },
+    { title: "음식", url: "" },
+    { title: "패션", url: "" },
+    { title: "뮤직", url: "" },
+    { title: "미술", url: "" },
+    { title: "공연", url: "" },
+    { title: "번개", url: "" },
+    { title: "지식", url: "" },
+    { title: "힐링산책", url: "" },
+    { title: "직접해보기", url: "" }
+  ];
+
   return (
     <Layout>
       <MainVisual mainVisImgs={mainVisImgs} />
-      <div style={{ width: "1250px", margin: "0 auto" }}>
+      <CategoryWrap>
+        <div className="categoryLink">
+          {CategoryLink.map((el, i) => (
+            <a key={i}>{el.title}</a>
+          ))}
+        </div>
         {genreData && <CategoryArea genreData={genreData} />}
         <Morebtn />
         <BlogArea blogData={blogData} />
         <NoticeArea noticeData={noticeData} />
-      </div>
+      </CategoryWrap>
     </Layout>
   );
 };

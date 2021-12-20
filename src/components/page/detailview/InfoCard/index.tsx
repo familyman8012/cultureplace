@@ -15,7 +15,7 @@ interface InfoCard {
   _id: string;
 }
 
-function index({ data, _id }: InfoCard) {
+function Index({ data, _id }: InfoCard) {
   const { imgurl, title, location, meetday, firstmeet, comment, price } = data;
 
   const firstMeetDay = dayjs(firstmeet);
@@ -88,4 +88,4 @@ function index({ data, _id }: InfoCard) {
   );
 }
 
-export default index;
+export default Index;

@@ -11,7 +11,7 @@ import {
   Title
 } from "@src/components/page/notice/styles";
 
-function detailView() {
+function DetailView() {
   const router = useRouter();
   const { _id } = router.query;
   const { status, data, error, isFetching } = useNotice(String(_id));
@@ -43,4 +43,4 @@ function detailView() {
   );
 }
 
-export default detailView;
+export default DetailView;

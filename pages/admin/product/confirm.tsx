@@ -10,27 +10,28 @@ function Confirm() {
   // 데이터불러오기
   if (prodUpStore.data !== null) {
     prodUpStore.data.body = QuillStore.data;
+    console.log("prodUpStore.data", prodUpStore.data);
     prodUpStore.data.imgurl = prodUpStore.data.imgurl.replace(
       /\/cardoriginal\//,
       "/card/"
     );
 
     //등록
-    const saveProduct = useCallback(() => {
+    const saveProduct = () => {
       console.log("prodUpStore?.data", prodUpStore?.data);
       axios.post("/api/product/", prodUpStore?.data).then(function (resp) {
         prodUpStore.reset();
         router.push("/admin/product");
       });
-    }, []);
+    };
 
     //수정
-    const modifyConfrimProduct = useCallback((_id: string) => {
+    const modifyConfrimProduct = (_id: string) => {
       axios.put(`/api/product/${_id}`, prodUpStore?.data).then(function (resp) {
         prodUpStore.reset();
         router.push("/admin/product");
       });
-    }, []);
+    };
 
     return (
       <AdminLayout>
@@ -50,8 +51,6 @@ function Confirm() {
                 <dd>{prodUpStore?.data.meetingcycle}</dd>
                 <dt>첫모임일</dt>
                 <dd>{prodUpStore?.data.firstmeet}</dd>
-                <dt>히고 싶은 말</dt>
-                <dd>{prodUpStore?.data.comment}</dd>
               </dl>
               <h2>상세페이지</h2>
               <div

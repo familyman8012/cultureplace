@@ -14,6 +14,7 @@ export interface IProduct {
   genre: string;
   comment: string[];
   price: number;
+  saleprice: number;
   quanity: number;
   islive: boolean;
   joinMembr: string[];

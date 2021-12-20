@@ -5,7 +5,7 @@ import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-function payment() {
+function Payment() {
   const [session] = useSession();
 
   const router = useRouter();
@@ -48,4 +48,4 @@ function payment() {
   );
 }
 
-export default payment;
+export default Payment;

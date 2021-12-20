@@ -73,4 +73,9 @@ export const WrapDetailMV = styled.div`
     background: #ffeb33;
   }
 `;
-export default () => <pre>Header</pre>;
+
+const styles = () => {
+  return <div></div>;
+};
+
+export default styles;

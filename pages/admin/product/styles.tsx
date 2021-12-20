@@ -342,4 +342,8 @@ export const ConfirmView = styled.div`
     }
   }
 `;
-export default () => <pre>Header</pre>;
+const styles = () => {
+  return <div></div>;
+};
+
+export default styles;

@@ -1,8 +1,12 @@
 import React from "react";
 import { css } from "@emotion/react";
-import SwiperCore, { Autoplay, Navigation } from "swiper";
+import SwiperCore, { Autoplay, Navigation, EffectFade } from "swiper";
 import { Swiper } from "swiper/react";
 import { BtnNext, BtnPrev, OneSwiper } from "./styles";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-fade";
 
 interface Props {
   children: React.ReactNode;
@@ -16,7 +20,7 @@ interface Props {
 }
 
 // install Swiper modules
-SwiperCore.use([Autoplay, Navigation]);
+SwiperCore.use([Navigation, EffectFade, Autoplay]);
 
 function Slider({ children, breakPoint, i }: Props) {
   return (
@@ -48,11 +52,11 @@ function Slider({ children, breakPoint, i }: Props) {
           css={css`
             ${OneSwiper}
           `}
-          // loop={true}
-          // autoplay={{
-          //   delay: 2500,
-          //   disableOnInteraction: false
-          // }}
+          effect={"fade"}
+          loop={true}
+          autoplay={{
+            delay: 3500
+          }}
         >
           <div className="swiper-wrapper">{children}</div>
         </Swiper>

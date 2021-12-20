@@ -4,6 +4,8 @@ import FavoriteButton from "../FavoriteButton";
 import { IProduct } from "@src/typings/db";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
+import { faHeart } from "@fortawesome/free-solid-svg-icons"; // import the icons you need
 
 dayjs.locale("ko");
 interface ICard {
@@ -23,7 +25,32 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
     [data.firstmeet]
   );
 
-  const { title, imgurl, desc, todo, people, location } = data;
+  const {
+    title,
+    imgurl,
+    desc,
+    todo,
+    people,
+    location,
+    favoriteduser,
+    price,
+    saleprice
+  } = data;
+
+  const priceNumber = useMemo(
+    () => price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
+    [price]
+  );
+
+  const salePriceNumber = useMemo(
+    () => saleprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
+    [saleprice]
+  );
+
+  const salePercent = useMemo(
+    () => (price / saleprice) * 10,
+    [price, saleprice]
+  );
 
   return (
     <CardWrap type={type} {...rest}>
@@ -34,8 +61,28 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
         <img src={imgurl} alt="모임사진" />
       </div>
       <dl className="txtbox">
-        <dt>{title}</dt>
-        {type === "basic" && <dd className="desc">{desc}</dd>}
+        <dt className="people">{people}</dt>
+        {type === "basic" && (
+          <>
+            <dd className="title">{title}</dd>
+            <dd className="favoriteNumber">
+              <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
+              {favoriteduser.length}
+            </dd>
+            <dd className="wrap_price">
+              {saleprice !== 0 && (
+                <span className="saleper">{salePercent}%</span>
+              )}
+              <div className="priceNum">
+                <span className="price">{priceNumber}원</span>
+                {saleprice !== 0 && (
+                  <span className="price">{salePriceNumber}원</span>
+                )}
+              </div>
+            </dd>
+          </>
+        )}
+
         {type === "other" && <dd className="todo">{todo}</dd>}
         {type === "event" && <dd className="people">{people}</dd>}
         <dd className="meetinfobox">

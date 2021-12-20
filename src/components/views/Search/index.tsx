@@ -84,7 +84,7 @@ const filterFindList = [
   }
 ];
 
-function index({
+function Index({
   pageNum,
   refetch
 }: {
@@ -158,4 +158,4 @@ function index({
   );
 }
 
-export default observer(index);
+export default observer(Index);

@@ -8,16 +8,66 @@ interface StyledComponentProps {
 const typeStyle = ({ type }: StyledComponentProps) => {
   if (type === "basic") {
     return css`
-      border-radius: 0.8rem;
+      border-radius: 0.3rem;
       .imgbox {
         position: relative;
-        height: 17rem;
+        height: 20.7rem;
       }
       .txtbox {
         height: 17.6rem;
-        padding: 1.2rem;
         dt {
-          font-size: 2rem;
+          padding: 7px 0 2px;
+          font-size: 12px;
+          font-weight: bold;
+        }
+        dd {
+          &.title {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+            letter-spacing: -0.15px;
+            color: rgb(26, 26, 26);
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin: 4px 0px 8px;
+          }
+          &.favoriteNumber {
+            font-size: 11px;
+            font-weight: normal;
+            line-height: 16px;
+            letter-spacing: normal;
+            margin: 0px 8px 0px 0px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            color: #a2a2a2;
+            svg {
+              margin-right: 2px;
+              color: #d7d7d7;
+            }
+          }
+          &.wrap_price,
+          .priceNum {
+            display: flex;
+            font-size: 13px;
+            font-weight: 700;
+            .saleper {
+              color: #fd3049;
+            }
+            .priceNum {
+              .price:nth-of-type(1) {
+                margin: 0 5px;
+                color: #000;
+              }
+              .price:nth-of-type(2) {
+                font-weight: normal;
+                text-decoration: line-through;
+              }
+            }
+          }
         }
       }
     `;
@@ -83,12 +133,34 @@ const typeStyle = ({ type }: StyledComponentProps) => {
 
 export const CardWrap = styled.div`
   overflow: hidden;
-  border: 1px solid #ecece9;
+  margin: 0 auto 22px auto;
+  -webkit-box-shadow: 0px 2px 4px 0 rgb(0 0 0 / 10%);
+  -moz-box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 4px 0 rgb(0 0 0 / 10%);
+
+  &:hover,
+  &:focus {
+    -webkit-box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  .card:hover .card-image-wrapper .card-image {
+    -webkit-transform: scale(1.14);
+    -moz-transform: scale(1.14);
+    -ms-transform: scale(1.14);
+    -o-transform: scale(1.14);
+    transform: scale(1.14);
+  }
+
   dl,
   dt,
   dd {
     margin: 0;
     padding: 0;
+    font-family: MalgunGothic;
+    span {
+      font-family: MalgunGothic;
+    }
   }
 
   .imgbox {
@@ -101,9 +173,10 @@ export const CardWrap = styled.div`
   }
   .txtbox {
     position: relative;
+    padding: 5px 15px 15px;
 
     dd {
-      &.desc {
+      &.title {
         font-size: 1.5rem;
       }
       &.meetinfobox {
