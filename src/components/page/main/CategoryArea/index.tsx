@@ -5,6 +5,8 @@ import styled from "@emotion/styled";
 import Card from "@src/components/elements/Card";
 import Title from "@src/components/elements/Title";
 import { IProduct } from "@src/typings/db";
+import dayjs from "dayjs";
+import { useCallback, useMemo } from "react";
 
 export interface IGenreData {
   genreData: IProduct[][];
@@ -34,8 +36,16 @@ const CardBadgewWrapper = styled.div`
     letter-spacing: -0.12px;
     color: #ffffff;
     background-color: #f06182;
+    &.startday {
+      padding: 5px 0 !important;
+      background: rgb(120, 77, 235);
+    }
     &.online {
-      background-color: #784deb;
+      padding: 15px 0;
+      background-color: #00ac83;
+    }
+    .title {
+      word-break: keep-all;
     }
     .title,
     .card-badge__subtitle {
@@ -56,7 +66,7 @@ const CardBadgewWrapper = styled.div`
   }
 `;
 
-function index({ genreData }: IGenreData) {
+function Index({ genreData }: IGenreData) {
   const genreTitle = [
     {
       title: "영화를 힘께 즐기다, 영화를 만들다.",
@@ -87,6 +97,11 @@ function index({ genreData }: IGenreData) {
       spaceBetween: 24
     }
   };
+
+  const startDayCal = useCallback((val: Date) => {
+    return dayjs(val).diff(dayjs(), "d");
+  }, []);
+
   return (
     <>
       {genreTitle.map((el, i: number) => {
@@ -101,16 +116,25 @@ function index({ genreData }: IGenreData) {
                   <SwiperSlide key={el._id}>
                     <Link href={`/detailview/${el._id}`}>
                       <a>
-                        {(el.saleprice !== 0 || el.location === "온라인") && (
+                        {(el.saleprice !== 0 ||
+                          el.location === "온라인" ||
+                          startDayCal(el.firstmeet) <= 3) && (
                           <CardBadgewWrapper>
                             <div
                               className={`card-badge ${
-                                el.location === "온라인" && "online"
-                              }`}
+                                startDayCal(el.firstmeet) <= 3 ? "startday" : ``
+                              } ${el.location === "온라인" ? "online" : ``} `}
                             >
                               <div className="card-badge__tail"></div>
-                              {el.location === "온라인" && "online" ? (
-                                <div className="title">온라인</div>
+                              {el.location === "온라인" ||
+                              startDayCal(el.firstmeet) <= 3 ? (
+                                <>
+                                  {el.location === "온라인" ? (
+                                    <div className="title">Online</div>
+                                  ) : (
+                                    <div className="title">시작 임박</div>
+                                  )}
+                                </>
                               ) : (
                                 <>
                                   <div className="title">SALE</div>
@@ -135,4 +159,4 @@ function index({ genreData }: IGenreData) {
   );
 }
 
-export default index;
+export default Index;

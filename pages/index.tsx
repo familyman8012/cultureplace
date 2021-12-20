@@ -30,8 +30,6 @@ const Home = ({ SsrData }: ISSR) => {
 
   const genreData = getGenreData();
 
-  console.log("genreData", genreData);
-
   const CategoryWrap = styled.div`
     width: 1148px;
     margin: 0 auto;
