@@ -38,12 +38,12 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
   } = data;
 
   const priceNumber = useMemo(
-    () => price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
+    () => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     [price]
   );
 
   const salePriceNumber = useMemo(
-    () => saleprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","),
+    () => saleprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     [saleprice]
   );
 

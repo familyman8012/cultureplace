@@ -15,7 +15,6 @@ const fetchReview = async (_id: string, page: number) => {
 };
 
 const useReview = (_id: string, page: number) => {
-  console.log("useReview", page);
   return useQuery<IReivewData | null, Error>(
     ["reviewData", _id, page],
     async () => await fetchReview(_id, page),

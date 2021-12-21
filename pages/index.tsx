@@ -135,10 +135,10 @@ export async function getServerSideProps() {
     Mainvisimg.find(
       {},
       { showNum: false, createdAt: false, updatedAt: false }
-    ).lean(),
-    Product.find({}, { createdAt: false, updatedAt: false }).lean(),
+    ).sort({ createdAt: -1 }).lean(),
+    Product.find({}, { createdAt: false, updatedAt: false }).sort({ createdAt: -1 }).lean(),
     Notice.find({ category: "블로그" }, { createdAt: false, updatedAt: false })
-      .limit(3)
+      .limit(3)      
       .lean(),
     Notice.find({ category: "공지사항" }).limit(4).lean()
   ]);
