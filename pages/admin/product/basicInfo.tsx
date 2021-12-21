@@ -183,6 +183,7 @@ function App() {
             type="number"
             id="saleprice"
             placeholder="할인가"
+            defaultValue={0}
             {...register("saleprice")}
           />
 

@@ -7,13 +7,9 @@ import { useMutation, useQueryClient } from "react-query";
 import { FavoriteState } from "./style";
 
 function FavoriteButton({ _id, data }: { _id: string; data: IProduct }) {
-  console.log("infocard inner", data);
-
   const [session] = useSession();
 
   const [favorite, setFavorite] = useState(false);
-
-  console.log("favorite", favorite);
 
   useEffect(() => {
     setFavorite(

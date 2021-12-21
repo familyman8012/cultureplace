@@ -19,7 +19,7 @@ productRouter.get(async (req, res) => {
 
   try {
     if (req.query.page === undefined) {
-      const products = await Product.find({});
+      const products = await Product.find({}).sort({ createdAt: -1 });
       return res.send(products);
     } else {
       const [products, productsCount] = await Promise.all([

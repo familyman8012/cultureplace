@@ -80,6 +80,7 @@ function Index({ genreData }: IGenreData) {
     },
     { title: "내가 만든 작품이 전시되는 날", url: "view/njob" },
     { title: "뮤지컬, 연극의 세계", url: "view/travel" },
+    { title: "번개", url: "view/travel" },
     { title: "지식컬쳐", url: "view/travel" }
   ];
   const sliderOption = {
@@ -127,7 +128,8 @@ function Index({ genreData }: IGenreData) {
                             >
                               <div className="card-badge__tail"></div>
                               {el.location === "온라인" ||
-                              startDayCal(el.firstmeet) <= 3 ? (
+                              (startDayCal(el.firstmeet) <= 3 &&
+                                startDayCal(el.firstmeet) > 0) ? (
                                 <>
                                   {el.location === "온라인" ? (
                                     <div className="title">Online</div>

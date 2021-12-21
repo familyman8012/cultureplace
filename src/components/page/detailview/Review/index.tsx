@@ -92,10 +92,6 @@ function Index({ item, id }: { item: IProduct; id: string }) {
     }
   );
 
-  console.log("item 은은은", item);
-
-  console.log("reviewData?.reviews", reviewData?.reviews.length);
-
   const reviewBtnShow = useMemo(
     () => item.joinMembr.some(x => x === session?.user.uid),
     []

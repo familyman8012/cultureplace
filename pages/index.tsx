@@ -18,12 +18,15 @@ const Home = ({ SsrData }: ISSR) => {
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [
-        productsData.filter(el => el.todo === "직접하기"),
-        productsData.filter(el => el.genre === "미식"),
-        productsData.filter(el => el.genre === "서울걷기"),
-        productsData.filter(el => el.genre === "소극장"),
         productsData.filter(el => el.genre === "영화"),
-        productsData.filter(el => el.genre === "성장하기")
+        productsData.filter(el => el.genre === "미식"),
+        productsData.filter(el => el.genre === "패션"),
+        productsData.filter(el => el.genre === "뮤직"),
+        productsData.filter(el => el.genre === "미술"),
+        productsData.filter(el => el.genre === "공연"),
+        productsData.filter(el => el.genre === "번개"),
+        productsData.filter(el => el.genre === "지식"),
+        productsData.filter(el => el.genre === "힐링산책")
       ];
     }
   }

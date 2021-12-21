@@ -134,22 +134,19 @@ const typeStyle = ({ type }: StyledComponentProps) => {
 export const CardWrap = styled.div`
   overflow: hidden;
   margin: 0 auto 22px auto;
-  -webkit-box-shadow: 0px 2px 4px 0 rgb(0 0 0 / 10%);
-  -moz-box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 2px 4px 0 rgb(0 0 0 / 10%);
 
   &:hover,
   &:focus {
     -webkit-box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
-  }
-  .card:hover .card-image-wrapper .card-image {
-    -webkit-transform: scale(1.14);
-    -moz-transform: scale(1.14);
-    -ms-transform: scale(1.14);
-    -o-transform: scale(1.14);
-    transform: scale(1.14);
+    .imgbox img {
+      -webkit-transform: scale(1.14);
+      -moz-transform: scale(1.14);
+      -ms-transform: scale(1.14);
+      -o-transform: scale(1.14);
+      transform: scale(1.14);
+    }
   }
 
   dl,
@@ -169,20 +166,21 @@ export const CardWrap = styled.div`
     img {
       width: 100%;
       height: 100%;
+      transform: scale(1);
+      transition: transform 0.3s ease 0s, opacity 0.1s linear 0s !important;
     }
   }
   .txtbox {
     position: relative;
-    padding: 5px 15px 15px;
+    padding: 5px 10px 15px;
 
     dd {
       &.title {
         font-size: 1.5rem;
       }
       &.meetinfobox {
-        position: absolute;
+        margin-top: 5px;
         margin-bottom: 0;
-        bottom: 1.2rem;
         font-size: 1.3rem;
       }
       &.todo {

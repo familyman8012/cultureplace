@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 export const TitleArea = styled.div<{ type: string }>`
   display: flex;
   align-items: center;
-  margin: 12rem 1rem 2.5rem 0;
+  margin: 3rem 1rem 2.5rem 0;
   ${({ type }) => type === "first" && "margin-top : 4rem"};
 
   h2 {

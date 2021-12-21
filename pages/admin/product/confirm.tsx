@@ -11,6 +11,12 @@ function Confirm() {
   if (prodUpStore.data !== null) {
     prodUpStore.data.body = QuillStore.data;
     console.log("prodUpStore.data", prodUpStore.data);
+    if (
+      prodUpStore.data.saleprice === "" ||
+      prodUpStore.data.saleprice === null
+    ) {
+      prodUpStore.data.saleprice = 0;
+    }
     prodUpStore.data.imgurl = prodUpStore.data.imgurl.replace(
       /\/cardoriginal\//,
       "/card/"
