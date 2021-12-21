@@ -72,13 +72,13 @@ function App() {
             type="text"
             placeholder="ex) 유리의 쿠킹클래스, 힙스타의 힙한 댄스"
             id="title"
-            {...register("title", { required: true, maxLength: 50 })}
+            {...register("title", { required: true, maxLength: 70 })}
           />
           {errors.title && errors.title.type === "required" && (
             <ErrorTxt>모임명을 입력해주세요.</ErrorTxt>
           )}
           {errors.title && errors.title.type === "maxLength" && (
-            <ErrorTxt>50자 안으로 올바르게 올려주세요.</ErrorTxt>
+            <ErrorTxt>70자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
 
           <label htmlFor="people">모임장 이름</label>

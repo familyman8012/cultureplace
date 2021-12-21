@@ -6,7 +6,7 @@ export const DetailViewWrap = styled.div`
 `;
 
 export const Content = styled.div`
-  width: calc(100% - 350px);
+  width: calc(100% - 380px);
   margin-top: 30px;
   &.event {
     margin-left: calc(320px + 5%);

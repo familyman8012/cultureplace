@@ -45,7 +45,7 @@ function Head() {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/notice">
               <a>웹진</a>
             </Link>
           </li>

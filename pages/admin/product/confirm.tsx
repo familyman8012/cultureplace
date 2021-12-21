@@ -17,10 +17,12 @@ function Confirm() {
     ) {
       prodUpStore.data.saleprice = 0;
     }
-    prodUpStore.data.imgurl = prodUpStore.data.imgurl.replace(
-      /\/cardoriginal\//,
-      "/card/"
-    );
+    if (!prodUpStore.data.imgurl.match(/\S*\.gif/i)) {
+      prodUpStore.data.imgurl = prodUpStore.data.imgurl.replace(
+        /\/cardoriginal\//,
+        "/card/"
+      );
+    }
 
     //등록
     const saveProduct = () => {

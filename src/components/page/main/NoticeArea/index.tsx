@@ -13,7 +13,7 @@ export interface INoticeData {
 function index({ noticeData }: INoticeData) {
   return (
     <WrapNoticeArea>
-      <Title css={TitleML}>트레바리 공지</Title>
+      <Title css={TitleML}>컬쳐플레이스 공지</Title>
       <div className="box">
         {noticeData.map(el => {
           const { _id, title, summary, updatedAt } = el;

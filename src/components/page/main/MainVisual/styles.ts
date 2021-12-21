@@ -4,7 +4,6 @@ import { transform } from "lodash";
 export const Mainvis = styled.div`
   overflow: hidden;
   position: relative;
-  padding-top: 72px;
 `;
 
 export const SlideItem = styled.div<{ i: number; on: string }>`

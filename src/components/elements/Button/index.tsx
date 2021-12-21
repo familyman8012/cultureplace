@@ -74,7 +74,7 @@ const btnStyle = ({ theme, color, outline, favorite, size }: IColorStyle) => {
 };
 
 const StyledButton = styled.button`
-  width: 25rem;
+  width: calc(100% - 65px);
   color: #fff;
   font-weight: 500;
   letter-spacing: -0.05rem;

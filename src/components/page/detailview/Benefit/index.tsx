@@ -5,7 +5,7 @@ import { BenefitList, BenefitTxt, BenefitWrap } from "./style";
 const BenefitData = [
   {
     title: "아지트 무료대관",
-    desc: "강남, 안국 등 트레바리 아지트 공간 무료 대관 OK!"
+    desc: "강남, 안국 등 컬쳐플레이스 아지트 공간 무료 대관 OK!"
   },
   {
     title: "이벤트",
@@ -24,9 +24,9 @@ const BenefitData = [
 function index() {
   return (
     <SectionWrap>
-      <Title>트레바리 멤버십 혜택 안내</Title>
+      <Title>컬쳐플레이스 멤버십 혜택 안내</Title>
       <BenefitTxt>
-        클럽을 신청하면 트레바리 멤버가 됩니다. 멤버십 기간 동안 혜택을 모두
+        클럽을 신청하면 컬쳐플레이스 멤버가 됩니다. 멤버십 기간 동안 혜택을 모두
         누릴 수 있습니다.
       </BenefitTxt>
       <BenefitWrap>

@@ -7,7 +7,6 @@ max-width:100%
 `;
 
 export const Header = styled.header`
-  position: fixed;
   z-index: 100;
   width: 100%;
   height: 72px;

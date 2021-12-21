@@ -20,7 +20,7 @@ function Foot() {
           </p>
         </div>
         <ul className="link_policy">
-          <li>트레바리 운영정책</li>
+          <li>컬쳐플레이스 운영정책</li>
           <li>개인정보처리방침</li>
           <li>이용약관</li>
           <li>공지사항</li>

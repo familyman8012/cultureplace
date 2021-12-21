@@ -8,8 +8,8 @@ export const WrapInfoCard = styled.div`
 
 export const InfoCard = styled.div`
   position: absolute;
-  right: 0;
-  width: 380px;
+  right: -100px;
+  width: 350px;
   box-shadow: 5px 10px 30px 0 rgb(93 97 112 / 21%);
   background-color: white;
   padding: 32px;
