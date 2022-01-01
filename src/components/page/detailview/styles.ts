@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 
 export const DetailViewWrap = styled.div`
   max-width: 1240px;
-  margin: 10.5rem auto;
+  min-height: 100vh;
+  margin: 5rem auto;
 `;
 
 export const Content = styled.div`

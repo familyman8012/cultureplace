@@ -2,15 +2,8 @@ import { Footer } from "./styles";
 
 function Foot() {
   return (
-    <Footer className="header">
+    <Footer>
       <div className="inner">
-        <ul className="link_menu">
-          <li>자주 묻는 질문</li>
-          <li>문의하기</li>
-          <li>블로그</li>
-          <li>컬쳐플레이스 채용</li>
-          <li>파트너 모집</li>
-        </ul>
         <div className="compaynyInfo">
           <h1>컬쳐 플레이스</h1>
           <p>대표 윤은석 | 사업자번호 : 000</p>

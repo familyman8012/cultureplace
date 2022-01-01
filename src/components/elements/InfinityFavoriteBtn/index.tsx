@@ -11,7 +11,7 @@ export interface IFavoritebtn {
 }
 
 export interface Ipages {
-  hasNextPage: boolean;
+  is_last: boolean;
   products: IProduct[];
 }
 

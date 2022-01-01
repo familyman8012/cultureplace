@@ -1,6 +1,6 @@
 import PaymentInfo from "@src/components/page/payment/PaymentInfo";
 import PaymentComplete from "@src/components/page/payment/PaymentComplete";
-import { useProduct } from "@src/hooks/api/useProducts/useProduct";
+import { useProdDetail } from "@src/hooks/api/useProducts/useProductDetail";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -16,7 +16,9 @@ function Payment() {
   });
   const [payComplete, setpayComplete] = useState(false);
 
-  const { status, data, error, isLoading, isError } = useProduct(String(_id));
+  const { status, data, error, isLoading, isError } = useProdDetail(
+    String(_id)
+  );
 
   console.log("dataaa", data);
 

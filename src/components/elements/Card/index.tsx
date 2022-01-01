@@ -74,10 +74,10 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
                 <span className="saleper">{salePercent}%</span>
               )}
               <div className="priceNum">
-                <span className="price">{priceNumber}원</span>
                 {saleprice !== 0 && (
                   <span className="price">{salePriceNumber}원</span>
                 )}
+                <span className="price">{priceNumber}원</span>
               </div>
             </dd>
           </>

@@ -8,25 +8,30 @@ import {
   BlogArea,
   NoticeArea
 } from "@src/components/page/main";
-import { ISSR } from "@src/typings/db";
 import styled from "@emotion/styled";
+import Link from "next/link";
+import { CategoryLink } from "@src/components/layouts/Head";
+import { fetchProducts } from "@src/hooks/api/useProducts";
 
-const Home = ({ SsrData }: ISSR) => {
+const Home = ({ SsrData }: any) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
-  const { data: productsData } = useQuery("posts", () => SsrData.products);
+
+  // ssr 시, useQuery 대신, useProducts 이런 식으로 불러들이면, 제대로 ssr 안됨.
+  const { data } = useQuery("indexProducts", () => fetchProducts(90, 1));
+  const productsData = data?.products;
 
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [
-        productsData.filter(el => el.genre === "영화"),
-        productsData.filter(el => el.genre === "미식"),
-        productsData.filter(el => el.genre === "패션"),
-        productsData.filter(el => el.genre === "뮤직"),
-        productsData.filter(el => el.genre === "미술"),
-        productsData.filter(el => el.genre === "공연"),
-        productsData.filter(el => el.genre === "번개"),
-        productsData.filter(el => el.genre === "지식"),
-        productsData.filter(el => el.genre === "힐링산책")
+        productsData.filter(el => el.genre === "movie"),
+        productsData.filter(el => el.genre === "food"),
+        productsData.filter(el => el.genre === "fashion"),
+        productsData.filter(el => el.genre === "music"),
+        productsData.filter(el => el.genre === "art"),
+        productsData.filter(el => el.genre === "theater"),
+        productsData.filter(el => el.genre === "impromptu"),
+        productsData.filter(el => el.genre === "wisdom"),
+        productsData.filter(el => el.genre === "healing")
       ];
     }
   }
@@ -34,7 +39,7 @@ const Home = ({ SsrData }: ISSR) => {
   const genreData = getGenreData();
 
   const CategoryWrap = styled.div`
-    width: 1148px;
+    width: 1250px;
     margin: 0 auto;
     .categoryLink {
       margin-bottom: -30px;
@@ -96,26 +101,15 @@ const Home = ({ SsrData }: ISSR) => {
     }
   `;
 
-  const CategoryLink = [
-    { title: "영화", url: "" },
-    { title: "음식", url: "" },
-    { title: "패션", url: "" },
-    { title: "뮤직", url: "" },
-    { title: "미술", url: "" },
-    { title: "공연", url: "" },
-    { title: "번개", url: "" },
-    { title: "지식", url: "" },
-    { title: "힐링산책", url: "" },
-    { title: "직접해보기", url: "" }
-  ];
-
   return (
     <Layout>
       <MainVisual mainVisImgs={mainVisImgs} />
       <CategoryWrap>
         <div className="categoryLink">
           {CategoryLink.map((el, i) => (
-            <a key={i}>{el.title}</a>
+            <Link href={el.url} key={i}>
+              <a>{el.title}</a>
+            </Link>
           ))}
         </div>
         {genreData && <CategoryArea genreData={genreData} />}
@@ -131,26 +125,31 @@ export async function getServerSideProps() {
   const queryClient = new QueryClient();
   await dbConnect();
 
-  const [result, result2, result3, result4] = await Promise.all([
-    Mainvisimg.find(
-      {},
-      { showNum: false, createdAt: false, updatedAt: false }
-    ).sort({ createdAt: -1 }).lean(),
-    Product.find({}, { createdAt: false, updatedAt: false }).sort({ createdAt: -1 }).lean(),
+  // const res = await fetch("http://localhost:3000/api/product");
+
+  //const res = await axios.get("http://localhost:3000/api/product");
+
+  //await queryClient.prefetchQuery(["posts"], fetchPosts);
+  await queryClient.prefetchQuery("indexProducts", () => fetchProducts(90, 1));
+
+  const [result, result2, result3] = await Promise.all([
+    Mainvisimg.find({}, { showNum: false, createdAt: false, updatedAt: false })
+      .sort({ createdAt: -1 })
+      .lean(),
+
     Notice.find({ category: "블로그" }, { createdAt: false, updatedAt: false })
-      .limit(3)      
+      .limit(3)
       .lean(),
     Notice.find({ category: "공지사항" }).limit(4).lean()
   ]);
 
   const SsrData = {
     mainVisImgs: JSON.parse(JSON.stringify(result)),
-    products: JSON.parse(JSON.stringify(result2)),
-    blogData: JSON.parse(JSON.stringify(result3)),
-    noticeData: JSON.parse(JSON.stringify(result4))
+    blogData: JSON.parse(JSON.stringify(result2)),
+    noticeData: JSON.parse(JSON.stringify(result3))
   };
 
-  await queryClient.prefetchQuery("posts", () => SsrData.products);
+  // await queryClient.prefetchQuery("posts", () => SsrData.products);
 
   return {
     props: {

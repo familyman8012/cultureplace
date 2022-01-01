@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
-import { useQueryClient, useMutation } from "react-query";
-import { useProducts } from "@src/hooks/api/useProducts";
+import { useQueryClient, useMutation, useQuery } from "react-query";
+import { fetchProducts, useProducts } from "@src/hooks/api/useProducts";
 import axios from "axios";
 import { runInAction } from "mobx";
 import { prodUpStore } from "@src/mobx/store";
@@ -10,24 +10,18 @@ import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import { IProductList } from "@src/typings/db";
 
 dayjs.locale("ko");
 
 export default function List() {
   const queryClient = useQueryClient();
+  /* 테이블 data 구성 및 pagination */
+  const [pageSize, setPageSize] = useState(10);
+  const [curPage, setCurPage] = useState(1);
 
   //불러오기
-  const { status, data, error } = useProducts();
-
-  /* 테이블 data 구성 및 pagination */
-  const [curPage, setCurPage] = useState(1);
-  const [pageSize, setPageSize] = useState(7);
-  const dataLength = useMemo(() => data?.length, [data]);
-  const startPage = useMemo(
-    () => curPage * pageSize - (pageSize - 1) - 1,
-    [curPage]
-  );
-  const viewData = useMemo(() => curPage * pageSize, [curPage]);
+  const { status, data, error } = useProducts(pageSize, curPage);
   const handlePageChange = useCallback((page: number) => {
     setCurPage(page);
   }, []);
@@ -80,7 +74,7 @@ export default function List() {
               </tr>
             </thead>
             <tbody>
-              {data?.slice(startPage, viewData)?.map(el => (
+              {data?.products.map(el => (
                 <tr key={el._id} onClick={() => modifyProduct(el._id)}>
                   <td>
                     <img src={el.imgurl} alt={el.title} />
@@ -107,7 +101,7 @@ export default function List() {
             onChange={handlePageChange}
             current={curPage}
             pageSize={pageSize}
-            total={dataLength}
+            total={data?.productsCount}
           />
           <GlowBtn onClick={writeProduct}>상품등록</GlowBtn>
         </WrapIndexContent>

@@ -38,14 +38,24 @@ export const InfoCard = styled.div`
     font-size: 13px;
     background: rgb(229, 255, 57);
   }
-  .price {
+  .wrap_price {
+    display: flex;
+    justify-content: end;
     margin-bottom: 20px;
     padding-top: 15px;
-    color: #2a2a2c;
-    text-align: right;
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: -0.25px;
+
+    .price {
+      color: #2a2a2c;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: -0.25px;
+      &:nth-of-type(2) {
+        margin-left: 10px;
+        color: #838380;
+        font-weight: normal;
+        text-decoration: line-through;
+      }
+    }
   }
   .box_btn {
     display: flex;

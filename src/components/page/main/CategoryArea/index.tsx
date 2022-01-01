@@ -6,7 +6,8 @@ import Card from "@src/components/elements/Card";
 import Title from "@src/components/elements/Title";
 import { IProduct } from "@src/typings/db";
 import dayjs from "dayjs";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
+import CardBadge from "@src/components/elements/CardBadge";
 
 export interface IGenreData {
   genreData: IProduct[][];
@@ -19,69 +20,23 @@ const WrapCategoryArea = styled.div`
   }
 `;
 
-const CardBadgewWrapper = styled.div`
-  position: relative;
-  .card-badge {
-    position: absolute;
-    top: 6px;
-    left: -6px;
-    width: 46px;
-    height: 46px;
-    padding: 5px 0;
-    z-index: 2;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 1.25;
-    letter-spacing: -0.12px;
-    color: #ffffff;
-    background-color: #f06182;
-    &.startday {
-      padding: 5px 0 !important;
-      background: rgb(120, 77, 235);
-    }
-    &.online {
-      padding: 15px 0;
-      background-color: #00ac83;
-    }
-    .title {
-      word-break: keep-all;
-    }
-    .title,
-    .card-badge__subtitle {
-      font-size: 12px;
-    }
-    .card-badge__subtitle {
-      font-weight: normal;
-    }
-  }
-  .card-badge__tail {
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    border-style: solid;
-    border-width: 0 6px 6px 0;
-    border-color: transparent #a6435a transparent transparent;
-    content: "";
-  }
-`;
-
 function Index({ genreData }: IGenreData) {
   const genreTitle = [
     {
       title: "영화를 힘께 즐기다, 영화를 만들다.",
-      url: "view/music"
+      url: "/view/movie"
     },
-    { title: "맛, 다이닝, 요리, 와인, 쿡방", url: "view/music" },
-    { title: "힙스타의 기본, 패션", url: "view/theater" },
+    { title: "맛, 다이닝, 요리, 와인, 쿡방", url: "/view/food" },
+    { title: "힙스타의 기본, 패션", url: "/view/fashion" },
     {
       title: "#최고의 사운드, 인생음악, #작곡, #작사, #댄스",
-      url: "view/movie"
+      url: "/view/music"
     },
-    { title: "내가 만든 작품이 전시되는 날", url: "view/njob" },
-    { title: "뮤지컬, 연극의 세계", url: "view/travel" },
-    { title: "번개", url: "view/travel" },
-    { title: "지식컬쳐", url: "view/travel" }
+    { title: "내가 만든 작품이 전시되는 날", url: "/view/art" },
+    { title: "뮤지컬, 연극의 세계", url: "/view/theater" },
+    { title: "번개", url: "/view/impromptu" },
+    { title: "지헤를 얻기 위한 지식컬쳐", url: "/view/wisdom" },
+    { title: "힐링산책", url: "/view/healing" }
   ];
   const sliderOption = {
     749: {
@@ -117,37 +72,7 @@ function Index({ genreData }: IGenreData) {
                   <SwiperSlide key={el._id}>
                     <Link href={`/detailview/${el._id}`}>
                       <a>
-                        {(el.saleprice !== 0 ||
-                          el.location === "온라인" ||
-                          startDayCal(el.firstmeet) <= 3) && (
-                          <CardBadgewWrapper>
-                            <div
-                              className={`card-badge ${
-                                startDayCal(el.firstmeet) <= 3 ? "startday" : ``
-                              } ${el.location === "온라인" ? "online" : ``} `}
-                            >
-                              <div className="card-badge__tail"></div>
-                              {el.location === "온라인" ||
-                              (startDayCal(el.firstmeet) <= 3 &&
-                                startDayCal(el.firstmeet) > 0) ? (
-                                <>
-                                  {el.location === "온라인" ? (
-                                    <div className="title">Online</div>
-                                  ) : (
-                                    <div className="title">시작 임박</div>
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  <div className="title">SALE</div>
-                                  <div className="card-badge__subtitle">
-                                    ~{(el.price / el.saleprice) * 10}
-                                  </div>
-                                </>
-                              )}
-                            </div>
-                          </CardBadgewWrapper>
-                        )}
+                        <CardBadge el={el} />
                         <Card data={el} querykey="posts" />
                       </a>
                     </Link>

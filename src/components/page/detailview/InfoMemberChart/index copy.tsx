@@ -6,7 +6,7 @@ import { Doughnut } from "react-chartjs-2";
 import Title from "../Title";
 import SectionWrap from "../SectionWrap";
 import { Btn, BtnBox, InfoMemberChartBox } from "./style";
-import { sortBy } from "lodash";
+import { css } from "@emotion/react";
 
 interface Istatics {
   byAgegroup: { _id: string; count: number }[];
@@ -43,23 +43,24 @@ const InfoMemberChart = () => {
   useEffect(() => {
     const fetchUsers = () => {
       axios.get("/api/user/user").then((res: AxiosResponse<Istatics>) => {
+        console.log("차트가 이상해요~", res.data);
         const { byGender, byAgegroup } = res.data;
         setChartData({
-          labels: sortBy(byGender, ["_id"]).map(el => el._id),
+          labels: ["남성", "여성", "(+_+)?"],
           datasets: [
             {
               label: "# of Votes",
-              data: sortBy(byGender, ["_id"]).map(el => el.count),
+              data: byGender.map(el => el.count),
               backgroundColor: ["#ff8400", "#ffb700", "#dddddd"]
             }
           ]
         });
         setChartData2({
-          labels: sortBy(byAgegroup, ["_id"]).map(el => el._id),
+          labels: ["20대", "30대", "40대", "50대", "60대", "(+_+)?"],
           datasets: [
             {
               label: "# of Votes",
-              data: sortBy(byAgegroup, ["_id"]).map(el => el.count),
+              data: byAgegroup.map(el => el.count),
               backgroundColor: [
                 "#ff8400",
                 "#ffb700",

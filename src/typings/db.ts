@@ -22,6 +22,11 @@ export interface IProduct {
   review: string[];
 }
 
+export interface IProductList {
+  products: IProduct[];
+  productsCount: number;
+}
+
 export interface INotice {
   _id: string;
   category?: string;
@@ -50,7 +55,8 @@ export interface ISSR {
 
 export interface Iinfinity {
   products: IProduct[];
-  hasNextPage: boolean;
+  nextPage: number;
+  isLast: boolean;
 }
 
 export interface IReview {

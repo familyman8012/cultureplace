@@ -1,14 +1,30 @@
 import { useQuery } from "react-query";
 import axios from "axios";
-import { IProduct } from "@src/typings/db";
+import { IProductList } from "@src/typings/db";
 
-const fetchProducts = async () => {
-  const res = await axios.get("/api/product");
-  return res.data;
+const fetchProducts = async (
+  limit: number,
+  pageParam: number,
+  genre?: string
+) => {
+  console.log("pageParam", pageParam);
+  const parse = await axios.get(
+    `http://localhost:3000/api/product?limit=${limit}&page=${pageParam}${
+      genre ? `&genre=${genre}` : ``
+    }`
+  );
+  const result: IProductList = parse.data;
+  return result;
 };
 
-const useProducts = () => {
-  return useQuery<IProduct[], Error>("productData", () => fetchProducts());
+const useProducts = (limit: number, pageParam: number, genre?: string) => {
+  return useQuery<IProductList, Error>(
+    ["products", genre, pageParam],
+    () => fetchProducts(limit, pageParam, genre),
+    {
+      keepPreviousData: true
+    }
+  );
 };
 
 export { useProducts, fetchProducts };

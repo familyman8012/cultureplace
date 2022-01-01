@@ -7,11 +7,11 @@ const fetchProduct = async (_id: string) => {
   return res.data[0];
 };
 
-const useProduct = (_id: string) => {
+const useProdDetail = (_id: string) => {
   return useQuery<IProduct, Error>(
     ["detailViewData", _id],
     async () => await fetchProduct(_id)
   );
 };
 
-export { useProduct, fetchProduct };
+export { useProdDetail, fetchProduct };

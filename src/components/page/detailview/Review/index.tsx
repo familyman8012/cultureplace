@@ -94,7 +94,7 @@ function Index({ item, id }: { item: IProduct; id: string }) {
 
   const reviewBtnShow = useMemo(
     () => item.joinMembr.some(x => x === session?.user.uid),
-    []
+    [item.joinMembr, session?.user.uid]
   );
 
   return (
@@ -131,7 +131,7 @@ function Index({ item, id }: { item: IProduct; id: string }) {
               pageSize={5}
               total={reviewData?.count}
             />
-            {reviewBtnShow && (
+            {/* {reviewBtnShow && (
               <Button
                 color="brand"
                 size="xs"
@@ -141,7 +141,16 @@ function Index({ item, id }: { item: IProduct; id: string }) {
               >
                 리뷰등록
               </Button>
-            )}
+            )} */}
+            <Button
+              color="brand"
+              size="xs"
+              outline
+              css={WriteBtn}
+              onClick={openModal}
+            >
+              리뷰등록
+            </Button>
           </ReviewList>
           {modalOpen && (
             <ReviewModal

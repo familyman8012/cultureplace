@@ -1,74 +1,45 @@
-import { Iinfinity } from "@src/typings/db";
+import { Iinfinity, IProduct } from "@src/typings/db";
 import axios from "axios";
 import { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { searchStore } from "@src/mobx/store";
 
-const fetchPosts = async (querykey: string, pageParam: number) => {
+const useInfinity = (querykey: string) => {
   const { searchInput, filterFind } = searchStore.searchOption;
 
-  let res;
-  if (searchInput || filterFind) {
-    res = await axios.post(
+  console.log("처음부터 잘됐으면... 두번눌러야 반영?", searchInput, filterFind);
+
+  // useInfiniteQuery에서 쓸 함수
+  const fetchPosts = async ({ pageParam = 1 }) => {
+    console.log("처음부터 잘됐으면...");
+
+    const response = await axios.post(
       `/api/product/search?meetingcycle=${querykey}&limit=12&page=${pageParam}`,
       searchStore.searchOption
     );
-    return res.data;
-  }
+    const result: { products: IProduct[]; is_last: boolean } = response.data;
 
-  let url;
-  switch (querykey) {
-    case "oneday":
-      url = `/api/product?meetingcycle=oneday&limit=12&page=${pageParam}`;
-      break;
-    case "month":
-      url = `/api/product?meetingcycle=1month&limit=8&page=${pageParam}`;
-      break;
-    case "event":
-      url = `/api/product?genre=이벤트&limit=8&page=${pageParam}`;
-      break;
-    case "music":
-      url = `/api/product?genre=음악&limit=8&page=${pageParam}`;
-      break;
-    case "travel":
-      url = `/api/product?genre=서울걷기&limit=8&page=${pageParam}`;
-      break;
-    case "theater":
-      url = `/api/product?genre=소극장&limit=8&page=${pageParam}`;
-      break;
-    case "movie":
-      url = `/api/product?genre=영화&limit=8&page=${pageParam}`;
-      break;
-    case "njob":
-      url = `/api/product?genre=성장하기&limit=8&page=${pageParam}`;
-      break;
-    default:
-      break;
-  }
-  res = await axios.get(`${url !== undefined && url}`);
-  return res.data;
-};
+    // axios로 받아온 데이터를 다음과 같이 변경!
 
-const useInfinity = (querykey: string, pageNum = useRef(1)) => {
-  return useInfiniteQuery(
-    ["list", querykey],
-    async ({ pageParam = pageNum.current }) => {
-      const res = await fetchPosts(querykey, pageParam);
-      pageNum.current = pageNum.current + 1;
-      return res;
+    return {
+      products: result.products,
+      nextPage: pageParam + 1,
+      isLast: result.is_last
+    };
+  };
+
+  const query = useInfiniteQuery(["list", querykey], fetchPosts, {
+    getNextPageParam: (lastPage, pages) => {
+      if (!lastPage.isLast) return lastPage.nextPage;
+      return undefined;
     },
-    {
-      refetchOnWindowFocus: false,
-      getNextPageParam: (lastPage: Iinfinity) => {
-        if (lastPage.hasNextPage) {
-          return pageNum.current;
-        }
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    retry: 1
+  });
 
-        return undefined;
-      },
-      staleTime: 3000
-    }
-  );
+  return query;
 };
 
-export { fetchPosts, useInfinity };
+export { useInfinity };

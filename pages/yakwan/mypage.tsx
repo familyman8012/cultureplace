@@ -1,12 +1,9 @@
-import React from "react";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
-// import useSwrFetch from "../hook/useSwrFetch";
 import { signOut } from "next-auth/client";
 import axios from "axios";
-import _ from "lodash";
 import { WrapPayedInfo } from "../../src/components/page/yakwan/styles";
-import { usePayment } from "@src/hooks/api/usePayments/useProduct";
+import { usePayment } from "@src/hooks/api/usePayments";
 import Layout from "@src/components/layouts";
 
 function Mypage() {

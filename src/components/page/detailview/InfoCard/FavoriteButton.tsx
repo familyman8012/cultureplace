@@ -1,4 +1,3 @@
-import { useProduct } from "@src/hooks/api/useProducts/useProduct";
 import { IProduct } from "@src/typings/db";
 import axios from "axios";
 import { useSession } from "next-auth/client";

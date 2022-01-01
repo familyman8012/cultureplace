@@ -24,7 +24,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/api/middleware/db.js",
-    "src/components/elements/sample/Button.jsx"
+    "src/components/elements/sample/Button.jsx",
+    "pages/api/product/search.js"
   ],
   "exclude": ["node_modules"]
 }

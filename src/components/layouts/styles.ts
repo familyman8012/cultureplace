@@ -9,13 +9,16 @@ max-width:100%
 export const Header = styled.header`
   z-index: 100;
   width: 100%;
-  height: 72px;
+  height: 124px;
+  box-shadow: rgb(239 239 239) 0px -1px 0px inset;
   background: #fff;
   .inner {
     display: flex;
+    position: relative;
+    z-index: 100;
     align-items: center;
     width: 1250px;
-    height: 100%;
+    height: 72px;
     margin: 0 auto;
   }
   h1 {
@@ -37,18 +40,92 @@ export const Header = styled.header`
       background: url("/images/logo_hip.png") no-repeat center;
     }
   }
-  ul {
+  aside ul {
     display: flex;
-    margin: 0 0 0 24px;
+    margin-left: 10px;
     li {
-      margin-right: 4rem;
+      font-size: 14px;
+      font-weight: normal;
+      color: rgb(26, 26, 26);
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      margin: 0px 24px 0px 0px;
+      position: relative;
+      &.my {
+        color: #ff5600;
+      }
+    }
+  }
+`;
+
+export const MenuArea = styled.ul`
+  display: flex;
+  width: 1250px;
+  height: 52px;
+  align-items: center;
+  margin: 0 auto;
+  li {
+    height: 29px;
+    margin-right: 4rem;
+    &:hover {
+      border-bottom: 2px solid;
+    }
+    a,
+    .depth1 {
+      display: block;
+      height: 29px;
+      font-size: 16px;
+      font-weight: 400;
+      padding-bottom: 5px;
+      color: #000;
+    }
+  }
+
+  .categoryLink {
+    position: relative;
+    z-index: 100;
+    .depth1 {
+      display: flex;
+      svg {
+        display: block;
+        margin: 1px 0 0 10px;
+      }
+    }
+
+    &.on .depth1 svg {
+      margin-top: 7px;
+      transform: rotateX(180deg);
+    }
+
+    .categoryMenu {
+      display: none;
+    }
+
+    &.on .categoryMenu {
+      display: block;
+
+      position: absolute;
+      top: 30px;
+      left: 0;
+      width: 180px;
+      padding: 0px 12px;
+      border: 1px solid rgb(239, 239, 239);
+      background: #fff;
+
       a {
+        padding: 8px 8px 8px 20px;
         font-size: 14px;
-        font-weight: 300;
-        color: ${({ theme }) => theme.color.gray};
-        &:hover {
-          color: ${({ theme }) => theme.color.brand};
-        }
+        line-height: 18px;
+        margin: 0px;
+        color: rgb(26, 26, 26);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        font-weight: normal;
+        cursor: pointer;
+        border: none;
       }
     }
   }
@@ -83,7 +160,6 @@ export const SearchForm = styled.form`
 `;
 
 export const Login = styled.div`
-  display: none;
   margin-left: auto;
   color: ${({ theme }) => theme.color.brand};
 `;
@@ -107,7 +183,6 @@ export const Footer = styled.div`
     }
   }
   .compaynyInfo {
-    margin: 5.4rem 0 1.5rem;
     h1 {
       margin-bottom: 1rem;
     }

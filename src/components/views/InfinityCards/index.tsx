@@ -14,6 +14,7 @@ import { Iinfinity, IProduct } from "@src/typings/db";
 import InView from "react-intersection-observer";
 import { InfinityCardwrap, LinkCard } from "./style";
 import Search from "@src/components/views/Search";
+import CardBadge from "@src/components/elements/CardBadge";
 
 interface IQuerykey {
   querykey: string;
@@ -26,18 +27,22 @@ export interface ISearchCondition {
 }
 
 export default function Infinity({ querykey, type }: IQuerykey) {
-  const pageNum = useRef(1);
+  // const pageNum = useRef(1);
 
-  const { data, error, fetchNextPage, status, refetch } = useInfinity(
-    querykey,
-    pageNum
-  );
+  const { data, error, fetchNextPage, status, refetch } = useInfinity(querykey);
+
+  console.log("data느느느느는", data);
 
   return (
     <Layout>
-      <React.Fragment>
+      <div
+        css={css`
+          width: 1280px;
+          margin: 30px auto 0;
+        `}
+      >
         {(querykey === "oneday" || querykey === "month") && (
-          <Search pageNum={pageNum} refetch={refetch} />
+          <Search pageNum={1} refetch={refetch} />
         )}
 
         {status === "loading" ? (
@@ -45,38 +50,37 @@ export default function Infinity({ querykey, type }: IQuerykey) {
         ) : status === "error" ? (
           <p>Error</p>
         ) : (
-          <InfinityCardwrap type={type}>
-            {(data?.pages || []).map((group: Iinfinity, i: number) => {
-              return (
-                <Fragment key={i}>
-                  {group.products?.map((data: IProduct, i: number) => (
-                    <Fragment key={i}>
-                      <Link href={`/detailview/${data?._id}`}>
-                        <LinkCard>
-                          <Card data={data} querykey={querykey} type={type} />
-                        </LinkCard>
-                      </Link>
-                    </Fragment>
-                  ))}
-                </Fragment>
-              );
-            })}
-            <div
-              css={css`
-                margin-top: 200px;
-              `}
-            >
+          <>
+            <InfinityCardwrap type={type}>
+              {(data?.pages || []).map((group: Iinfinity, i: number) => {
+                return (
+                  <Fragment key={i}>
+                    {group.products?.map((data: IProduct, i: number) => (
+                      <Fragment key={i}>
+                        <Link href={`/detailview/${data?._id}`}>
+                          <a>
+                            <CardBadge el={data} />
+                            <Card data={data} querykey={querykey} type={type} />
+                          </a>
+                        </Link>
+                      </Fragment>
+                    ))}
+                  </Fragment>
+                );
+              })}
+            </InfinityCardwrap>
+            <div>
               <InView
                 as="div"
-                rootMargin="0px 0px 0px 300px"
+                rootMargin="100px 0px 0px 0px"
                 onChange={() => fetchNextPage()}
               >
                 <span className="loadSelector">test</span>
               </InView>
             </div>
-          </InfinityCardwrap>
+          </>
         )}
-      </React.Fragment>
+      </div>
     </Layout>
   );
 }

@@ -134,19 +134,18 @@ const searchStore = observable({
       console.log(this.filterFind);
     }
   },
-  onApply(pageNum: MutableRefObject<number>) {
-    pageNum.current = 1;
+  onApply(pageNum: number) {
+    pageNum = 1;
     this.searchOption = {
       searchInput: this.searchInput,
       filterFind: this.filterFind
     };
-    this.viewSelList = -1;
   },
-  onReset(pageNum: MutableRefObject<number>) {
+  onReset(pageNum: number) {
     this.searchInput = "";
     // this.filterFind = [[], [], []];
     console.log("리셋 데이터", this.searchInput);
-    pageNum.current = 1;
+    pageNum = 1;
 
     this.searchOption = {
       searchInput: undefined,

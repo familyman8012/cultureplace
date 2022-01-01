@@ -184,6 +184,7 @@ export const BasicInfoForm = styled.div`
   .box_imgupload {
     display: flex;
     .imgArea {
+      overflow: hidden;
       width: 255px;
       height: 170px;
       border: 1px solid #ddd;
@@ -288,12 +289,7 @@ export const ConfirmView = styled.div`
     p {
       font-size: 20px;
     }
-    span {
-      display: block;
-      width: 255px;
-      height: 170px;
-      border: 1px solid #ddd;
-    }
+
     dl {
       display: flex;
       width: 100%;

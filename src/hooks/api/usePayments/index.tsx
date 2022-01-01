@@ -1,14 +1,17 @@
-import { useQuery } from "react-query";
+import { IPayment } from "@src/typings/db";
 import axios from "axios";
-import { IProduct } from "@src/typings/db";
+import { useQuery } from "react-query";
 
-const fetchProducts = async () => {
-  const res = await axios.get("/api/product");
+const fetchPayment = async (userid: string | undefined) => {
+  const res = await axios.get(`/api/payment?userid=${userid}`);
   return res.data;
 };
 
-const useProducts = () => {
-  return useQuery<IProduct[], Error>("productData", () => fetchProducts());
+const usePayment = (userid: string | undefined) => {
+  return useQuery<IPayment[], Error>(
+    ["paymentData", userid],
+    async () => await fetchPayment(userid)
+  );
 };
 
-export { useProducts, fetchProducts };
+export { usePayment, fetchPayment };

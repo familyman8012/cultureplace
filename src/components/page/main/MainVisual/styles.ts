@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { transform } from "lodash";
 
 export const Mainvis = styled.div`
   overflow: hidden;

@@ -6,22 +6,32 @@ import { IDetail } from "pages/detailview/[_id]";
 import dayjs from "dayjs";
 
 function Index({ item }: IDetail) {
-  const { firstmeet, location, meetday, title, todo } = item;
+  const {
+    firstmeet,
+    location,
+    meetday,
+    title,
+    meetingcycle,
+    quanity,
+    joinMembr
+  } = item;
   const day = useMemo(
     () => dayjs(firstmeet).add(4, "month").format("YYYY년 MM월 DD일"),
-    []
+    [firstmeet]
   );
 
   const meetCycleArray: string[] = [];
 
   const meetCycleDay = (i = 0) => {
     return `${i + 1}회차 ${dayjs(firstmeet)
-      .add(2 * i, "week")
+      .add(1 * i, "week")
       .format("YYYY.MM.DD(ddd)")}`;
   };
 
   const meetCycleFunc = () => {
-    for (let i = 0; i < 4; i++) {
+    let num;
+    meetingcycle === "oneday" ? (num = 1) : (num = 4);
+    for (let i = 0; i < num; i++) {
       meetCycleArray.push(meetCycleDay(i));
     }
   };
@@ -62,7 +72,11 @@ function Index({ item }: IDetail) {
             <th scope="row">공지사항</th>
             <td>
               <ul>
-                <li>[{`${title} - ${todo}`} ]의 모임 인원은 10명입니다.</li>
+                <li>
+                  [{title}]의 모임 인원은 최대 {quanity}명입니다.{" "}
+                  {joinMembr.length > quanity / 3 &&
+                    `현재 ${joinMembr.length} 명이 신청 중입니다.`}
+                </li>
                 <li>
                   첫 모임 9일 전까지 모임 인원이 충족되지 않으면 모집 기간
                   연장을 위해 전체 일정을 1개월씩 연기할 수 있습니다.

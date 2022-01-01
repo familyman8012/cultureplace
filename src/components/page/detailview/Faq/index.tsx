@@ -4,9 +4,10 @@ import styled from "@emotion/styled";
 import Accordion from "../../../views/Accordion";
 import Link from "next/link";
 import SectionWrap from "../SectionWrap";
+import Collapsible from "react-collapsible";
 
 function index() {
-  const faqList = [
+  const FaqList = [
     {
       title: "1. 컬쳐플레이스 멤버가 되면 어떤 혜택이 있나요?",
       text: (
@@ -81,7 +82,16 @@ function index() {
   return (
     <SectionWrap>
       <Title>FAQ</Title>
-      {/* <Accordion textList={faqList} /> */}
+      {FaqList.map((el, i) => (
+        <Collapsible
+          key={i}
+          trigger={el.title}
+          transitionTime={200}
+          open={i === 0 ? true : false}
+        >
+          {el.text}
+        </Collapsible>
+      ))}
     </SectionWrap>
   );
 }

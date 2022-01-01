@@ -7,14 +7,14 @@ export const ClubInfoTable = styled.table`
     padding-bottom: 12px;
     vertical-align: top;
     ul {
-      margin-left: 5rem;
+      margin-left: 0;
     }
     li {
       list-style: disc;
     }
   }
   th {
-    width: 80px;
+    width: 120px;
     text-align: left;
   }
 `;

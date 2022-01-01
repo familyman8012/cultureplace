@@ -16,12 +16,22 @@ interface InfoCard {
 }
 
 function Index({ data, _id }: InfoCard) {
-  const { imgurl, title, location, meetday, firstmeet, comment, price } = data;
+  const {
+    imgurl,
+    title,
+    location,
+    meetday,
+    people,
+    firstmeet,
+    comment,
+    saleprice,
+    price
+  } = data;
 
   const firstMeetDay = dayjs(firstmeet);
   const startTime = useMemo(
     () => firstMeetDay.format(`MM/DD(${firstMeetDay.format("ddd")}) HH:mm`),
-    [firstmeet]
+    [firstMeetDay]
   );
   let today = new Date();
 
@@ -47,8 +57,13 @@ function Index({ data, _id }: InfoCard) {
               <span>첫 모임일</span> <span>{startTime}</span>
             </div>
           </div>
-          <div className="comment">#{comment}</div>
-          <div className="price">{price}원</div>
+          <div className="comment">#{people}</div>
+
+          <div className="wrap_price">
+            {saleprice !== 0 && <span className="price">{saleprice}원</span>}
+            <span className="price">{price}원</span>
+          </div>
+
           <div className="box_btn">
             <FavoriteButton _id={_id} data={data} />
             <Button color="brand" size="l" onClick={() => linkPay(_id)}>

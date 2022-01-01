@@ -38,9 +38,9 @@ const DetailView = ({ item }: IDetail) => {
 
   return (
     <Layout>
-      {data && _id !== undefined && (
-        <>
-          <DetailViewWrap>
+      <DetailViewWrap>
+        {data && _id !== undefined && (
+          <>
             <Content
               css={
                 data?.genre === "이벤트" &&
@@ -60,11 +60,10 @@ const DetailView = ({ item }: IDetail) => {
               <Refund title={data.title} />
               <Faq />
             </Content>
-
             <InfoCard data={data} _id={String(_id)} />
-          </DetailViewWrap>
-        </>
-      )}
+          </>
+        )}
+      </DetailViewWrap>
     </Layout>
   );
 };

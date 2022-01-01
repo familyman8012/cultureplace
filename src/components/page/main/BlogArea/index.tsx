@@ -20,7 +20,7 @@ const BlogWidth = css`
 function index({ blogData }: IBlogData) {
   return (
     <>
-      <Title css={NoticeTitle} url="notice">
+      <Title css={NoticeTitle} url="/notice">
         블로그
       </Title>
       <WrapBlogArea>

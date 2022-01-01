@@ -43,9 +43,7 @@ function index({
           <span className="thumb">
             <img src={imgurl} alt={title} />
           </span>
-          <span className="txt">
-            {title} : {todo}
-          </span>
+          <span className="txt">{title}</span>
         </ProductInfo>
         <WriteArea>
           <input

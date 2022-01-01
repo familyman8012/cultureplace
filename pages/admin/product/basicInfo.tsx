@@ -37,6 +37,7 @@ function App() {
 
       const productData = {
         ...data,
+        meetday: dayjs(data.firstmeet).format("ddd요일"),
         imgurl: `${imgData !== undefined ? imgData : prodUpStore.data.imgurl}`
       };
       console.log("productData", productData);
@@ -94,16 +95,16 @@ function App() {
 
           <label htmlFor="genre">장르</label>
           <select id="genre" {...register("genre")}>
-            <option value="영화">영화</option>
-            <option value="미식">미식</option>
-            <option value="패션">패션</option>
-            <option value="뮤직">뮤직</option>
-            <option value="미술">미술</option>
-            <option value="연극/뮤지컬">연극/뮤지컬</option>
-            <option value="번개">번개</option>
-            <option value="지식">지식</option>
-            <option value="힐링산책">힐링산책</option>
-            <option value="직접해보기">직접해보기</option>
+            <option value="movie">영화</option>
+            <option value="food">미식</option>
+            <option value="fashion">패션</option>
+            <option value="music">뮤직</option>
+            <option value="art">미술</option>
+            <option value="theater">연극/뮤지컬</option>
+            <option value="impromptu">번개</option>
+            <option value="wisdom">지식</option>
+            <option value="healing">힐링산책</option>
+            <option value="tryit">직접해보기</option>
           </select>
 
           <label htmlFor="location">장소 선택</label>
@@ -130,19 +131,19 @@ function App() {
               />
               1Day
             </label>
-            <label htmlFor="field-1month">
+            <label htmlFor="field-month">
               <input
                 {...register("meetingcycle")}
                 type="radio"
                 name="meetingcycle"
-                value="1month"
-                id="field-1month"
+                value="month"
+                id="field-month"
               />
               1Week
             </label>
           </div>
 
-          {
+          {/* {
             <>
               <label htmlFor="meetday">모임일 선택</label>
               <select id="meetday" {...register("meetday")}>
@@ -155,7 +156,7 @@ function App() {
                 <option value="일요일">일요일</option>
               </select>
             </>
-          }
+          } */}
 
           <label htmlFor="firstmeet">첫 모임일</label>
           <input

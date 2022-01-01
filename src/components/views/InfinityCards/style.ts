@@ -8,7 +8,7 @@ export const InfinityCardwrap = styled.div<{ type?: string }>`
   ${({ type }) => type === "event" && " grid-template-columns: 1fr 1fr 1fr;"};
 `;
 
-export const LinkCard = styled.a`
+export const LinkCard = styled.span`
   display: contents;
   margin: 12px;
 `;

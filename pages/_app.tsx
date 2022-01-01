@@ -26,24 +26,24 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   // queryClient.removeQueries();
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      console.log("/detailview", url.includes("/detailview"));
-      console.log(`App is changing to ${url}`);
-      if (url === "/month") {
-        queryClient.removeQueries(["list", "oneday"]);
-      } else if (url === "/oneday") {
-        queryClient.removeQueries(["list", "month"]);
-      } else if (
-        !url.includes("/detailview") &&
-        (searchStore.filterFind.every((el: []) => el.length === 0) ||
-          searchStore.searchInput !== "")
-      ) {
-        queryClient.removeQueries("list");
-      }
-    };
-    router.events.on("routeChangeStart", handleRouteChange);
-  }, []);
+  // useEffect(() => {
+  //   const handleRouteChange = (url: string) => {
+  //     console.log("/detailview", url.includes("/detailview"));
+  //     console.log(`App is changing to ${url}`);
+  //     if (url === "/month") {
+  //       queryClient.removeQueries(["list", "oneday"]);
+  //     } else if (url === "/oneday") {
+  //       queryClient.removeQueries(["list", "month"]);
+  //     } else if (
+  //       !url.includes("/detailview") &&
+  //       (searchStore.filterFind.every((el: []) => el.length === 0) ||
+  //         searchStore.searchInput !== "")
+  //     ) {
+  //       queryClient.removeQueries("list");
+  //     }
+  //   };
+  //   router.events.on("routeChangeStart", handleRouteChange);
+  // }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
