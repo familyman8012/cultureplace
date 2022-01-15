@@ -62,13 +62,7 @@ function Detail() {
         noticeStore.reset();
       });
     //router.push("./confirm");
-  }, [
-    QuillStore.data,
-    QuillStore.titleData,
-    imgData,
-    noticeStore.selCategory,
-    noticeStore.summary
-  ]);
+  }, [imgData]);
 
   console.log("noticeStore", noticeStore);
 

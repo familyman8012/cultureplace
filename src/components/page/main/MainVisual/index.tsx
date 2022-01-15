@@ -22,7 +22,7 @@ function Index({ mainVisImgs }: IMainVisImgs) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [handleResize]);
 
   const MainVisTxt = [
     {

@@ -41,7 +41,8 @@ const options = {
     error: "/signin"
   },
   session: {
-    jwt: true
+    jwt: true,
+    maxAge: 14 * 24 * 60 * 60 // 리프레쉬토큰, 2주
   },
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {

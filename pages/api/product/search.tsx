@@ -15,7 +15,7 @@ productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const data1 = {
       $search: {
         index: "productSearch",
-        text: { query: searchInput, path: ["title", "people"] }
+        text: { query: searchInput, path: ["title", "people", "location"] }
       }
     };
 
@@ -44,7 +44,7 @@ productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
     let searchOp = [];
     searchInput !== "" && searchOp.push(data1);
     filterFind.some((el: string | any[]) => el.length !== 0) &&
-      searchOp.push(data2);
+      searchOp.push(data2, { $unset: "copies" });
 
     // 키워드검색과 체크박스 검색 등을 합쳐서 검색 결과 가져오기
     let products;
@@ -55,11 +55,11 @@ productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
       filterFind.every((el: string | any[]) => el.length === 0)
     ) {
       [products, productsCount] = await Promise.all([
-        Product.find({ meetingcycle })
-          .sort({ createdAt: -1 })
+        Product.find({ meetingcycle }, { body: false })
+          .sort({ firstmeet: 1 })
           .skip((Number(page) - 1) * Numberlimit)
           .limit(Numberlimit),
-        Product.find().count()
+        Product.find().countDocuments()
       ]);
       is_last = Math.ceil(Number(productsCount) / Numberlimit) < Number(page);
     } else {

@@ -67,7 +67,7 @@ function Index({ data, _id }: InfoCard) {
           <div className="box_btn">
             <FavoriteButton _id={_id} data={data} />
             <Button color="brand" size="l" onClick={() => linkPay(_id)}>
-              달라지는 4개월, 지금 시작
+              나를 위한 경험, 지금 시작
             </Button>
           </div>
         </InfoCard>

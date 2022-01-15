@@ -23,6 +23,15 @@ function Adminlayout({ children }: Props) {
               </Link>
             </li>
           ))}
+          <li>
+            <a
+              href="https://admin.bootpay.co.kr/receipt"
+              target="_blank"
+              rel="noreferrer"
+            >
+              부트페이관리자
+            </a>
+          </li>
         </ul>
       </div>
       <div className="content">{children}</div>

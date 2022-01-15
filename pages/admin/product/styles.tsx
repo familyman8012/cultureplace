@@ -35,7 +35,7 @@ export const WrapIndexContent = styled.div`
   }
 `;
 
-export const IndexTable = styled.table`
+export const IndexTable = styled.table<{ showMemInfo?: number }>`
   width: 100%;
   box-shadow: 0 0 20px rgb(0 0 0 / 10%);
   ${mq[0]} {
@@ -43,6 +43,11 @@ export const IndexTable = styled.table`
     margin: 30px auto;
   }
   tbody tr {
+    &.tr_product${({ showMemInfo }) => showMemInfo} {
+      .layerMember {
+        display: block;
+      }
+    }
     &:hover {
       cursor: pointer;
       background-color: rgba(255, 255, 255, 0.5);
@@ -68,6 +73,9 @@ export const IndexTable = styled.table`
     }
   }
   td {
+    .layerMember {
+      display: none;
+    }
     padding: 10px 0;
     text-align: center;
     color: #fff;

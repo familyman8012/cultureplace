@@ -1,19 +1,20 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import createHandler from "../middleware";
 import Review from "../models/review";
 
 const reviewRouter = createHandler();
 
-reviewRouter.get(async (req, res) => {
+reviewRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { _id, page } = req.query;
 
     const [reviews, count] = await Promise.all([
       Review.find({ product: _id })
-        .skip((page - 1) * 5)
+        .skip((Number(page) - 1) * 5)
         .limit(5)
         .populate({ path: "product" })
         .sort({ updatedAt: -1 }),
-      Review.find({ product: _id }).count()
+      Review.find({ product: _id }).countDocuments()
     ]);
 
     return res.send({ reviews, count });
@@ -23,7 +24,7 @@ reviewRouter.get(async (req, res) => {
   }
 });
 
-reviewRouter.post(async (req, res) => {
+reviewRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const reviews = new Review(req.body);
     await reviews.save();
@@ -34,7 +35,7 @@ reviewRouter.post(async (req, res) => {
   }
 });
 
-reviewRouter.delete(async (req, res) => {
+reviewRouter.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { _id } = req.query;
     const reviews = await Review.findByIdAndDelete(_id);
@@ -45,7 +46,7 @@ reviewRouter.delete(async (req, res) => {
   }
 });
 
-reviewRouter.put(async (req, res) => {
+reviewRouter.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { _id } = req.query;
 
@@ -71,3 +72,6 @@ reviewRouter.put(async (req, res) => {
 // });
 
 export default reviewRouter;
+function err(err: any) {
+  throw new Error("Function not implemented.");
+}

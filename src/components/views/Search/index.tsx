@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { observer } from "mobx-react";
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, useCallback, useEffect } from "react";
 import { searchStore } from "@src/mobx/store";
 
 const SearchWrap = styled.div`
@@ -72,7 +72,7 @@ const FilterFindWrap = styled.div`
 const filterFindList = [
   {
     title: "장소",
-    option: ["강남", "안국", "대학로", "온라인"],
+    option: ["강남", "신촌", "홍대", "이태원", "대학로", "종로", "온라인"],
     optionName: [""]
   },
   {
@@ -91,45 +91,46 @@ const filterFindList = [
   {
     title: "관심분야",
     option: [
-      "movie",
+      "healing",
+      "theater",
+      "art",
       "music",
-      "소극장",
-      "서울걷기",
-      "성장하기",
-      "심리매력",
-      "직접해보기",
-      "이벤트"
+      "food",
+      "movie",
+      "fashion",
+      "wisdom"
     ],
     optionName: [
-      "영화",
-      "음악",
-      "소극장",
-      "서울걷기",
-      "성장하기",
-      "심리매력",
-      "직접해보기",
-      "이벤트"
+      "힐링산책",
+      "공연",
+      "미술",
+      "뮤직",
+      "미식",
+      "사진, 영상",
+      "패션",
+      "지식"
     ]
   }
 ];
 
 function Index({ pageNum, refetch }: { pageNum: number; refetch: () => void }) {
+  const handlerReset = useCallback(() => {
+    searchStore.onInit(filterFindList);
+    searchStore.onReset(pageNum);
+    refetch();
+  }, [pageNum, refetch]);
+
+  const handlerApply = useCallback(() => {
+    searchStore.onApply(pageNum);
+    refetch();
+  }, [pageNum, refetch]);
+
   useEffect(() => {
     searchStore.onInit(filterFindList);
     return () => {
       handlerReset();
     };
-  }, []);
-
-  const handlerApply = () => {
-    searchStore.onApply(pageNum);
-    refetch();
-  };
-  const handlerReset = () => {
-    searchStore.onInit(filterFindList);
-    searchStore.onReset(pageNum);
-    refetch();
-  };
+  }, [handlerReset]);
 
   return (
     <SearchWrap>

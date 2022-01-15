@@ -1,10 +1,16 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import createHandler from "../middleware";
 import User from "../models/user";
 import crypto from "crypto";
+import { IUser } from "@src/typings/db";
 
 const handler = createHandler();
 
-handler.post(async (req, res) => {
+interface IError {
+  code: number;
+}
+
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(req.body);
   crypto.randomBytes(64, (err, buf) => {
     crypto.pbkdf2(
@@ -19,10 +25,11 @@ handler.post(async (req, res) => {
         var users = new User(req.body);
         users
           .save()
-          .then(user => {
+          .then((user: IUser) => {
+            console.log;
             return res.status(200).json({ data: users });
           })
-          .catch(error => {
+          .catch((error: IError) => {
             error.code === 11000
               ? res
                   .status(400)
@@ -40,7 +47,7 @@ handler.post(async (req, res) => {
   });
 });
 
-handler.get(async (req, res) => {
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const users = await User.aggregate([
     {
       $facet: {
@@ -63,7 +70,7 @@ handler.get(async (req, res) => {
 //   }
 // });
 
-handler.delete(async (req, res) => {
+handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const { _id } = req.query;
   const users = await User.remove({ _id });
   return res.status(200).json(users);

@@ -17,14 +17,8 @@ const ProductSchema = new Schema(
     saleprice: { type: Number, required: true, default: 0 },
     quanity: { type: Number, required: true, default: 15 },
     islive: { type: Boolean, required: true, default: true },
-    joinMembr: {
-      type: Array,
-      default: []
-    },
-    favoriteduser: {
-      type: Array,
-      default: []
-    }
+    joinMembr: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    favoriteduser: [{ type: Schema.Types.ObjectId, ref: "User" }]
   },
   {
     timestamps: true

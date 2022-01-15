@@ -22,21 +22,21 @@ const WrapCategoryArea = styled.div`
 
 function Index({ genreData }: IGenreData) {
   const genreTitle = [
-    {
-      title: "영화를 힘께 즐기다, 영화를 만들다.",
-      url: "/view/movie"
-    },
-    { title: "맛, 다이닝, 요리, 와인, 쿡방", url: "/view/food" },
-    { title: "힙스타의 기본, 패션", url: "/view/fashion" },
+    { title: "힐링산책", url: "/view/healing" },
+    { title: "뮤지컬, 연극의 세계", url: "/view/theater" },
+    { title: "내가 만든 작품이 전시되는 날", url: "/view/art" },
+
     {
       title: "#최고의 사운드, 인생음악, #작곡, #작사, #댄스",
       url: "/view/music"
     },
-    { title: "내가 만든 작품이 전시되는 날", url: "/view/art" },
-    { title: "뮤지컬, 연극의 세계", url: "/view/theater" },
-    { title: "번개", url: "/view/impromptu" },
-    { title: "지헤를 얻기 위한 지식컬쳐", url: "/view/wisdom" },
-    { title: "힐링산책", url: "/view/healing" }
+    { title: "맛, 다이닝, 요리, 와인, 쿡방", url: "/view/food" },
+    {
+      title: "사진, 영상, 영화의 세계",
+      url: "/view/movie"
+    },
+    { title: "힙스타의 기본, 패션", url: "/view/fashion" },
+    { title: "지헤를 얻기 위한 지식컬쳐", url: "/view/wisdom" }
   ];
   const sliderOption = {
     749: {
@@ -73,7 +73,7 @@ function Index({ genreData }: IGenreData) {
                     <Link href={`/detailview/${el._id}`}>
                       <a>
                         <CardBadge el={el} />
-                        <Card data={el} querykey="posts" />
+                        <Card data={el} querykey="main" />
                       </a>
                     </Link>
                   </SwiperSlide>

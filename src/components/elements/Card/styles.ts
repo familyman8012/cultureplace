@@ -77,7 +77,8 @@ const typeStyle = ({ type }: StyledComponentProps) => {
       border: none;
       border-radius: 0;
       .imgbox {
-        height: 22.9rem;
+        position: relative;
+        height: 30rem;
       }
       .txtbox {
         padding: 1.2rem 0;
@@ -181,7 +182,7 @@ export const CardWrap = styled.div`
       &.meetinfobox {
         margin-top: 5px;
         margin-bottom: 0;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
       }
       &.todo {
         color: #1778b5;

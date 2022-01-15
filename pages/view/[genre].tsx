@@ -17,7 +17,7 @@ function Oneday() {
     setCurPage(1);
   }, [genre]);
 
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(20);
   const [curPage, setCurPage] = useState(1);
   const { data, error, status, refetch } = useProducts(
     pageSize,
@@ -27,6 +27,7 @@ function Oneday() {
 
   const handlePageChange = useCallback((page: number) => {
     setCurPage(page);
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -34,28 +35,37 @@ function Oneday() {
       <div
         css={css`
           width: 1280px;
-          margin: 0 auto;
-          display: grid;
-          gap: 22px 27px;
-          grid-template-columns: 1fr 1fr 1fr 1fr;
+          margin: 50px auto;
         `}
       >
-        {data?.products?.map((el: IProduct, i: number) => (
-          <Fragment key={i}>
-            <Link href={`/detailview/${el?._id}`}>
-              <a>
-                <Card data={el} />
-              </a>
-            </Link>
-          </Fragment>
-        ))}
+        <div
+          css={css`
+            display: grid;
+            gap: 22px 27px;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+          `}
+        >
+          {data?.products?.map((el: IProduct, i: number) => (
+            <Fragment key={i}>
+              <Link href={`/detailview/${el?._id}`}>
+                <a>
+                  <Card data={el} querykey={`${genre},${curPage}`} />
+                </a>
+              </Link>
+            </Fragment>
+          ))}
+        </div>
+        <Pagination
+          css={css`
+            width: fit-content;
+            margin: 0 auto;
+          `}
+          onChange={handlePageChange}
+          current={curPage}
+          pageSize={pageSize}
+          total={data?.productsCount}
+        />
       </div>
-      <Pagination
-        onChange={handlePageChange}
-        current={curPage}
-        pageSize={pageSize}
-        total={data?.productsCount}
-      />
     </Layout>
   );
 }

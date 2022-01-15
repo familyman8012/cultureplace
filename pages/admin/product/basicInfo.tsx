@@ -35,10 +35,12 @@ function App() {
         return alert("대표 이미지를 등록하셔야 합니다.");
       }
 
+      console.log("수정할때 왜 지랄?", imgData, typeof imgData);
+
       const productData = {
         ...data,
         meetday: dayjs(data.firstmeet).format("ddd요일"),
-        imgurl: `${imgData !== undefined ? imgData : prodUpStore.data.imgurl}`
+        imgurl: `${imgData !== "" ? imgData : prodUpStore.data.imgurl}`
       };
       console.log("productData", productData);
       runInAction(() => {
@@ -95,16 +97,14 @@ function App() {
 
           <label htmlFor="genre">장르</label>
           <select id="genre" {...register("genre")}>
-            <option value="movie">영화</option>
-            <option value="food">미식</option>
-            <option value="fashion">패션</option>
-            <option value="music">뮤직</option>
-            <option value="art">미술</option>
-            <option value="theater">연극/뮤지컬</option>
-            <option value="impromptu">번개</option>
-            <option value="wisdom">지식</option>
             <option value="healing">힐링산책</option>
-            <option value="tryit">직접해보기</option>
+            <option value="theater">연극/뮤지컬</option>
+            <option value="art">미술</option>
+            <option value="music">뮤직</option>
+            <option value="food">미식</option>
+            <option value="movie">사진, 영상</option>
+            <option value="fashion">패션</option>
+            <option value="wisdom">지식</option>
           </select>
 
           <label htmlFor="location">장소 선택</label>

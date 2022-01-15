@@ -18,7 +18,7 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
   const firstMeetDay = dayjs(data.firstmeet);
   const startTime = useMemo(
     () => firstMeetDay.format(`MM/DD(${firstMeetDay.format("ddd")}) HH:mm`),
-    [data.firstmeet]
+    [firstMeetDay]
   );
   const endTime = useMemo(
     () => dayjs(data.firstmeet).add(3, "hour").format("HH:mm"),
@@ -48,23 +48,21 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
   );
 
   const salePercent = useMemo(
-    () => (price / saleprice) * 10,
+    () => Math.floor((price / saleprice) * 10),
     [price, saleprice]
   );
 
   return (
     <CardWrap type={type} {...rest}>
       <div className="imgbox">
-        {/* {querykey === "posts" && (
-          <FavoriteButton data={data} querykey={querykey} />
-        )} */}
+        <FavoriteButton data={data} querykey={querykey} />
         <img src={imgurl} alt="모임사진" />
       </div>
       <dl className="txtbox">
-        <dt className="people">{people}</dt>
+        {type === "basic" && <dt className="people">{people}</dt>}
+        <dd className="title">{title}</dd>
         {type === "basic" && (
           <>
-            <dd className="title">{title}</dd>
             <dd className="favoriteNumber">
               <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
               {favoriteduser.length}
@@ -83,7 +81,6 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
           </>
         )}
 
-        {type === "other" && <dd className="todo">{todo}</dd>}
         {type === "event" && <dd className="people">{people}</dd>}
         <dd className="meetinfobox">
           <span className="location">{location}</span>

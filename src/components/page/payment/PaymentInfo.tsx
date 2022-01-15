@@ -4,6 +4,7 @@ import { Session } from "next-auth";
 import { Dispatch, SetStateAction, useState } from "react";
 import WrapPayment from "./styles";
 import Layout from "@/../src/components/layouts";
+import { css } from "@emotion/react";
 
 interface IPaymentInfo {
   data: IProduct;
@@ -23,6 +24,8 @@ function PaymentInfo({
     agree: false
   });
 
+  console.log("data in", data);
+
   const chgPaymentinfo = (
     target: string,
     e: React.ChangeEvent<HTMLInputElement>
@@ -35,7 +38,7 @@ function PaymentInfo({
   };
 
   const payOption = {
-    price: data?.price,
+    price: data?.saleprice ? data?.saleprice : data?.price,
     name: data?.title,
     pg: "kcp",
     username: session?.user.name,
@@ -149,10 +152,25 @@ function PaymentInfo({
                 <dl>
                   <dt className="tit">{data.title}</dt>
                   <dd className="price">
+                    {data?.saleprice
+                      ? data.saleprice
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : data.price
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    원
+                  </dd>
+                  <dd
+                    css={css`
+                      display: block;
+                      color: #ddd;
+                      text-decoration: line-through;
+                    `}
+                  >
                     {data.price
                       .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    원
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"}
                   </dd>
                 </dl>
               </div>
@@ -184,10 +202,33 @@ function PaymentInfo({
               <p>
                 <span className="txt">총 결제금액</span>
                 <span className="price">
-                  {data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  {data?.saleprice
+                    ? data.saleprice
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : data.price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   원
                 </span>
               </p>
+
+              {data?.saleprice !== 0 && (
+                <p
+                  css={css`
+                    display: block;
+                    color: #ddd;
+                    text-decoration: line-through;
+                  `}
+                >
+                  <span className="txt">할인 전 가격</span>
+                  <span className="price">
+                    {data.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"}
+                  </span>
+                </p>
+              )}
             </div>
             <div className="box box_agree">
               <input

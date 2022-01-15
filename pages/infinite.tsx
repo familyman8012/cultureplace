@@ -104,11 +104,13 @@ export default function Home() {
             ) => (
               <div className="container" key={key}>
                 <Link href="/detail/1">
-                  <img
-                    src={data.urls.small}
-                    className="image"
-                    alt={data.alt_description}
-                  />
+                  <a>
+                    <img
+                      src={data.urls.small}
+                      className="image"
+                      alt={data.alt_description}
+                    />
+                  </a>
                 </Link>
                 <h4>Photo by {data.user.name} 📸</h4>
               </div>

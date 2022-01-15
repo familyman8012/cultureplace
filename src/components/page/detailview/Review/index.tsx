@@ -41,7 +41,7 @@ function Index({ item, id }: { item: IProduct; id: string }) {
       !modalOpen ? { _id: "", state: "save" } : { _id: "", state: "" }
     );
     setModalOpen(prev => !prev);
-  }, []);
+  }, [modalOpen, review]);
 
   const modifyModal = ({
     title,

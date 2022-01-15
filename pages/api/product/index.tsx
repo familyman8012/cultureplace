@@ -15,20 +15,22 @@ productRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (isEmpty(searchOption)) {
       const [products, productsCount] = await Promise.all([
-        Product.find({})
-          .sort({ createdAt: -1 })
+        Product.find({}, { body: false })
+          // .populate("joinMembr")
+          .sort({ firstmeet: 1 })
           .limit(Numberlimit)
           .skip((Number(page) - 1) * Numberlimit),
-        Product.find({}).count()
+        Product.find({}).countDocuments()
       ]);
       return res.send({ products, productsCount });
     } else {
+      console.log(Numberlimit, page);
       const [products, productsCount] = await Promise.all([
-        Product.find(searchOption)
-          .sort({ createdAt: -1 })
+        Product.find(searchOption, { body: false })
+          .sort({ firstmeet: 1 })
           .limit(Numberlimit)
           .skip((Number(page) - 1) * Numberlimit),
-        Product.find(searchOption).count()
+        Product.find(searchOption).countDocuments()
       ]);
       return res.send({ products, productsCount });
     }
@@ -39,6 +41,7 @@ productRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log(req.body);
   try {
     const products = new Product(req.body);
     await products.save();

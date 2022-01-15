@@ -2,7 +2,7 @@ import { IProduct } from "@src/typings/db";
 import axios from "axios";
 import { useSession } from "next-auth/client";
 import React, { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient, focusManager } from "react-query";
 import { FavoriteState } from "./style";
 
 function FavoriteButton({ _id, data }: { _id: string; data: IProduct }) {
@@ -15,7 +15,7 @@ function FavoriteButton({ _id, data }: { _id: string; data: IProduct }) {
       data !== undefined &&
         data.favoriteduser.includes(String(session?.user?.uid))
     );
-  }, [data]);
+  }, [data, session?.user?.uid]);
 
   const variables = {
     _id: data?._id,
@@ -45,8 +45,14 @@ function FavoriteButton({ _id, data }: { _id: string; data: IProduct }) {
             });
           }
         }
+        return { previousDetail };
       },
-      // onSuccess: () => queryClient.invalidateQueries("list"),
+      onSuccess: () => {
+        focusManager.setFocused(false);
+        setTimeout(() => {
+          queryClient.refetchQueries(["list"]);
+        }, 500);
+      },
       onError: (error, variables, context) => {
         // I will fire first
         console.log(error, variables);

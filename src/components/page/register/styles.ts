@@ -148,7 +148,7 @@ input[type="submit"] {
   grid-gap: 2rem;
 }
 
-.counter {
+.countDocumentser {
   font-weight: 400;
   background: white;
   color: black;

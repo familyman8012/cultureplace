@@ -18,7 +18,7 @@ function DetailView() {
 
   const createTime = useMemo(
     () => dayjs(data?.updatedAt).format(`YYYY.MM.DD`),
-    []
+    [data?.updatedAt]
   );
 
   console.log(data);

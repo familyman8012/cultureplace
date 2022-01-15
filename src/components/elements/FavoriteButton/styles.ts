@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const FavoriteBtn = styled.div<{ on: string }>`
   position: absolute;
+  z-index: 100;
   top: 10px;
   right: 10px;
   width: 37px;

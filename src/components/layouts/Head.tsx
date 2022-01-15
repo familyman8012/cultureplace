@@ -5,22 +5,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the 
 import { faSortDown } from "@fortawesome/free-solid-svg-icons"; // import the icons you need
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { css } from "@emotion/react";
 
 export const CategoryLink = [
-  { title: "영화", url: "/view/movie" },
-  { title: "음식", url: "/view/food" },
-  { title: "패션", url: "/view/fashion" },
-  { title: "뮤직", url: "/view/music" },
-  { title: "미술", url: "/view/art" },
+  { title: "힐링산책", url: "/view/healing" },
   { title: "공연", url: "/view/theater" },
-  { title: "번개", url: "/view/impromptu" },
-  { title: "지식", url: "/view/wisdom" },
-  { title: "힐링산책", url: "/view/healing" }
+  { title: "미술", url: "/view/art" },
+  { title: "뮤직", url: "/view/music" },
+  { title: "미식", url: "/view/food" },
+  { title: "사진, 영상", url: "/view/movie" },
+  { title: "패션", url: "/view/fashion" },
+  { title: "지식", url: "/view/wisdom" }
 ];
 
 function Head() {
   const [session] = useSession();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [searchKeyword, setsearchKeyword] = useState("");
 
   const router = useRouter();
   const { genre } = router.query;
@@ -33,6 +34,18 @@ function Head() {
     setIsOpenMenu(prev => !prev);
   }, []);
 
+  const handlerSearchWrite = useCallback(e => {
+    setsearchKeyword(e.target.value);
+  }, []);
+  const handleSearchMove = useCallback(
+    e => {
+      e.preventDefault();
+      if (searchKeyword === "") return;
+      router.replace(`/search?keyword=${searchKeyword}`);
+    },
+    [router, searchKeyword]
+  );
+
   return (
     <>
       <Header>
@@ -42,18 +55,20 @@ function Head() {
               <a>CULTURE PLACE</a>
             </Link>
           </h1>
-          <SearchForm>
-            <span className="btn-search"></span>
+          <SearchForm onSubmit={handleSearchMove}>
             <label className="hiddenZoneV" htmlFor="search-input">
               함께 하고 싶은 모임명, 팀리더를 검색해보세요.
             </label>
             <input
               type="text"
-              name="q"
-              placeholder="함께 하고 싶은 모임명,  팀리더를 검색해보세요."
+              name="keyword"
+              placeholder="모임명, 모임장소,  팀리더를 검색해보세요."
               maxLength={50}
               autoComplete="off"
+              value={searchKeyword}
+              onChange={e => handlerSearchWrite(e)}
             />
+            <span className="btn-search" onClick={handleSearchMove}></span>
           </SearchForm>
           <aside>
             <ul>
@@ -61,18 +76,34 @@ function Head() {
                 <a>크리에이터 지원</a>
               </li>
               <li className="my">
-                <a>내 모임</a>
+                <Link href="/mypage">
+                  <a>내 모임</a>
+                </Link>
               </li>
             </ul>
           </aside>
           <Login>
             {!session && <Link href="/signin">로그인</Link>}
-            {session && (
+            {/* {session && (
               <>
                 {session.user.email}
                 <button onClick={() => signOut()}>Sign out</button>
               </>
-            )}
+            )} */}
+            <div
+              css={css`
+                display: block;
+                overflow: hidden;
+                width: 36px;
+                height: 36px;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                border-radius: 50%;
+                background-image: url(//img.taling.me/Content/Images/placeholders/profile-default.thumb.jpg);
+                background-position: center;
+                background-size: cover;
+              `}
+            ></div>
           </Login>
         </div>
         <MenuArea>
@@ -114,6 +145,11 @@ function Head() {
             </Link>
           </li>
           <li>
+            <Link href="/info">
+              <a>Info</a>
+            </Link>
+          </li>
+          <li>
             <a
               href="http://yyagency7.iwinv.net/wp"
               target="_blank"
@@ -122,11 +158,11 @@ function Head() {
               Online Lesson
             </a>
           </li>
-          <li>
+          {/* <li>
             <Link href="/notice">
               <a>NTF 전시 &amp; 판매</a>
             </Link>
-          </li>
+          </li> */}
 
           <li>
             <Link href="/notice">

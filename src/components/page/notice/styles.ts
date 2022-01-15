@@ -47,7 +47,7 @@ export const NoticeButton = css`
 
 export const SectionNotice = styled.div`
   width: 1100px;
-  margin: 0 auto;
+  margin: 50px auto;
 `;
 export const TabNotice = styled.div`
   display: flex;

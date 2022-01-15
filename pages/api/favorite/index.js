@@ -4,6 +4,7 @@ import Product from "../models/product";
 const favoriteRouter = createHandler();
 
 favoriteRouter.post(async (req, res) => {
+  console.log("이게 모얌...");
   try {
     const { _id, favorite, userid } = req.body;
     const favorited = await Product.updateOne(

@@ -1,15 +1,16 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import createHandler from "../middleware";
 import User from "../models/user";
 import crypto from "crypto";
 
 const handler = createHandler();
 
-handler.get(async (req, res) => {
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const users = await User.find({});
   return res.status(200).json({ data: users });
 });
 
-handler.post(async (req, res) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   var t = req.body.email;
   const getSalt = await User.find({ email: t }, { _id: false, salt: true });
 

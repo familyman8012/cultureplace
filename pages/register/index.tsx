@@ -136,7 +136,7 @@ export default function Register({ providers, csrfToken }: ISignIn) {
             </p>
           )}
           {errors.phone && errors.phone.type === "pattern" && (
-            <p>연락처는 01012345678 처럼 숫자로만 입력해주세요.</p>
+            <p>연락처를 정확하게 입력해주세요.</p>
           )}
           <label>Password</label>
           <input
@@ -179,11 +179,11 @@ export default function Register({ providers, csrfToken }: ISignIn) {
           <input type="submit" disabled={loading} value="동의하고 회원가입" />
         </form>
         <div className="txt_read_yakawn">
-          <Link href="/yakwan">
+          <Link href="/yakwan/policy">
             <a>이용약관</a>
           </Link>
           ,{" "}
-          <Link href="/policy2">
+          <Link href="/yakwan/privacy">
             <a>개인정보 수집 및 이용</a>
           </Link>
           , 내용을 확인하였고 동의합니다.

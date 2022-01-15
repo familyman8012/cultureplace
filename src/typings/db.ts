@@ -27,6 +27,17 @@ export interface IProductList {
   productsCount: number;
 }
 
+export interface IinfinityProduct {
+  pageParams: number[];
+  pages: [
+    {
+      products: IProduct[];
+      nextPage: number;
+      isLast: boolean;
+    }
+  ];
+}
+
 export interface INotice {
   _id: string;
   category?: string;
@@ -131,6 +142,20 @@ export interface IPayment {
     unit: string;
   };
   userid: string;
+}
+
+export interface ICulutreInfo {
+  data: {
+    elements: {
+      elements: {
+        elements: {
+          type: string;
+          name: string;
+          elements: [{ type: string; text: string }];
+        }[];
+      }[];
+    }[];
+  };
 }
 
 // export interface IReviewModal extends IReviewEdit {

@@ -28,7 +28,7 @@ function CardBadge({ el }: ICardBadge) {
         {el.saleprice !== 0 && (
           <div className="card-badge__subtitle">
             {" "}
-            ~{(el.price / el.saleprice) * 10}%
+            ~{Math.floor((el.price / el.saleprice) * 10)}%
           </div>
         )}
       </div>

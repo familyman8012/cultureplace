@@ -12,26 +12,38 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { CategoryLink } from "@src/components/layouts/Head";
 import { fetchProducts } from "@src/hooks/api/useProducts";
+import { ICulutreInfo } from "@src/typings/db";
+import axios from "axios";
 
 const Home = ({ SsrData }: any) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
 
   // ssr 시, useQuery 대신, useProducts 이런 식으로 불러들이면, 제대로 ssr 안됨.
-  const { data } = useQuery("indexProducts", () => fetchProducts(90, 1));
+  const { data } = useQuery(["list", "main"], () => fetchProducts(90, 1));
+
+  // const { data: infodata1 } = useQuery(["tour"], async () => {
+  //   const parse: ICulutreInfo = await axios.get("/api/info");
+  //   console.log(parse);
+  //   const result = parse.data.elements[0].elements;
+  //   return result;
+  // });
+
   const productsData = data?.products;
+
+  console.log("data 대박", data);
 
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [
-        productsData.filter(el => el.genre === "movie"),
-        productsData.filter(el => el.genre === "food"),
-        productsData.filter(el => el.genre === "fashion"),
-        productsData.filter(el => el.genre === "music"),
-        productsData.filter(el => el.genre === "art"),
+        productsData.filter(el => el.genre === "healing"),
+
         productsData.filter(el => el.genre === "theater"),
-        productsData.filter(el => el.genre === "impromptu"),
-        productsData.filter(el => el.genre === "wisdom"),
-        productsData.filter(el => el.genre === "healing")
+        productsData.filter(el => el.genre === "art"),
+        productsData.filter(el => el.genre === "music"),
+        productsData.filter(el => el.genre === "food"),
+        productsData.filter(el => el.genre === "movie"),
+        productsData.filter(el => el.genre === "fashion"),
+        productsData.filter(el => el.genre === "wisdom")
       ];
     }
   }
@@ -39,7 +51,7 @@ const Home = ({ SsrData }: any) => {
   const genreData = getGenreData();
 
   const CategoryWrap = styled.div`
-    width: 1250px;
+    width: 1150px;
     margin: 0 auto;
     .categoryLink {
       margin-bottom: -30px;
@@ -130,7 +142,7 @@ export async function getServerSideProps() {
   //const res = await axios.get("http://localhost:3000/api/product");
 
   //await queryClient.prefetchQuery(["posts"], fetchPosts);
-  await queryClient.prefetchQuery("indexProducts", () => fetchProducts(90, 1));
+  await queryClient.prefetchQuery(["list", "main"], () => fetchProducts(20, 1));
 
   const [result, result2, result3] = await Promise.all([
     Mainvisimg.find({}, { showNum: false, createdAt: false, updatedAt: false })

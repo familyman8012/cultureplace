@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["src/*"]
-    }
+    },
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
@@ -25,7 +26,8 @@
     "**/*.tsx",
     "pages/api/middleware/db.js",
     "src/components/elements/sample/Button.jsx",
-    "pages/api/product/search.js"
+    "pages/api/product/search.js",
+    "pages/info/[id].js"
   ],
   "exclude": ["node_modules"]
 }

@@ -24,7 +24,7 @@ function MyDocument() {
         <script defer src="/script/quill/table.js"></script>
         <script defer src="/script/quill/imgresize.js"></script>
         <link
-          href="//cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.css"
+          href="https://cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.css"
           rel="stylesheet"
         />
 

@@ -5,7 +5,7 @@ const noticeRouter = createHandler();
 
 noticeRouter.get(async (req, res) => {
   try {
-    const notices = await Notice.find({});
+    const notices = await Notice.find({}).sort({ createdAt: -1 });
     return res.send(notices);
   } catch {
     console.log(err);
@@ -24,6 +24,5 @@ noticeRouter.post(async (req, res) => {
     res.status(500).send(err);
   }
 });
-
 
 export default noticeRouter;

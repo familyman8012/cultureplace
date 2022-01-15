@@ -45,21 +45,29 @@ const InfoMemberChart = () => {
       axios.get("/api/user/user").then((res: AxiosResponse<Istatics>) => {
         const { byGender, byAgegroup } = res.data;
         setChartData({
-          labels: sortBy(byGender, ["_id"]).map(el => el._id),
+          labels: sortBy(byGender, ["_id"])
+            .filter(el => el._id !== null)
+            .map(el => el._id),
           datasets: [
             {
               label: "# of Votes",
-              data: sortBy(byGender, ["_id"]).map(el => el.count),
+              data: sortBy(byGender, ["_id"])
+                .filter(el => el._id !== null)
+                .map(el => el.count),
               backgroundColor: ["#ff8400", "#ffb700", "#dddddd"]
             }
           ]
         });
         setChartData2({
-          labels: sortBy(byAgegroup, ["_id"]).map(el => el._id),
+          labels: sortBy(byAgegroup, ["_id"])
+            .filter(el => el._id !== null)
+            .map(el => el._id),
           datasets: [
             {
               label: "# of Votes",
-              data: sortBy(byAgegroup, ["_id"]).map(el => el.count),
+              data: sortBy(byAgegroup, ["_id"])
+                .filter(el => el._id !== null)
+                .map(el => el.count),
               backgroundColor: [
                 "#ff8400",
                 "#ffb700",
