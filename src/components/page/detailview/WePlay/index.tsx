@@ -3,32 +3,74 @@ import styled from "@emotion/styled";
 import Title from "../Title";
 import SectionWrap from "../SectionWrap";
 import { Play, PlayList } from "./style";
+import { css } from "@emotion/react";
 
 const memberTxtList = [
   {
     id: "play1",
     title: "직접 하고,",
-    desc: "한 달에 한 권, 선정된 책을 함께 읽어요.",
+    desc: (
+      <p>
+        뮤지컬, 연극, 요리, 그림, 공예, 사진 등<br /> 각종 문화의 주인공은 바로
+        당신입니다.
+      </p>
+    ),
     subDesc: ""
   },
   {
     id: "play2",
     title: "보고,",
-    desc: "모임 이틀 전까지 독후감을 써요. 독후감을 써야 모임에 참석할 수 있답니다!",
-    subDesc: "걱정 뚝! 내 생각을 정리하다 보면 400자는 금방이에요."
+    desc: (
+      <p>
+        컬쳐플레이스의 친구들과
+        <br /> 함께 영화, 공연, 전시회등을 놀러가요.
+      </p>
+    )
   },
   {
     id: "play3",
     title: "즐기고,",
-    desc: "모임 날엔 아지트에 함께 모여, 읽은 책과 독후감에 대해 이야기해요.",
-    subDesc: "진행을 돕는 파트너와 발제문이 있으니 몸만 오세요."
+    desc: (
+      <p>
+        카르페디엠, 컬쳐플레이스는
+        <br />
+        놀기 위해 만들어진 곳입니다.
+      </p>
+    ),
+    subDesc: (
+      <p
+        css={css`
+          margin-top: 10px;
+          font-size: 12px;
+        `}
+      >
+        지적허영은 NoNo, 컬쳐플레이스는
+        <br />
+        새로운 친구를 사귀고 즐기는 곳이에요.
+      </p>
+    )
   },
   {
     id: "play4",
     title: "추억하자.",
-    desc: "뜻을 모아 뒤풀이와 번개가 열려요.",
-    subDesc:
-      "꿀팁! 멤버라면 아지트 공간을 무료로 대관할 수 있으니 활용해보세요."
+    desc: (
+      <p>
+        메모리얼 리뷰, 블로그, 인스타, 틱톡, 유튜브등
+        <br />
+        다양한 곳에 우리의 즐거웠던 순간들을 기록합니다.
+      </p>
+    ),
+    subDesc: (
+      <p
+        css={css`
+          margin-top: 10px;
+          font-size: 12px;
+        `}
+      >
+        시간이 지나 뒤돌아 봤을 때, 이때 우리는 이랬었구나 추억할 수 있을
+        거에요.
+      </p>
+    )
   }
 ];
 
@@ -38,7 +80,11 @@ function index() {
       <Title>컬쳐플레이스 클럽의 멤버가 되면? 👀</Title>
       <PlayList>
         {memberTxtList.map((item, i) => (
-          <Play key={item.id} id={item.id} bgimg={`/images/weplay${i + 1}.png`}>
+          <Play
+            key={item.id}
+            id={item.id}
+            bgimg={`/images/ico_play${i + 1}.jpg`}
+          >
             <dt>{item.title}</dt>
             <dd className="desc">{item.desc}</dd>
             <dd className="subdesc">{item.subDesc}</dd>

@@ -65,24 +65,6 @@ function Index({ noticeData }: INoticeList) {
           >
             그리고 이제 새로운 추억을 만들어야 할 시간이다.
           </p>
-          <p
-            css={css`
-              margin-top: 30px;
-            `}
-          >
-            무대 위에 있을 당신을 위하여,
-            <br /> 당신이 그린 그림, 당신이 촬영한 사진, 영상이 전시회에서
-            <br />
-            관객과 만날 수 있도록 컬쳐플레이스가 당신과 함께 합니다.
-          </p>
-          <p
-            css={css`
-              margin-top: 20px;
-              margin-left: 150px;
-            `}
-          >
-            - 컬쳐플레이스 대표 윤은석, 임유진
-          </p>
         </div>
       </BannerImg>
       <SectionNotice>
