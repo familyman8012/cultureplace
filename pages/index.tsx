@@ -19,7 +19,9 @@ const Home = ({ SsrData }: any) => {
   const { mainVisImgs, blogData, noticeData } = SsrData;
 
   // ssr 시, useQuery 대신, useProducts 이런 식으로 불러들이면, 제대로 ssr 안됨.
-  const { data } = useQuery(["list", "main"], () => fetchProducts(90, 1));
+  const { isLoading, error, data } = useQuery(["list", "main"], () =>
+    fetchProducts(90, 1)
+  );
 
   // const { data: infodata1 } = useQuery(["tour"], async () => {
   //   const parse: ICulutreInfo = await axios.get("/api/info");
@@ -124,7 +126,7 @@ const Home = ({ SsrData }: any) => {
             </Link>
           ))}
         </div>
-        {genreData && <CategoryArea genreData={genreData} />}
+        <CategoryArea genreData={genreData} isLoading={isLoading} />
         <Morebtn />
         <BlogArea blogData={blogData} />
         <NoticeArea noticeData={noticeData} />

@@ -6,11 +6,14 @@ import Card from "@src/components/elements/Card";
 import Title from "@src/components/elements/Title";
 import { IProduct } from "@src/typings/db";
 import dayjs from "dayjs";
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import CardBadge from "@src/components/elements/CardBadge";
+import CardSkeleton from "@src/components/elements/Card/CardSkeleton";
+import { css } from "@emotion/react";
 
 export interface IGenreData {
-  genreData: IProduct[][];
+  genreData?: IProduct[][] | undefined;
+  isLoading: boolean;
 }
 
 const WrapCategoryArea = styled.div`
@@ -20,7 +23,7 @@ const WrapCategoryArea = styled.div`
   }
 `;
 
-function Index({ genreData }: IGenreData) {
+function Index({ genreData, isLoading }: IGenreData) {
   const genreTitle = [
     { title: "힐링산책", url: "/view/healing" },
     { title: "뮤지컬, 연극의 세계", url: "/view/theater" },
@@ -66,19 +69,33 @@ function Index({ genreData }: IGenreData) {
             <Title i={i} url={el.url}>
               {el.title}
             </Title>
-            <Slider breakPoint={sliderOption} i={i}>
-              {genreData &&
-                genreData[i]?.map((el: IProduct) => (
-                  <SwiperSlide key={el._id}>
-                    <Link href={`/detailview/${el._id}`}>
-                      <a>
-                        <CardBadge el={el} />
-                        <Card data={el} querykey="main" />
-                      </a>
-                    </Link>
-                  </SwiperSlide>
+            {isLoading && (
+              <div
+                css={css`
+                  display: flex;
+                `}
+              >
+                {Array.from({ length: 4 }).map((_, idx) => (
+                  <CardSkeleton key={idx} />
                 ))}
-            </Slider>
+                ;
+              </div>
+            )}
+            {!isLoading && (
+              <Slider breakPoint={sliderOption} i={i}>
+                {genreData &&
+                  genreData[i]?.map((el: IProduct) => (
+                    <SwiperSlide key={el._id}>
+                      <Link href={`/detailview/${el._id}`}>
+                        <a>
+                          <CardBadge el={el} />
+                          <Card data={el} querykey="main" />
+                        </a>
+                      </Link>
+                    </SwiperSlide>
+                  ))}
+              </Slider>
+            )}
           </WrapCategoryArea>
         );
       })}
