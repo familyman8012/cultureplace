@@ -18,13 +18,21 @@ export const CategoryLink = [
   { title: "지식", url: "/view/wisdom" }
 ];
 
+const mypageLink = [
+  { title: "내모임", url: "/mypage" },
+  { title: "결제사항", url: "/mypage/payment" }
+];
+
 function Head() {
   const [session] = useSession();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [searchKeyword, setsearchKeyword] = useState("");
+  const [showBulbble, setshowBulbble] = useState(false);
 
   const router = useRouter();
   const { genre } = router.query;
+
+  console.log(session);
 
   useEffect(() => {
     setIsOpenMenu(false);
@@ -45,6 +53,15 @@ function Head() {
     },
     [router, searchKeyword]
   );
+
+  const handleShowBubble = useCallback(() => {
+    setshowBulbble(prev => !prev);
+  }, []);
+
+  const goMypage = (url: string) => {
+    router.push(url);
+    setshowBulbble(false);
+  };
 
   return (
     <>
@@ -82,28 +99,79 @@ function Head() {
               </li>
             </ul>
           </aside>
-          <Login>
-            {!session && <Link href="/signin">로그인</Link>}
-            {/* {session && (
-              <>
-                {session.user.email}
-                <button onClick={() => signOut()}>Sign out</button>
-              </>
-            )} */}
-            <div
-              css={css`
-                display: block;
-                overflow: hidden;
-                width: 36px;
-                height: 36px;
-                -webkit-border-radius: 50%;
-                -moz-border-radius: 50%;
-                border-radius: 50%;
-                background-image: url(//img.taling.me/Content/Images/placeholders/profile-default.thumb.jpg);
-                background-position: center;
-                background-size: cover;
-              `}
-            ></div>
+          <Login
+            css={css`
+              position: relative;
+            `}
+          >
+            {!session ? (
+              <Link href="/signin">로그인</Link>
+            ) : (
+              <div
+                css={css`
+                  display: block;
+                  overflow: hidden;
+                  width: 36px;
+                  height: 36px;
+                  -webkit-border-radius: 50%;
+                  -moz-border-radius: 50%;
+                  border-radius: 50%;
+                  cursor: pointer;
+                  background-image: url(//img.taling.me/Content/Images/placeholders/profile-default.thumb.jpg);
+                  background-position: center;
+                  background-size: cover;
+                `}
+                onClick={handleShowBubble}
+              ></div>
+            )}
+            {showBulbble && (
+              <div
+                css={css`
+                  z-index: 10;
+                  background: #fff;
+                  border: 1px solid #cc39d8;
+                  color: #fff;
+                  font-size: 14px;
+                  padding: 0 1em;
+                  position: relative;
+                  text-align: center;
+                  vertical-align: top;
+                  width: max-content;
+                  position: absolute;
+                  top: 52px;
+                  left: -22px;
+                  border-radius: 5px;
+                  &:after {
+                    border: 0.5em solid transparent;
+                    border-top-color: #cc39d8;
+                    content: "";
+                    margin-left: -0.5em;
+                    position: absolute;
+                    top: -15px;
+                    left: 50%;
+                    width: 0;
+                    height: 0;
+                    transform: rotate(180deg);
+                  }
+                  li {
+                    padding: 5px 0;
+                    color: #000;
+                    font-weight: normal;
+                    font-size: 14px;
+                    cursor: pointer;
+                  }
+                `}
+              >
+                <ul>
+                  {mypageLink.map((el, i) => (
+                    <li onClick={() => goMypage(el.url)} key={i}>
+                      {el.title}
+                    </li>
+                  ))}
+                  <li onClick={() => signOut()}>로그아웃</li>
+                </ul>
+              </div>
+            )}
           </Login>
         </div>
         <MenuArea>

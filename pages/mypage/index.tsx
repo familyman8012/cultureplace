@@ -18,7 +18,10 @@ function Index() {
           width: 1000px;
           margin: 72px auto;
           .wrap_menu {
-            min-width: 320px;
+            li {
+              margin-top: 15px;
+            }
+            min-width: 200px;
             margin-right: 78px;
             .userName {
               font-size: 30px;
@@ -46,6 +49,7 @@ function Index() {
             line-height: 24px;
             letter-spacing: -0.45px;
             margin: 0px;
+            padding-top: 15px;
           }
         `}
       >
@@ -57,9 +61,8 @@ function Index() {
           <h2>내 정보</h2>
           <ul>
             <li>
-              <Link href="/mypage/mypayment">주문내역</Link>
+              <Link href="/mypage/payment">주문내역</Link>
             </li>
-            <li>주문내역</li>
           </ul>
         </div>
         <div className="wrap_cont">

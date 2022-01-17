@@ -15,6 +15,7 @@ import InView from "react-intersection-observer";
 import { InfinityCardwrap, LinkCard } from "./style";
 import Search from "@src/components/views/Search";
 import CardBadge from "@src/components/elements/CardBadge";
+import CardSkeleton from "@src/components/elements/Card/CardSkeleton";
 
 interface IQuerykey {
   querykey: string;
@@ -46,7 +47,11 @@ export default function Infinity({ querykey, type }: IQuerykey) {
         )}
 
         {status === "loading" ? (
-          <p>Loading...</p>
+          <InfinityCardwrap type={type}>
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <CardSkeleton key={idx} type={type} />
+            ))}
+          </InfinityCardwrap>
         ) : status === "error" ? (
           <p>Error</p>
         ) : (

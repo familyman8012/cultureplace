@@ -8,7 +8,7 @@ const fetchFavorite = async (userid: string) => {
 };
 
 const useFavorite = (userid: string) => {
-  return useQuery<IProduct[], Error>("favoriteData", () =>
+  return useQuery<IProduct[], Error>(["list", "favoriteData"], () =>
     fetchFavorite(userid)
   );
 };
@@ -19,7 +19,7 @@ const fetchJoin = async (userid: string) => {
 };
 
 const useJoin = (userid: string) => {
-  return useQuery<IProduct[], Error>("joinfavoriteData", () =>
+  return useQuery<IProduct[], Error>(["list", "joinfavoriteData"], () =>
     fetchJoin(userid)
   );
 };

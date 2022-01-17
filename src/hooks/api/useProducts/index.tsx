@@ -9,7 +9,9 @@ const fetchProducts = async (
 ) => {
   console.log("pageParam", pageParam);
   const parse = await axios.get(
-    `/api/product?limit=${limit}&page=${pageParam}${
+    `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/api/product?limit=${limit}&page=${pageParam}${
       genre ? `&genre=${genre}` : ``
     }`
   );

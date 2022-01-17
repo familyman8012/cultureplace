@@ -21,7 +21,7 @@ function MyFavorite({ session }: any) {
         css={css`
           display: grid;
           gap: 22px 27px;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr 1fr 1fr;
         `}
       >
         {data?.map((el, i) => (

@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
+import CardSkeleton from "@src/components/elements/Card/CardSkeleton";
 
 function Oneday() {
   const router = useRouter();
@@ -19,7 +20,7 @@ function Oneday() {
 
   const [pageSize, setPageSize] = useState(20);
   const [curPage, setCurPage] = useState(1);
-  const { data, error, status, refetch } = useProducts(
+  const { data, error, isLoading, refetch } = useProducts(
     pageSize,
     curPage,
     String(genre)
@@ -45,15 +46,20 @@ function Oneday() {
             grid-template-columns: 1fr 1fr 1fr 1fr;
           `}
         >
-          {data?.products?.map((el: IProduct, i: number) => (
-            <Fragment key={i}>
-              <Link href={`/detailview/${el?._id}`}>
-                <a>
-                  <Card data={el} querykey={`${genre},${curPage}`} />
-                </a>
-              </Link>
-            </Fragment>
-          ))}
+          {isLoading &&
+            Array.from({ length: 4 }).map((_, idx) => (
+              <CardSkeleton key={idx} />
+            ))}
+          {!isLoading &&
+            data?.products?.map((el: IProduct, i: number) => (
+              <Fragment key={i}>
+                <Link href={`/detailview/${el?._id}`}>
+                  <a>
+                    <Card data={el} querykey={`${genre},${curPage}`} />
+                  </a>
+                </Link>
+              </Fragment>
+            ))}
         </div>
         <Pagination
           css={css`

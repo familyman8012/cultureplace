@@ -32,7 +32,7 @@ const Home = ({ SsrData }: any) => {
 
   const productsData = data?.products;
 
-  // console.log("data 대박", data);
+  console.log("data 대박", data);
 
   function getGenreData() {
     if (Array.isArray(productsData)) {
@@ -139,12 +139,12 @@ export async function getServerSideProps() {
   const queryClient = new QueryClient();
   await dbConnect();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/product`);
+  // const res = await fetch("http://localhost:3000/api/product");
 
   //const res = await axios.get("http://localhost:3000/api/product");
 
   //await queryClient.prefetchQuery(["posts"], fetchPosts);
-  await queryClient.prefetchQuery(["list", "main"], () => fetchProducts(90, 1));
+  await queryClient.prefetchQuery(["list", "main"], () => fetchProducts(20, 1));
 
   const [result, result2, result3] = await Promise.all([
     Mainvisimg.find({}, { showNum: false, createdAt: false, updatedAt: false })

@@ -13,7 +13,7 @@ import { css } from "@emotion/react";
 
 export interface IGenreData {
   genreData?: IProduct[][] | undefined;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 const WrapCategoryArea = styled.div`

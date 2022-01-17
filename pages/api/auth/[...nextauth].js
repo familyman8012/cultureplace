@@ -20,10 +20,7 @@ const options = {
         userpwd: { label: "password", type: "password" }
       },
       async authorize(credentials, req) {
-        const response = await axios.post(
-          "http://localhost:3000/api/user/login",
-          credentials
-        );
+        const response = await axios.post("/api/user/login", credentials);
         var t = response.data;
         if (t.data.status !== 0) {
           const user = {
@@ -41,8 +38,8 @@ const options = {
     error: "/signin"
   },
   session: {
-    jwt: true,
-    maxAge: 14 * 24 * 60 * 60 // 리프레쉬토큰, 2주
+    jwt: true
+    // 리프레쉬토큰, 2주 maxAge: 14 * 24 * 60 * 60
   },
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {

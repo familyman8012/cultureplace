@@ -4,6 +4,8 @@ import styled from "@emotion/styled";
 export const NoticeView = styled.div`
   width: 840px;
   margin: 0 auto;
+  padding-top: 50px;
+  min-height: 100vh;
   .top {
     display: flex;
     align-items: center;

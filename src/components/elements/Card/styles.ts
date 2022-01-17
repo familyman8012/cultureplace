@@ -133,6 +133,9 @@ const typeStyle = ({ type }: StyledComponentProps) => {
 };
 
 export const CardWrap = styled.div`
+  &[type="other"] {
+    width: 100%;
+  }
   overflow: hidden;
   margin: 0 auto 22px auto;
 

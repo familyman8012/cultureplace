@@ -13,10 +13,6 @@ export const WrapYakwan = styled.div`
 `;
 
 export const WrapPayedInfo = styled.div`
-  display: flex;
-  width: 830px;
-  margin: 5rem auto;
-
   .payed_list {
     margin-left: auto;
     &.no {
@@ -41,6 +37,8 @@ export const WrapPayedInfo = styled.div`
   }
   .top {
     display: flex;
+    font-weight: normal;
+    margin-bottom: 10px;
     .txt_pay_date {
       margin-left: auto;
     }
@@ -67,7 +65,10 @@ export const WrapPayedInfo = styled.div`
         width: 25%;
       }
     }
-
+    dl,
+    .box_btns {
+      font-weight: normal;
+    }
     dt {
       margin-bottom: 1rem;
       color: #999;

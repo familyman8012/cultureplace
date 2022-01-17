@@ -15,26 +15,39 @@ function MyJoin({ session }: any) {
       >
         신청한 클래스 <span>({data?.length}개)</span>
       </h3>
-      <div
-        css={css`
-          display: grid;
-          gap: 22px 27px;
-          grid-template-columns: 1fr 1fr;
-          .imgbox div {
-            display: none;
-          }
-        `}
-      >
-        {data?.map((el, i) => (
-          <div key={i}>
-            <Link href={`/detailview/${el?._id}`}>
-              <a>
-                <Card data={el} />
-              </a>
-            </Link>
-          </div>
-        ))}
-      </div>
+      {data?.length === 0 ? (
+        <div
+          css={css`
+            width: 100%;
+            margin-top: 30px;
+            text-align: center;
+            font-weight: normal;
+          `}
+        >
+          신청한 모임이 없습니다.
+        </div>
+      ) : (
+        <div
+          css={css`
+            display: grid;
+            gap: 22px 27px;
+            grid-template-columns: 1fr 1fr 1fr;
+            .imgbox svg {
+              display: none;
+            }
+          `}
+        >
+          {data?.map((el, i) => (
+            <div key={i}>
+              <Link href={`/detailview/${el?._id}`}>
+                <a>
+                  <Card data={el} />
+                </a>
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
