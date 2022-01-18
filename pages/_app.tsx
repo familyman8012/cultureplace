@@ -19,6 +19,7 @@ config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatic
 import { Provider } from "next-auth/client";
 import { useRouter } from "next/router";
 import { searchStore } from "@src/mobx/store";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -68,6 +69,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             }}
             session={pageProps.session}
           >
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0viewport-fit=cover"
+              />
+              <meta name="mobile-web-app-capable" content="yes" />
+            </Head>
             <Component {...pageProps} />
           </Provider>
         </ThemeProvider>

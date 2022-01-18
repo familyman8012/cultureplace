@@ -16,7 +16,7 @@ import { GetServerSideProps } from "next";
 
 const Home = ({ SsrData }: any) => {
   const { blogData, noticeData } = SsrData;
-  const { data } = useQuery(["list", "main"], () => SsrData);
+  const { data } = useQuery(["list", "main"], () => fetchProducts(90, 1));
 
   const productsData = data?.products;
 
