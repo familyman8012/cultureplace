@@ -335,3 +335,7 @@ caption {
 .ql-color .ql-picker-options [data-value="custom-color"]:hover {
   border-color: transparent !important;
 }
+
+.swiper-slide-duplicate[data-swiper-slide-index="5"] div {
+  background: url("/images/mainvis0.jpg") no-repeat left top;
+}

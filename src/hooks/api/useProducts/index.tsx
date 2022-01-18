@@ -9,9 +9,7 @@ const fetchProducts = async (
 ) => {
   console.log("pageParam", pageParam);
   const parse = await axios.get(
-    `${
-      process.env.NEXT_PUBLIC_API_URL
-    }/api/product?limit=${limit}&page=${pageParam}${
+    `/api/product?limit=${limit}&page=${pageParam}${
       genre ? `&genre=${genre}` : ``
     }`
   );
@@ -19,11 +17,16 @@ const fetchProducts = async (
   return result;
 };
 
-const useProducts = (limit: number, pageParam: number, genre?: string) => {
+const useProducts = (
+  limit: number,
+  pageParam: number,
+  genre?: string,
+  initialData?: any
+) => {
   return useQuery<IProductList, Error>(
     ["list", genre, String(pageParam)],
     async () => await fetchProducts(limit, pageParam, genre),
-    { keepPreviousData: true }
+    { keepPreviousData: true, initialData }
   );
 };
 

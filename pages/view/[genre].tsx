@@ -9,22 +9,30 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
 import CardSkeleton from "@src/components/elements/Card/CardSkeleton";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { dbConnect, Product } from "../../pages/api";
+import { dehydrate, QueryClient, useQuery } from "react-query";
+import { CategoryLink } from "@src/components/layouts/Head";
 
-function Oneday() {
+function Oneday({ SsrData }: any) {
   const router = useRouter();
   const { genre } = router.query;
 
-  useEffect(() => {
-    setCurPage(1);
-  }, [genre]);
-
   const [pageSize, setPageSize] = useState(20);
+  const [showPage, setShowPage] = useState(true);
   const [curPage, setCurPage] = useState(1);
   const { data, error, isLoading, refetch } = useProducts(
     pageSize,
     curPage,
-    String(genre)
+    String(genre),
+    SsrData
   );
+
+  useEffect(() => {
+    setShowPage(false);
+    setCurPage(1);
+    setShowPage(true);
+  }, [genre]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurPage(page);
@@ -51,6 +59,7 @@ function Oneday() {
               <CardSkeleton key={idx} />
             ))}
           {!isLoading &&
+            showPage &&
             data?.products?.map((el: IProduct, i: number) => (
               <Fragment key={i}>
                 <Link href={`/detailview/${el?._id}`}>
@@ -77,3 +86,35 @@ function Oneday() {
 }
 
 export default Oneday;
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const paths = CategoryLink.map(item => ({
+//     params: { genre: String(item.url) }
+//   }));
+//   return {
+//     paths,
+//     fallback: true // --> false 시 1,2,3외에는 404
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  await dbConnect();
+
+  const genre = ctx.params?.genre;
+  const result = await Promise.resolve(
+    Product.find({ genre }, { body: false })
+      .sort({ firstmeet: 1 })
+      .limit(20)
+      .lean()
+  );
+
+  console.log("result result result", result);
+
+  return {
+    props: {
+      SsrData: {
+        products: JSON.parse(JSON.stringify(result))
+      }
+    }
+  };
+};

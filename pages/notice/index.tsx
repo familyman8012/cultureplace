@@ -101,7 +101,7 @@ export async function getServerSideProps() {
   const queryClient = new QueryClient();
   await dbConnect();
 
-  const result = await Notice.find().lean();
+  const result = await Notice.find({}, { body: false }).lean();
   const noticeData = JSON.parse(JSON.stringify(result));
 
   await queryClient.prefetchQuery("noticeData", () => noticeData);

@@ -12,33 +12,18 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { CategoryLink } from "@src/components/layouts/Head";
 import { fetchProducts } from "@src/hooks/api/useProducts";
-import { ICulutreInfo } from "@src/typings/db";
-import axios from "axios";
+import { GetServerSideProps } from "next";
 
 const Home = ({ SsrData }: any) => {
-  const { mainVisImgs, blogData, noticeData } = SsrData;
-
-  // ssr 시, useQuery 대신, useProducts 이런 식으로 불러들이면, 제대로 ssr 안됨.
-  const { isLoading, error, data } = useQuery(["list", "main"], () =>
-    fetchProducts(90, 1)
-  );
-
-  // const { data: infodata1 } = useQuery(["tour"], async () => {
-  //   const parse: ICulutreInfo = await axios.get("/api/info");
-  //   console.log(parse);
-  //   const result = parse.data.elements[0].elements;
-  //   return result;
-  // });
+  const { blogData, noticeData } = SsrData;
+  const { data } = useQuery(["list", "main"], () => SsrData);
 
   const productsData = data?.products;
-
-  // console.log("data 대박", data);
 
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [
         productsData.filter(el => el.genre === "healing"),
-
         productsData.filter(el => el.genre === "theater"),
         productsData.filter(el => el.genre === "art"),
         productsData.filter(el => el.genre === "music"),
@@ -117,16 +102,16 @@ const Home = ({ SsrData }: any) => {
 
   return (
     <Layout>
-      <MainVisual mainVisImgs={mainVisImgs} />
+      <MainVisual />
       <CategoryWrap>
         <div className="categoryLink">
           {CategoryLink.map((el, i) => (
-            <Link href={el.url} key={i}>
+            <Link href={`/view/${el.url}`} key={i}>
               <a>{el.title}</a>
             </Link>
           ))}
         </div>
-        <CategoryArea genreData={genreData} isLoading={isLoading} />
+        <CategoryArea genreData={genreData} />
         <Morebtn />
         <BlogArea blogData={blogData} />
         <NoticeArea noticeData={noticeData} />
@@ -135,35 +120,33 @@ const Home = ({ SsrData }: any) => {
   );
 };
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
   await dbConnect();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/product`);
-
-  //const res = await axios.get("http://localhost:3000/api/product");
-
-  //await queryClient.prefetchQuery(["posts"], fetchPosts);
-  await queryClient.prefetchQuery(["list", "main"], () => fetchProducts(90, 1));
-
   const [result, result2, result3] = await Promise.all([
-    Mainvisimg.find({}, { showNum: false, createdAt: false, updatedAt: false })
-      .sort({ createdAt: -1 })
-      .lean(),
-
-    Notice.find({ category: "블로그" }, { createdAt: false, updatedAt: false })
+    Notice.find(
+      { category: "블로그" },
+      { body: false, createdAt: false, updatedAt: false }
+    )
       .limit(3)
       .lean(),
-    Notice.find({ category: "공지사항" }).limit(4).lean()
+    Notice.find(
+      { category: "공지사항" },
+      { body: false, createdAt: false, updatedAt: false }
+    )
+      .limit(4)
+      .lean(),
+    Product.find({}, { body: false }).sort({ firstmeet: 1 }).limit(90).lean()
   ]);
 
   const SsrData = {
-    mainVisImgs: JSON.parse(JSON.stringify(result)),
-    blogData: JSON.parse(JSON.stringify(result2)),
-    noticeData: JSON.parse(JSON.stringify(result3))
+    blogData: JSON.parse(JSON.stringify(result)),
+    noticeData: JSON.parse(JSON.stringify(result2)),
+    products: JSON.parse(JSON.stringify(result3))
   };
 
-  // await queryClient.prefetchQuery("posts", () => SsrData.products);
+  await queryClient.prefetchQuery(["list", "main"], () => SsrData);
 
   return {
     props: {
@@ -171,6 +154,6 @@ export async function getServerSideProps() {
       SsrData
     }
   };
-}
+};
 
 export default Home;

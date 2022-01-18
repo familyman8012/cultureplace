@@ -5,21 +5,34 @@ import React, { useCallback, useEffect, useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import dayjs from "dayjs";
 import Link from "next/link";
-
 import { GetStaticProps } from "next";
 import { dbConnect, Notice } from "../../pages/api";
 import convert from "xml-js";
 
-function Index({ item }: any) {
+function Index() {
   const [showGenre, setShowGenre] = useState([]);
   const [showTitle, setShowTitle] = useState("뮤지컬");
+  const { status, data } = useQuery(
+    ["info"],
+    async () => {
+      const getData: { data: string } = await axios.get("/api/info");
+      return getData;
+    },
+    { staleTime: 1200 * 1000, refetchOnWindowFocus: false }
+  );
+
+  console.log("data");
+
+  useEffect(() => {
+    setShowGenre(data && JSON.parse(data.data[1]).elements[0].elements);
+  }, [data]);
 
   let InfoData = useCallback(
     (i: number, title: string) => {
-      setShowGenre(item && JSON.parse(item[i]).elements[0].elements);
+      setShowGenre(data && JSON.parse(data.data[i]).elements[0].elements);
       setShowTitle(title);
     },
-    [item]
+    [data]
   );
 
   console.log("showGenre", showGenre);
@@ -271,9 +284,28 @@ function Index({ item }: any) {
         </p>
         <div className="sect-movie-chart">
           <ol>
-            {showGenre.length === 0 ? (
-              <div>로딩중</div>
+            {status === "loading" ? (
+              <div>
+                {/* <p
+                  css={css`
+                    text-align: center;
+                    font-size: 18px;
+                  `}
+                >
+                  Loading...
+                </p> */}
+                <img
+                  src={`/images/loading${
+                    Math.floor(Math.random() * (3 - 0)) + 0
+                  }.gif`}
+                  alt="loading"
+                  css={css`
+                    width: 100%;
+                  `}
+                />
+              </div>
             ) : (
+              showGenre &&
               showGenre?.map(
                 (
                   el: {
@@ -342,8 +374,6 @@ function Index({ item }: any) {
   );
 }
 
-export default Index;
-
 export const getStaticProps: GetStaticProps = async ctx => {
   const servicekey = "0b6e49379ade4cf98c956ca55d40b5a4";
   const today = dayjs().format("YYYYMMDD");
@@ -368,10 +398,15 @@ export const getStaticProps: GetStaticProps = async ctx => {
     return sendData;
   });
 
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(["info"], () => result);
+
   return {
     props: {
+      dehydratedState: dehydrate(queryClient),
       item: result
-    },
-    revalidate: 60 * 60 * 24 //하루 지나면 재검증
+    }
   };
 };
+
+export default Index;

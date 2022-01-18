@@ -1,3 +1,4 @@
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Button from "@/../src/components/elements/Button";
 import Layout from "@/../src/components/layouts";
 import { useNotice } from "@src/hooks/api/useNotices/useNotice";
@@ -10,6 +11,9 @@ import {
   NoticeView,
   Title
 } from "@src/components/page/notice/styles";
+
+import { dehydrate, QueryClient, useQuery } from "react-query";
+import { dbConnect, Notice } from "../../pages/api";
 
 function DetailView() {
   const router = useRouter();
@@ -42,5 +46,34 @@ function DetailView() {
     </Layout>
   );
 }
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   return {
+//     paths: [{ params: { _id: "6172e0d7e8fef6005983ea78" } }],
+//     fallback: true // --> false 시 1,2,3외에는 404
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  await dbConnect();
+
+  const _id = ctx.params?._id;
+  const result = await Notice.find(
+    { _id },
+    { createdAt: false, updatedAt: false }
+  ).lean();
+
+  const data = JSON.parse(JSON.stringify(result[0]));
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(["noticeViewData", _id], () => data);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      item: data
+    }
+  };
+};
 
 export default DetailView;

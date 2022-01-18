@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient, useQuery } from "react-query";
@@ -98,32 +99,3 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   };
 };
-
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   return {
-//     paths: [
-//       { params: { _id: "1" } },
-//       { params: { _id: "2" } },
-//       { params: { _id: "3" } },
-//       { params: { _id: "4" } },
-//       { params: { _id: "5" } }
-//     ],
-//     fallback: true // --> false 시 1,2,3외에는 404
-//   };
-// };
-
-// export const getStaticProps: GetStaticProps = async ctx => {
-
-//   await dbConnect();
-
-//   const _id = ctx.params?._id;
-//   const res = Product.find({_id}, { createdAt: false, updatedAt: false }).lean();
-
-//   const data = JSON.parse(JSON.stringify(res));
-
-//   return {
-//     props: {
-//       item: data
-//     }
-//   };
-// };

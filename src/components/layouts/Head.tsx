@@ -8,14 +8,14 @@ import { useRouter } from "next/router";
 import { css } from "@emotion/react";
 
 export const CategoryLink = [
-  { title: "힐링산책", url: "/view/healing" },
-  { title: "공연", url: "/view/theater" },
-  { title: "미술", url: "/view/art" },
-  { title: "뮤직", url: "/view/music" },
-  { title: "미식", url: "/view/food" },
-  { title: "사진, 영상", url: "/view/movie" },
-  { title: "패션", url: "/view/fashion" },
-  { title: "지식", url: "/view/wisdom" }
+  { title: "힐링산책", url: "healing" },
+  { title: "공연", url: "theater" },
+  { title: "미술", url: "art" },
+  { title: "뮤직", url: "music" },
+  { title: "미식", url: "food" },
+  { title: "사진, 영상", url: "movie" },
+  { title: "패션", url: "fashion" },
+  { title: "지식", url: "wisdom" }
 ];
 
 const mypageLink = [
@@ -58,10 +58,13 @@ function Head() {
     setshowBulbble(prev => !prev);
   }, []);
 
-  const goMypage = (url: string) => {
-    router.push(url);
-    setshowBulbble(false);
-  };
+  const goMypage = useCallback(
+    (url: string) => {
+      router.push(url);
+      setshowBulbble(false);
+    },
+    [router]
+  );
 
   return (
     <>
@@ -183,7 +186,7 @@ function Head() {
             <ul className="categoryMenu">
               {CategoryLink.map((el, i) => (
                 <li key={i}>
-                  <Link href={el.url}>
+                  <Link href={`/view/${el.url}`}>
                     <a>{el.title}</a>
                   </Link>
                 </li>
