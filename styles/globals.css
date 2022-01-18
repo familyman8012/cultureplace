@@ -339,3 +339,17 @@ caption {
 .swiper-slide-duplicate[data-swiper-slide-index="5"] div {
   background: url("/images/mainvis0.jpg") no-repeat left top;
 }
+
+@media screen and (max-width: 1400px) {
+  html,
+  body {
+    font-size: 7px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  html,
+  body {
+    font-size: 5px;
+  }
+}

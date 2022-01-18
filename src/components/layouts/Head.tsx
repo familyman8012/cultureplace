@@ -1,6 +1,13 @@
 import { signOut, useSession } from "next-auth/client";
 import Link from "next/link";
-import { Header, Login, MenuArea, SearchForm } from "./styles";
+import {
+  Header,
+  LoggedIn,
+  Login,
+  MenuArea,
+  MyPageLayer,
+  SearchForm
+} from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
 import { faSortDown } from "@fortawesome/free-solid-svg-icons"; // import the icons you need
 import { useCallback, useEffect, useState } from "react";
@@ -76,6 +83,7 @@ function Head() {
             </Link>
           </h1>
           <SearchForm onSubmit={handleSearchMove}>
+            <span className="btn-search" onClick={handleSearchMove}></span>
             <label className="hiddenZoneV" htmlFor="search-input">
               함께 하고 싶은 모임명, 팀리더를 검색해보세요.
             </label>
@@ -88,7 +96,6 @@ function Head() {
               value={searchKeyword}
               onChange={e => handlerSearchWrite(e)}
             />
-            <span className="btn-search" onClick={handleSearchMove}></span>
           </SearchForm>
           <aside>
             <ul>
@@ -110,61 +117,12 @@ function Head() {
             {!session ? (
               <Link href="/signin">로그인</Link>
             ) : (
-              <div
-                css={css`
-                  display: block;
-                  overflow: hidden;
-                  width: 36px;
-                  height: 36px;
-                  -webkit-border-radius: 50%;
-                  -moz-border-radius: 50%;
-                  border-radius: 50%;
-                  cursor: pointer;
-                  background-image: url(//img.taling.me/Content/Images/placeholders/profile-default.thumb.jpg);
-                  background-position: center;
-                  background-size: cover;
-                `}
-                onClick={handleShowBubble}
-              ></div>
+              <LoggedIn onClick={handleShowBubble}>
+                <div className="hiddenZoneV">MY</div>
+              </LoggedIn>
             )}
             {showBulbble && (
-              <div
-                css={css`
-                  z-index: 10;
-                  background: #fff;
-                  border: 1px solid #cc39d8;
-                  color: #fff;
-                  font-size: 14px;
-                  padding: 0 1em;
-                  position: relative;
-                  text-align: center;
-                  vertical-align: top;
-                  width: max-content;
-                  position: absolute;
-                  top: 52px;
-                  left: -22px;
-                  border-radius: 5px;
-                  &:after {
-                    border: 0.5em solid transparent;
-                    border-top-color: #cc39d8;
-                    content: "";
-                    margin-left: -0.5em;
-                    position: absolute;
-                    top: -15px;
-                    left: 50%;
-                    width: 0;
-                    height: 0;
-                    transform: rotate(180deg);
-                  }
-                  li {
-                    padding: 5px 0;
-                    color: #000;
-                    font-weight: normal;
-                    font-size: 14px;
-                    cursor: pointer;
-                  }
-                `}
-              >
+              <MyPageLayer>
                 <ul>
                   {mypageLink.map((el, i) => (
                     <li onClick={() => goMypage(el.url)} key={i}>
@@ -173,7 +131,7 @@ function Head() {
                   ))}
                   <li onClick={() => signOut()}>로그아웃</li>
                 </ul>
-              </div>
+              </MyPageLayer>
             )}
           </Login>
         </div>

@@ -74,7 +74,7 @@ export default DetailView;
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [{ params: { _id: "61de711076486851207e9bf2" } }],
-    fallback: true // --> false 시 1,2,3외에는 404
+    fallback: false // --> false 시 1,2,3외에는 404
   };
 };
 

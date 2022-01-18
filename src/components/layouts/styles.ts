@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
 
+const breakpoints = [550, 1400];
+const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
+
 export const LayoutWrap = styled.div`
-max-width:100%
+  max-width:100%
   margin: 0 auto;
   padding: 0;
 `;
@@ -9,7 +12,7 @@ max-width:100%
 export const Header = styled.header`
   z-index: 100;
   width: 100%;
-  height: 124px;
+  height: 12.4rem;
   box-shadow: rgb(239 239 239) 0px -1px 0px inset;
   background: #fff;
   .inner {
@@ -17,17 +20,17 @@ export const Header = styled.header`
     position: relative;
     z-index: 100;
     align-items: center;
-    width: 1250px;
-    height: 72px;
+    width: 125rem;
+    height: 7.2rem;
     margin: 0 auto;
   }
   h1 {
     position: relative;
     color: ${({ theme }) => theme.color.brand};
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 500;
     letter-spacing: -1px;
-    padding-left: 65px;
+    padding-left: 6.5rem;
 
     &:before {
       position: absolute;
@@ -35,37 +38,65 @@ export const Header = styled.header`
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      width: 59px;
-      height: 54px;
+      width: 5.9rem;
+      height: 5.4rem;
       background: url("/images/logo_hip.png") no-repeat center;
     }
   }
   aside ul {
+    ${mq[0]} {
+      display: none;
+    }
     display: flex;
-    margin-left: 10px;
+    margin-left: 1rem;
     li {
-      font-size: 14px;
+      font-size: 1.4rem;
       font-weight: normal;
       color: rgb(26, 26, 26);
-      line-height: 20px;
+      line-height: 2rem;
       letter-spacing: -0.15px;
-      margin: 0px 24px 0px 0px;
+      margin: 0rem 2.4rem 0rem 0px;
       position: relative;
       &.my {
         color: #ff5600;
       }
     }
   }
+  ${mq[0]} {
+    height: 60px;
+    padding: 11px 20px;
+    h1 {
+      display: block;
+      padding-left: 11rem;
+      font-size: 14px;
+      background-size: 10px;
+      font-weight: bold;
+      &:before {
+        width: 49px;
+        height: 45px;
+        background: url(/images/logo_hip.png) no-repeat center;
+        background-size: cover;
+      }
+    }
+    .inner {
+      width: auto;
+      height: 100%;
+      //justify-content: center;
+    }
+  }
 `;
 
 export const MenuArea = styled.ul`
+  ${mq[0]} {
+    display: none;
+  }
   display: flex;
-  width: 1250px;
-  height: 52px;
+  width: 125rem;
+  height: 5.2rem;
   align-items: center;
   margin: 0 auto;
   li {
-    height: 29px;
+    height: 2.9rem;
     margin-right: 4rem;
     &:hover {
       border-bottom: 2px solid;
@@ -73,10 +104,10 @@ export const MenuArea = styled.ul`
     a,
     .depth1 {
       display: block;
-      height: 29px;
-      font-size: 16px;
+      height: 2.9rem;
+      font-size: 1.6rem;
       font-weight: 400;
-      padding-bottom: 5px;
+      padding-bottom: 0.5rem;
       color: #000;
     }
   }
@@ -88,12 +119,12 @@ export const MenuArea = styled.ul`
       display: flex;
       svg {
         display: block;
-        margin: 1px 0 0 10px;
+        margin: 1px 0 0 1rem;
       }
     }
 
     &.on .depth1 svg {
-      margin-top: 7px;
+      margin-top: 0.7rem;
       transform: rotateX(180deg);
     }
 
@@ -105,17 +136,17 @@ export const MenuArea = styled.ul`
       display: block;
 
       position: absolute;
-      top: 30px;
+      top: 3rem;
       left: 0;
-      width: 180px;
-      padding: 0px 12px;
+      width: 18rem;
+      padding: 0px 1.2rem;
       border: 1px solid rgb(239, 239, 239);
       background: #fff;
 
       a {
-        padding: 8px 8px 8px 20px;
-        font-size: 14px;
-        line-height: 18px;
+        padding: 0.8rem 0.8rem 0.8rem 0.2rem;
+        font-size: 1.4rem;
+        line-height: 1.8rem;
         margin: 0px;
         color: rgb(26, 26, 26);
         display: flex;
@@ -133,35 +164,123 @@ export const MenuArea = styled.ul`
 
 export const SearchForm = styled.form`
   position: relative;
-  margin-left: 24px;
+  margin-left: 2.4rem;
   .btn-search {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    width: 12px;
-    height: 12px;
-    margin-right: 6px;
+    top: 1.2rem;
+    left: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.6rem;
     color: #666666;
     background: url("/images/ic-search-g.svg") no-repeat center;
-    background-size: 12px auto;
+    background-size: 1.2rem auto;
   }
   input[type="text"] {
-    width: 322px;
-    height: 34px;
-    padding: 0 10px 0 30px;
+    width: 32.2rem;
+    height: 3.4rem;
+    padding: 0 1rem 0 3rem;
     font-size: 14px;
     line-height: 1.5;
     border: 1px solid #d9d9d9;
-    border-radius: 6px;
+    border-radius: 0.6rem;
     background-color: #ffffff;
     outline: 0;
     caret-color: #000000;
+    &::placeholder {
+      color: #cccccc;
+    }
+  }
+  ${mq[0]} {
+    display: flex;
+    display: none;
+    margin-left: 0;
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    height: 38px;
+    padding: 0px 12px;
+    border-radius: 19px;
+    background-color: rgb(244, 244, 244);
+    border: none;
+    .btn-search {
+      position: static;
+      width: 19px;
+      height: 19px;
+      background-size: 17px;
+      margin: 0 10px 0 5px;
+      background: url("/images/ic-search-g2.svg") no-repeat center;
+    }
+    input[type="text"] {
+      width: 100%;
+      height: 24px;
+      padding-left: 0;
+      background: transparent;
+      border: none;
+    }
   }
 `;
 
 export const Login = styled.div`
+  ${mq[0]} {
+    display: none;
+  }
   margin-left: auto;
   color: ${({ theme }) => theme.color.brand};
+`;
+
+export const LoggedIn = styled.div`
+  ${mq[0]} {
+    display: none;
+  }
+  display: block;
+  overflow: hidden;
+  width: 3.6rem;
+  height: 3.6rem;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  cursor: pointer;
+  background-image: url(//img.taling.me/Content/Images/placeholders/profile-default.thumb.jpg);
+  background-position: center;
+  background-size: cover;
+`;
+
+export const MyPageLayer = styled.div`
+  z-index: 10;
+  background: #fff;
+  border: 1px solid #cc39d8;
+  color: #fff;
+  font-size: 1.4rem;
+  padding: 0 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: top;
+  width: max-content;
+  position: absolute;
+  top: 5.2rem;
+  left: -2.2rem;
+  border-radius: 0.5rem;
+  &:after {
+    border: 0.5em solid transparent;
+    border-top-color: #cc39d8;
+    content: "";
+    margin-left: -0.5em;
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: rotate(180deg);
+  }
+  li {
+    padding: 0.5rem 0;
+    color: #000;
+    font-weight: normal;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
 `;
 
 export const Footer = styled.div`
@@ -195,7 +314,7 @@ export const Footer = styled.div`
     display: flex;
     li {
       margin-right: 1rem;
-      font-size: 12px;
+      font-size: 1.2rem;
     }
   }
 `;

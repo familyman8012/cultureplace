@@ -32,7 +32,7 @@ function Index() {
     {
       txt1: "문화를 즐기는,",
       txt2: "문화를 만드는",
-      txt3: `우리는 컬쳐플레이스입니다. 컬쳐플레이스는 문화관련 취미를 가진 분들을 위한 공간입니다.`
+      txt3: `우리는 컬쳐플레이스입니다.`
     },
     {
       txt1: "내가 그린 그림으로",
@@ -52,12 +52,12 @@ function Index() {
     {
       txt1: "요리도 아트다.",
       txt2: "맛있고 재밌는 요리",
-      txt3: `요리를 같이 만들며 새로운 레시피도 익히고 새로운 사람들과 친해지기도 하고`
+      txt3: `요리도 만들고, 친구도 사귀고!`
     },
     {
       txt1: "뮤지컬, 연극",
       txt2: "무대 위의 당신",
-      txt3: `1년에 2번? 이제 실컷 문화생활 하자. 인생에 한번쯤은 배우가 되고 싶은 분들도 모두 모여라.`
+      txt3: `공연을 즐기다, 공연을 만들다`
     }
   ];
 
@@ -72,7 +72,7 @@ function Index() {
                   <p className="txt1">{el.txt1}</p>
                   <p className="txt2">{el.txt2}</p>
                   <p className="txt3">{el.txt3}</p>
-                  <a>GET Started</a>
+                  <a>GET START</a>
                 </div>
               </SlideItem>
             )}

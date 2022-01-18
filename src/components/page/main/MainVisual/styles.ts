@@ -1,8 +1,17 @@
 import styled from "@emotion/styled";
 
+const breakpoints = [550, 1400];
+const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
+
 export const Mainvis = styled.div`
   overflow: hidden;
   position: relative;
+  ${mq[0]} {
+    .swiper .swiper-button-prev,
+    .swiper .swiper-button-next {
+      display: none;
+    }
+  }
 `;
 
 export const SlideItem = styled.div<{ i: number; on: string }>`
@@ -11,8 +20,8 @@ export const SlideItem = styled.div<{ i: number; on: string }>`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  width: 1903px;
-  height: 655px;
+  width: 100%;
+  height: 65.5rem;
   .txtbox {
     opacity: 0;
     position: absolute;
@@ -24,7 +33,7 @@ export const SlideItem = styled.div<{ i: number; on: string }>`
     transition: 1s all;
     p {
       color: #fff;
-      letter-spacing: -3px;
+      letter-spacing: -0.3rem;
       line-height: 1;
       text-align: center;
     }
@@ -33,11 +42,11 @@ export const SlideItem = styled.div<{ i: number; on: string }>`
       font-family: OTWelcomeBA;
     }
     .txt1 {
-      font-size: 50px;
+      font-size: 5rem;
     }
     .txt2 {
-      font-size: 77px;
-      margin: 15px 0 10px;
+      font-size: 7.7rem;
+      margin: 1.5rem 0 1rem;
     }
     .txt3 {
       letter-spacing: 0;
@@ -45,20 +54,21 @@ export const SlideItem = styled.div<{ i: number; on: string }>`
     }
     a {
       display: block;
-      width: 155px;
-      height: 48px;
-      line-height: 48px;
-      margin: 20px auto 0;
+      width: 15.5rem;
+      height: 4.8rem;
+      line-height: 4.8rem;
+      margin: 2rem auto 0;
       text-align: center;
       font-family: auto;
-      font-size: 14px;
+      font-size: 1.4rem;
       background: rgb(255, 217, 54);
       &:hover {
         background: rgb(218, 178, 0);
       }
     }
   }
-  background: url(/images/mainvis${({ i }) => i}.jpg) no-repeat left top;
+  background: url(/images/mainvis${({ i }) => i}.jpg) no-repeat center center;
+  background-size: cover;
   ${({ on }) =>
     on === "on" &&
     `.txtbox {
@@ -66,6 +76,31 @@ export const SlideItem = styled.div<{ i: number; on: string }>`
     transform: translate(-50%, -60%);
     
   }`}
+  ${mq[0]} {
+    height: 192px;
+
+    .txtbox {
+      width: 90%;
+
+      .txt1 {
+        font-size: 24px;
+      }
+      .txt2 {
+        font-size: 30px;
+      }
+      .txt3 {
+        font-size: 14px;
+      }
+      a {
+        display: block;
+        width: 90px;
+        height: auto;
+        padding: 1px 0;
+        font-size: 12px;
+        color: #262626;
+      }
+    }
+  }
 `;
 
 export const TxtBox = styled.div``;
