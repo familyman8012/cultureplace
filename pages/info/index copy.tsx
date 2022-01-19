@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import Layout from "@src/components/layouts";
+import Layout from "components/layouts";
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";

@@ -1,5 +1,5 @@
-import PaymentInfo from "@src/components/page/payment/PaymentInfo";
-import PaymentComplete from "@src/components/page/payment/PaymentComplete";
+import PaymentInfo from "components/pageComp/payment/PaymentInfo";
+import PaymentComplete from "components/pageComp/payment/PaymentComplete";
 import { useProdDetail } from "@src/hooks/api/useProducts/useProductDetail";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import Card from "@src/components/elements/Card";
-import Layout from "@src/components/layouts";
+import Card from "components/elements/Card";
+import Layout from "components/layouts";
 import { fetchProducts, useProducts } from "@src/hooks/api/useProducts";
 import { IProduct } from "@src/typings/db";
 import Link from "next/link";
@@ -8,11 +8,11 @@ import { useRouter } from "next/router";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
-import CardSkeleton from "@src/components/elements/Card/CardSkeleton";
+import CardSkeleton from "components/elements/Card/CardSkeleton";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { dbConnect, Product } from "../../pages/api";
 import { dehydrate, QueryClient, useQuery } from "react-query";
-import { CategoryLink } from "@src/components/layouts/Head";
+import { CategoryLink } from "components/layouts/Head";
 
 function Oneday({ SsrData }: any) {
   const router = useRouter();

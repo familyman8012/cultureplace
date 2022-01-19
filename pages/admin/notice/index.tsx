@@ -4,7 +4,7 @@ import { noticeStore } from "@src/mobx/store";
 import { useNotices } from "@src/hooks/api/useNotices";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
-import AdminLayout from "@/../src/components/layouts/Admin/layout";
+import AdminLayout from "components/layouts/Admin/layout";
 import { GlowBtn, IndexTable, WrapIndexContent } from "../product/styles";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";

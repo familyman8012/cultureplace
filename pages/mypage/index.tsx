@@ -3,7 +3,7 @@ import { useSession } from "next-auth/client";
 import { useFavorite } from "@src/hooks/api/useMypage";
 import MyFavorite from "./MyFavorite";
 import MyJoin from "./MyJoin";
-import Layout from "@src/components/layouts";
+import Layout from "components/layouts";
 import { css } from "@emotion/react";
 import Link from "next/link";
 

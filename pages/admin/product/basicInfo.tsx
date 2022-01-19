@@ -8,7 +8,7 @@ import { observer } from "mobx-react";
 import { prodUpStore } from "@src/mobx/store";
 // custom hook, css
 import useImgUp from "@src/hooks/useImgUp";
-import AdminLayout from "@src/components/layouts/Admin/layout";
+import AdminLayout from "components/layouts/Admin/layout";
 import { BasicInfoForm, ErrorTxt } from "./styles";
 
 function App() {

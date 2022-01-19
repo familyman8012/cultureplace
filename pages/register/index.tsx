@@ -4,10 +4,10 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getProviders } from "next-auth/client";
-import SocialLogin from "../../src/components/views/SocialLogin";
+import SocialLogin from "../../components/modules/SocialLogin";
 import { ISignIn } from "../signin";
-import Layout from "../../src/components/layouts";
-import RegisterForm from "../../src/components/page/register/styles";
+import Layout from "../../components/layouts";
+import RegisterForm from "../../components/pageComp/register/styles";
 import { GetServerSideProps } from "next";
 import { IUser } from "@src/typings/db";
 

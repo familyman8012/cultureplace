@@ -1,4 +1,4 @@
-import InfinityCards from "@src/components/views/InfinityCards";
+import InfinityCards from "components/modules/InfinityCards";
 
 function Oneday() {
   return (

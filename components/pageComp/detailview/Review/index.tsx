@@ -6,7 +6,7 @@ import SectionWrap from "../SectionWrap";
 import ListItem from "./ListItem";
 import ReviewModal from "./ReviewModal";
 import Pagination from "rc-pagination";
-import Button from "@src/components/elements/Button";
+import Button from "components/elements/Button";
 import { ReviewList, ReviewTitle, WriteBtn } from "./style";
 import "rc-pagination/assets/index.css";
 import { IProduct, IReview } from "@src/typings/db";

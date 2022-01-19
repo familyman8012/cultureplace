@@ -1,16 +1,16 @@
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Product, Mainvisimg, Notice } from "../pages/api";
-import Layout from "@src/components/layouts";
-import Morebtn from "@src/components/page/main/Morebtn";
+import Layout from "components/layouts";
+import Morebtn from "components/pageComp/indexpage/Morebtn";
 import {
   MainVisual,
   CategoryArea,
   BlogArea,
   NoticeArea
-} from "@src/components/page/main";
+} from "components/pageComp/indexpage";
 import styled from "@emotion/styled";
 import Link from "next/link";
-import { CategoryLink } from "@src/components/layouts/Head";
+import { CategoryLink } from "components/layouts/Head";
 import { fetchProducts } from "@src/hooks/api/useProducts";
 import { GetServerSideProps } from "next";
 

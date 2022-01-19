@@ -7,15 +7,15 @@ import React, {
 } from "react";
 import Link from "next/link";
 import { css } from "@emotion/react";
-import Card from "@src/components/elements/Card";
-import Layout from "@src/components/layouts";
+import Card from "components/elements/Card";
+import Layout from "components/layouts";
 import { useInfinity } from "@src/hooks/api/useInfinite";
 import { Iinfinity, IProduct } from "@src/typings/db";
 import InView from "react-intersection-observer";
 import { InfinityCardwrap, LinkCard } from "./style";
-import Search from "@src/components/views/Search";
-import CardBadge from "@src/components/elements/CardBadge";
-import CardSkeleton from "@src/components/elements/Card/CardSkeleton";
+import Search from "components/modules/Search";
+import CardBadge from "components/elements/CardBadge";
+import CardSkeleton from "components/elements/Card/CardSkeleton";
 
 interface IQuerykey {
   querykey: string;

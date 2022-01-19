@@ -1,5 +1,5 @@
 import { getProviders, getCsrfToken } from "next-auth/client";
-import SocialLogin from "../src/components/views/SocialLogin";
+import SocialLogin from "../components/modules/SocialLogin";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
@@ -7,7 +7,7 @@ import {
   BtnLogin,
   InfoRegArea,
   LoginWrapper
-} from "@src/components/page/signin/style";
+} from "components/pageComp/signin/style";
 
 export interface ISignIn {
   providers: object;

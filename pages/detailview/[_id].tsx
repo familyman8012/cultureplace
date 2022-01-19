@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Product } from "../../pages/api";
-import Layout from "@src/components/layouts";
+import Layout from "components/layouts";
 import { IProduct } from "@src/typings/db";
 import { css } from "@emotion/react";
 import {
   Content,
   DetailViewWrap,
   EditTxt
-} from "@src/components/page/detailview/styles";
+} from "components/pageComp/detailview/styles";
 import {
   BannerImg,
   Benefit,
@@ -20,10 +20,10 @@ import {
   WePlay,
   InfoMemberChart,
   InfoCard
-} from "@src/components/page/detailview";
+} from "components/pageComp/detailview";
 import React from "react";
-import Modal from "@src/components/elements/Modal";
-import Review from "@src/components/page/detailview/Review";
+import Modal from "components/elements/Modal";
+import Review from "components/pageComp/detailview/Review";
 import { useSession } from "next-auth/client";
 
 export interface IDetail {
@@ -74,7 +74,7 @@ export default DetailView;
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [{ params: { _id: "61de711076486851207e9bf2" } }],
-    fallback: false // --> false 시 1,2,3외에는 404
+    fallback: true // --> false 시 1,2,3외에는 404
   };
 };
 

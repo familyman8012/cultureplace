@@ -1,4 +1,4 @@
-import Layout from "@/../src/components/layouts";
+import Layout from "components/layouts";
 import { IPayment } from "@src/typings/db";
 import Link from "next/link";
 import WrapPayment from "./styles";

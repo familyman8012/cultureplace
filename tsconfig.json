@@ -25,7 +25,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/api/middleware/db.js",
-    "src/components/elements/sample/Button.jsx",
+    "components/elements/sample/Button.jsx",
     "pages/api/product/search.js",
     "pages/info/[id].js"
   ],

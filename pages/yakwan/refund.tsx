@@ -1,5 +1,5 @@
-import Layout from "@src/components/layouts";
-import { WrapYakwan } from "../../src/components/page/yakwan/styles";
+import Layout from "components/layouts";
+import { WrapYakwan } from "../../components/pageComp/yakwan/styles";
 
 function Refund() {
   return (

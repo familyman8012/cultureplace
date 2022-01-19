@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import router from "next/router";
 import { observer } from "mobx-react";
-import AdminLayout from "@src/components/layouts/Admin/layout";
-import QuillEditorView from "@src/components/views/QuillEditor/QuillEditorView";
+import AdminLayout from "components/layouts/Admin/layout";
+import QuillEditorView from "components/modules/QuillEditor/QuillEditorView";
 import {
   AdminBoxBtn,
   WrapQuillText
-} from "@src/components/views/QuillEditor/styles";
+} from "components/modules/QuillEditor/styles";
 
 function Detail() {
   // basicinfo 화면으로 이동

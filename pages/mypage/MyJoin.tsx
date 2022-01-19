@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import Card from "@src/components/elements/Card";
+import Card from "components/elements/Card";
 import { useJoin } from "@src/hooks/api/useMypage";
 import Link from "next/link";
 

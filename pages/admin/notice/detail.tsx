@@ -4,12 +4,12 @@ import axios from "axios";
 import useImgUp from "@src/hooks/useImgUp";
 import { observer } from "mobx-react";
 import { noticeStore, QuillStore } from "@src/mobx/store";
-import QuillEditorView from "@src/components/views/QuillEditor/QuillEditorView";
+import QuillEditorView from "components/modules/QuillEditor/QuillEditorView";
 import {
   AdminBoxBtn,
   WrapQuillText
-} from "@src/components/views/QuillEditor/styles";
-import AdminLayout from "@src/components/layouts/Admin/layout";
+} from "components/modules/QuillEditor/styles";
+import AdminLayout from "components/layouts/Admin/layout";
 import { BoxInput, WrapNotice } from "./styles";
 
 function Detail() {

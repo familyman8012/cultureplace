@@ -1,4 +1,4 @@
-import Button from "../src/components/elements/Button";
+import Button from "../components/elements/Button";
 import { css } from "@emotion/react";
 
 function Btnview() {
