@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import Card from "components/elements/Card";
-import Layout from "components/layouts";
+import Card from "@components/elements/Card";
+import Layout from "@components/layouts";
 import { IProduct } from "@src/typings/db";
 import axios from "axios";
 import Link from "next/link";

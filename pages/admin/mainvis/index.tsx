@@ -2,7 +2,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useMainimg } from "@src/hooks/api/useMainimg";
 import { useMutation, useQueryClient } from "react-query";
-import AdminLayout from "components/layouts/Admin/layout";
+import AdminLayout from "@components/layouts/Admin/layout";
 import { WrapMainVis } from "./styles";
 
 function Mainvis() {

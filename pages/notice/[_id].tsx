@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
-import Button from "components/elements/Button";
-import Layout from "components/layouts";
+import Button from "@components/elements/Button";
+import Layout from "@components/layouts";
 import { useNotice } from "@src/hooks/api/useNotices/useNotice";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ import {
   NoticeButton,
   NoticeView,
   Title
-} from "components/pageComp/notice/styles";
+} from "@components/pageComp/notice/styles";
 
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Notice } from "../../pages/api";

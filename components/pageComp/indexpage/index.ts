@@ -2,5 +2,6 @@ import MainVisual from "./MainVisual";
 import CategoryArea from "./CategoryArea";
 import BlogArea from "./BlogArea";
 import NoticeArea from "./NoticeArea";
+import CategoryMenu from "./CategoryMenu";
 
-export { MainVisual, BlogArea, CategoryArea, NoticeArea };
+export { MainVisual, CategoryMenu, CategoryArea, BlogArea, NoticeArea };

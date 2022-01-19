@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SwiperSlide } from "swiper/react";
 import { debounce } from "lodash";
-import Slider from "components/modules/Slider";
+import Slider from "@components/modules/Slider";
 import { IMainVis } from "@src/typings/db";
 import { Mainvis, SlideItem, TxtBox } from "./styles";
 

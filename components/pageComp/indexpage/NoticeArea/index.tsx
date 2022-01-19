@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import MainNotice from "components/elements/MainNotice";
-import Title from "components/elements/Title";
+import MainNotice from "@components/elements/MainNotice";
+import Title from "@components/elements/Title";
 import { INotice } from "@src/typings/db";
 import dayjs from "dayjs";
 import Link from "next/link";

@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
-import BannerImg from "components/elements/BannerImg";
-import BlogCard from "components/elements/BlogCard";
-import Layout from "components/layouts";
+import BannerImg from "@components/elements/BannerImg";
+import BlogCard from "@components/elements/BlogCard";
+import Layout from "@components/layouts";
 import {
   SectionNotice,
   TabNotice,
   WrapNotice
-} from "components/pageComp/notice/styles";
+} from "@components/pageComp/notice/styles";
 import { INotice } from "@src/typings/db";
 import Link from "next/link";
 import { useState } from "react";

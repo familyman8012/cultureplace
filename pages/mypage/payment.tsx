@@ -3,13 +3,13 @@ import { signOut, useSession } from "next-auth/client";
 import { useFavorite } from "@src/hooks/api/useMypage";
 import MyFavorite from "./MyFavorite";
 import MyJoin from "./MyJoin";
-import Layout from "components/layouts";
+import Layout from "@components/layouts";
 import { css } from "@emotion/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { usePayment } from "@src/hooks/api/usePayments";
 import axios from "axios";
-import { WrapPayedInfo } from "components/pageComp/yakwan/styles";
+import { WrapPayedInfo } from "@components/pageComp/yakwan/styles";
 
 function Index() {
   const [session] = useSession();

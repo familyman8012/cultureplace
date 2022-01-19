@@ -1,4 +1,4 @@
-import Layout from "components/layouts";
+import Layout from "@components/layouts";
 import { WrapYakwan } from "../../components/pageComp/yakwan/styles";
 
 function Policy() {

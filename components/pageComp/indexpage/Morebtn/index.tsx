@@ -1,4 +1,4 @@
-import Button from "components/elements/Button";
+import Button from "@components/elements/Button";
 import { moreBtn } from "./styles";
 
 function index() {

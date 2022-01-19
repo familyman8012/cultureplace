@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Skeleton from "components/elements/Skeleton";
+import Skeleton from "@components/elements/Skeleton";
 import { useEffect, useState } from "react";
 
 const Base = styled.div`

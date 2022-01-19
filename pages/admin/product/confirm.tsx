@@ -2,9 +2,9 @@ import { useCallback } from "react";
 import router from "next/router";
 import axios from "axios";
 import { prodUpStore, QuillStore } from "@src/mobx/store";
-import AdminLayout from "components/layouts/Admin/layout";
+import AdminLayout from "@components/layouts/Admin/layout";
 import { ConfirmView } from "./styles";
-import { AdminBoxBtn } from "components/modules/QuillEditor/styles";
+import { AdminBoxBtn } from "@components/modules/QuillEditor/styles";
 
 function Confirm() {
   // 데이터불러오기

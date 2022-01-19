@@ -3,7 +3,7 @@ import axios from "axios";
 import { Session } from "next-auth";
 import { Dispatch, SetStateAction, useState } from "react";
 import WrapPayment from "./styles";
-import Layout from "components/layouts";
+import Layout from "@components/layouts";
 import { css } from "@emotion/react";
 
 interface IPaymentInfo {

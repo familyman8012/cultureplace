@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Product } from "../../pages/api";
-import Layout from "components/layouts";
+import Layout from "@components/layouts";
 import { IProduct } from "@src/typings/db";
 import { css } from "@emotion/react";
 import {
   Content,
   DetailViewWrap,
   EditTxt
-} from "components/pageComp/detailview/styles";
+} from "@components/pageComp/detailview/styles";
 import {
   BannerImg,
   Benefit,
@@ -20,10 +20,10 @@ import {
   WePlay,
   InfoMemberChart,
   InfoCard
-} from "components/pageComp/detailview";
+} from "@components/pageComp/detailview";
 import React from "react";
-import Modal from "components/elements/Modal";
-import Review from "components/pageComp/detailview/Review";
+import Modal from "@components/elements/Modal";
+import Review from "@components/pageComp/detailview/Review";
 import { useSession } from "next-auth/client";
 
 export interface IDetail {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import router from "next/router";
 import axios from "axios";
 import useImgUp from "@src/hooks/useImgUp";
-import AdminLayout from "components/layouts/Admin/layout";
+import AdminLayout from "@components/layouts/Admin/layout";
 
 import { WrapDetailMV } from "./styles";
 import { BoxInput } from "../notice/styles";

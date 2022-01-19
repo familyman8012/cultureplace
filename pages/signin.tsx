@@ -7,7 +7,7 @@ import {
   BtnLogin,
   InfoRegArea,
   LoginWrapper
-} from "components/pageComp/signin/style";
+} from "@components/pageComp/signin/style";
 
 export interface ISignIn {
   providers: object;

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import Modal from "components/elements/Modal";
+import Modal from "@components/elements/Modal";
 import { IProduct, IReviewEdit } from "@src/typings/db";
 import React, { Dispatch, SetStateAction } from "react";
 import { UseMutationResult } from "react-query";

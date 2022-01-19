@@ -4,7 +4,7 @@ import { fetchProducts, useProducts } from "@src/hooks/api/useProducts";
 import axios from "axios";
 import { runInAction } from "mobx";
 import { prodUpStore } from "@src/mobx/store";
-import AdminLayout from "components/layouts/Admin/layout";
+import AdminLayout from "@components/layouts/Admin/layout";
 import { WrapIndexContent, IndexTable, GlowBtn } from "./styles";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
