@@ -22,6 +22,8 @@ export const SlideItem = styled.div<{ i: number; on: string }>`
   flex-wrap: wrap;
   width: 100%;
   height: 65.5rem;
+  background: url(/images/mainvis${({ i }) => i}.jpg) no-repeat center center;
+  background-size: cover;
   .txtbox {
     opacity: 0;
     position: absolute;
@@ -67,19 +69,21 @@ export const SlideItem = styled.div<{ i: number; on: string }>`
       }
     }
   }
-  background: url(/images/mainvis${({ i }) => i}.jpg) no-repeat center center;
-  background-size: cover;
+
   ${({ on }) =>
     on === "on" &&
     `.txtbox {
     opacity: 1;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -50%);
     
   }`}
   ${mq[0]} {
     height: 192px;
-
+    background: url(/images/mo_mainvis${({ i }) => i}.jpg) no-repeat center
+      center;
+    background-size: cover;
     .txtbox {
+      display: none;
       width: 90%;
 
       .txt1 {

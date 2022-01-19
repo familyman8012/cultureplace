@@ -4,7 +4,7 @@ const breakpoints = [550, 1400];
 const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
 
 export const LayoutWrap = styled.div`
-  max-width:100%
+  max-width: 100%;
   margin: 0 auto;
   padding: 0;
 `;
@@ -66,7 +66,7 @@ export const Header = styled.header`
     height: 60px;
     padding: 11px 20px;
     h1 {
-      display: block;
+      display: none;
       padding-left: 11rem;
       font-size: 14px;
       background-size: 10px;
@@ -81,7 +81,7 @@ export const Header = styled.header`
     .inner {
       width: auto;
       height: 100%;
-      //justify-content: center;
+      justify-content: center;
     }
   }
 `;
@@ -193,7 +193,6 @@ export const SearchForm = styled.form`
   }
   ${mq[0]} {
     display: flex;
-    display: none;
     margin-left: 0;
     position: relative;
     -webkit-box-align: center;
