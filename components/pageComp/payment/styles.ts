@@ -1,3 +1,4 @@
+import { mq } from "@components/mq";
 import styled from "@emotion/styled";
 
 const WrapPayment = styled.div<{ type?: string }>`
@@ -79,6 +80,24 @@ const WrapPayment = styled.div<{ type?: string }>`
     line-height: 53px;
     cursor: pointer;
     background: #000;
+  }
+  ${mq[0]} {
+    h2 {
+      font-size: 20px;
+    }
+    .wrap_box_area {
+      display: block;
+      padding: 0 10px;
+      .info {
+        margin-right: 0;
+      }
+      .box {
+        width: 100% !important;
+      }
+    }
+    .btn_pay {
+      margin-top: 10px;
+    }
   }
 
   .wrap_pay_complete {

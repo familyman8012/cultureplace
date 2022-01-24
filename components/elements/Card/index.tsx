@@ -37,16 +37,25 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
     saleprice
   } = data;
 
+  // 정가
   const priceNumber = useMemo(
     () => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     [price]
   );
 
+  // 할인가
   const salePriceNumber = useMemo(
     () => saleprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     [saleprice]
   );
 
+  // 할부
+  const highPrice = useMemo(
+    () => (saleprice / 5).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    [saleprice]
+  );
+
+  // 할인율
   const salePercent = useMemo(
     () => Math.floor((price / saleprice) * 10),
     [price, saleprice]
@@ -72,10 +81,18 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
                 <span className="saleper">{salePercent}%</span>
               )}
               <div className="priceNum">
-                {saleprice !== 0 && (
-                  <span className="price">{salePriceNumber}원</span>
+                {saleprice !== 0 ? (
+                  price > 10 ? (
+                    <>
+                      <span className="price">월 {highPrice}원</span>{" "}
+                      <span className="period">(5개월)</span>
+                    </>
+                  ) : (
+                    <span className="price">{salePriceNumber}원</span>
+                  )
+                ) : (
+                  <span className="price">{priceNumber}원</span>
                 )}
-                <span className="price">{priceNumber}원</span>
               </div>
             </dd>
           </>
@@ -83,9 +100,9 @@ function Card({ type = "basic", data, querykey = "", ...rest }: ICard) {
 
         {type === "event" && <dd className="people">{people}</dd>}
         <dd className="meetinfobox">
-          <span className="location">{location}</span>
+          <span className="location">{location} </span>
           <span className="firstmeet">
-            | 첫 모임일 {startTime} ~ {endTime}
+            | 모임일 {startTime} ~ {endTime}
           </span>
         </dd>
       </dl>

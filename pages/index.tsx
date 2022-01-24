@@ -1,17 +1,15 @@
 import { dehydrate, QueryClient, useQuery } from "react-query";
-import { dbConnect, Product, Mainvisimg, Notice } from "../pages/api";
+import { dbConnect, Product, Notice } from "../pages/api";
 import Layout from "@components/layouts";
 import Morebtn from "@components/pageComp/indexpage/Morebtn";
 import {
   MainVisual,
-  CategoryArea,
+  WrapIndex,
+  CategoryMenu,
+  CardSlideArea,
   BlogArea,
-  NoticeArea,
-  CategoryMenu
+  NoticeArea
 } from "@components/pageComp/indexpage";
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { CategoryLink } from "@components/layouts/Head";
 import { fetchProducts } from "@src/hooks/api/useProducts";
 import { GetServerSideProps } from "next";
 
@@ -38,21 +36,16 @@ const Home = ({ SsrData }: any) => {
 
   const genreData = getGenreData();
 
-  const CategoryWrap = styled.div`
-    width: 1150px;
-    margin: 0 auto;
-  `;
-
   return (
     <Layout>
       <MainVisual />
-      <CategoryWrap>
+      <WrapIndex>
         <CategoryMenu />
-        <CategoryArea genreData={genreData} />
+        <CardSlideArea genreData={genreData} />
         <Morebtn />
         <BlogArea blogData={blogData} />
         <NoticeArea noticeData={noticeData} />
-      </CategoryWrap>
+      </WrapIndex>
     </Layout>
   );
 };

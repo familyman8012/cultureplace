@@ -1,157 +1,10 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import { mq } from "@components/mq";
 
-interface StyledComponentProps {
-  type: string;
-}
-
-const typeStyle = ({ type }: StyledComponentProps) => {
-  if (type === "basic") {
-    return css`
-      border-radius: 0.3rem;
-      .imgbox {
-        position: relative;
-        height: 20.7rem;
-      }
-      .txtbox {
-        height: 17.6rem;
-        dt {
-          padding: 7px 0 2px;
-          font-size: 12px;
-          font-weight: bold;
-        }
-        dd {
-          &.title {
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 20px;
-            letter-spacing: -0.15px;
-            color: rgb(26, 26, 26);
-            height: 40px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            margin: 4px 0px 8px;
-          }
-          &.favoriteNumber {
-            font-size: 11px;
-            font-weight: normal;
-            line-height: 16px;
-            letter-spacing: normal;
-            margin: 0px 8px 0px 0px;
-            display: flex;
-            -webkit-box-align: center;
-            align-items: center;
-            color: #a2a2a2;
-            svg {
-              margin-right: 2px;
-              color: #d7d7d7;
-            }
-          }
-          &.wrap_price,
-          .priceNum {
-            display: flex;
-            font-size: 13px;
-            font-weight: 700;
-            .saleper {
-              color: #fd3049;
-            }
-            .priceNum {
-              .price:nth-of-type(1) {
-                margin: 0 5px;
-                color: #000;
-              }
-              .price:nth-of-type(2) {
-                font-weight: normal;
-                text-decoration: line-through;
-              }
-            }
-          }
-        }
-      }
-    `;
-  }
-  if (type === "other") {
-    return css`
-      border: none;
-      border-radius: 0;
-      .imgbox {
-        position: relative;
-        height: 30rem;
-      }
-      .txtbox {
-        padding: 1.2rem 0;
-        dt {
-          font-size: 1.6rem;
-          font-weight: 500;
-          color: #7b7b7b;
-        }
-        dd {
-          &.desc {
-            font-size: 1.5rem;
-          }
-          &.meetinfobox {
-            position: static;
-            font-size: 1.4rem;
-          }
-        }
-      }
-    `;
-  }
-  if (type === "event") {
-    return css`
-      border-radius: 0;
-      border: 1px solid #d8d8d8;
-      .imgbox {
-        height: 23.2rem;
-      }
-      .txtbox {
-        position: relative;
-        padding: 0;
-        dt {
-          height: 6rem;
-          margin-bottom: 1rem;
-          margin: 1.5rem 1.5rem 0;
-          font-size: 2rem;
-          border-bottom: 1px solid #d8d8d8;
-        }
-        dd {
-          &.people {
-            margin: 1rem;
-          }
-          &.meetinfobox {
-            position: static;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #d8d8d8;
-            background: #f7f7f7;
-          }
-        }
-      }
-    `;
-  }
-};
-
-export const CardWrap = styled.div`
-  &[type="other"] {
-    width: 100%;
-  }
+export const CardWrap = styled.div<{ type: string }>`
   overflow: hidden;
-  margin: 0 auto 22px auto;
-
-  &:hover,
-  &:focus {
-    -webkit-box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.2);
-    .imgbox img {
-      -webkit-transform: scale(1.14);
-      -moz-transform: scale(1.14);
-      -ms-transform: scale(1.14);
-      -o-transform: scale(1.14);
-      transform: scale(1.14);
-    }
-  }
+  margin: 0 auto 2.2rem auto;
 
   dl,
   dt,
@@ -176,16 +29,16 @@ export const CardWrap = styled.div`
   }
   .txtbox {
     position: relative;
-    padding: 5px 10px 15px;
+    padding: 0.5rem 1rem 1.5rem;
 
     dd {
       &.title {
-        font-size: 1.5rem;
+        font-size: 15px;
       }
       &.meetinfobox {
-        margin-top: 5px;
+        margin-top: 0.5rem;
         margin-bottom: 0;
-        font-size: 1.1rem;
+        font-size: 11px;
       }
       &.todo {
         color: #1778b5;
@@ -200,5 +53,133 @@ export const CardWrap = styled.div`
       }
     }
   }
-  ${typeStyle}
+  ${({ type }) =>
+    type === "basic" &&
+    `
+      border-radius: 0.3rem;
+      .imgbox {
+        position: relative;
+        height: 20.7rem;
+      }
+      .txtbox {
+        dt {
+          padding: 0.7rem 0 0.2rem;
+          font-size: 12px;
+          font-weight: bold;
+        }
+        dd {
+          &.title {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+            letter-spacing: -0.15px;
+            color: rgb(26, 26, 26);
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin: 0.4rem 0px 0.8rem;
+          }
+          &.favoriteNumber {
+            font-size: 11px;
+            font-weight: normal;
+            line-height: 16px;
+            letter-spacing: normal;
+            margin: 0px 0.8rem 0px 0px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            color: #a2a2a2;
+            svg {
+              margin-right: 2px;
+              color: #d7d7d7;
+            }
+          }
+          &.wrap_price,
+          .priceNum {
+            display: flex;
+            font-size: 13px;
+            font-weight: 700;
+            .saleper {
+              color: #fd3049;
+            }
+            .priceNum {
+              .price:nth-of-type(1) {
+                margin: 0 0.5rem;
+                color: #000;
+              }
+              .price:nth-of-type(2) {
+                font-weight: normal;
+                text-decoration: line-through;
+              }
+            }
+          }
+        }
+      }     
+    `}
+  ${({ type }) =>
+    type === "other" &&
+    `
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    .imgbox {
+      position: relative;
+    }
+    .txtbox {
+      padding: 1.2rem 0;
+      dt {
+        font-size: 16px;
+        font-weight: 500;
+        color: #7b7b7b;
+      }
+      dd {
+        &.desc {
+          font-size: 15px;
+        }
+        &.meetinfobox {
+          position: static;
+          font-size: 14px;
+        }
+      }
+    }`}
+    ${({ type }) =>
+    type === "event" &&
+    `
+    border-radius: 0;
+      border: 1px solid #d8d8d8;
+      .imgbox {
+        height: 23.2rem;
+      }
+      .txtbox {
+        position: relative;
+        padding: 0;
+        dt {
+          height: 6rem;
+          margin-bottom: 1rem;
+          margin: 1.5rem 1.5rem 0;
+          font-size: 20px;
+          border-bottom: 1px solid #d8d8d8;
+        }
+        dd {
+          &.people {
+            margin: 1rem;
+          }
+          &.meetinfobox {
+            position: static;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #d8d8d8;
+            background: #f7f7f7;
+          }
+        }
+      }
+    `}
+    ${mq[0]} {
+    .wrap_price {
+      border-top: 1px solid #f8f8f8;
+      padding-top: 5px;
+      margin-top: 5px;
+    }
+  }
 `;

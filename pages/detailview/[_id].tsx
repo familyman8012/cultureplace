@@ -38,30 +38,21 @@ const DetailView = ({ item }: IDetail) => {
   const { data } = useQuery("detail", () => item);
 
   return (
-    <Layout>
+    <Layout className="detail">
       <DetailViewWrap>
         {data && _id !== undefined && (
           <>
-            <Content
-              css={
-                data?.genre === "이벤트" &&
-                css`
-                  margin-left: calc(320px + 5%);
-                `
-              }
-            >
+            <InfoCard data={data} _id={String(_id)} />
+            <Content>
               <EditTxt dangerouslySetInnerHTML={{ __html: data?.body }} />
               <InfoMemberChart />
               <ClubDetailInfo item={data} />
               <Review item={data} id={String(_id)} />
-
-              <BannerImg />
               <WePlay />
               <Benefit />
               <Refund title={data.title} />
               <Faq />
             </Content>
-            <InfoCard data={data} _id={String(_id)} />
           </>
         )}
       </DetailViewWrap>

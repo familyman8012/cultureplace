@@ -2,72 +2,18 @@ import styled from "@emotion/styled";
 import { observer } from "mobx-react";
 import { MutableRefObject, useCallback, useEffect } from "react";
 import { searchStore } from "@src/mobx/store";
-
-const SearchWrap = styled.div`
-  position: relative;
-  margin-bottom: 30px;
-  z-index: 70;
-  background: #f1f1f1;
-  label,
-  input[name="searchInput"],
-  button {
-    display: inline-block;
-
-    color: #000;
-    font-size: 14px;
-    font-weight: normal;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin: 0 4px;
-    text-align: center;
-    box-sizing: border-box;
-    padding: 7px 15px;
-    cursor: pointer;
-  }
-  input[type="checkbox"] {
-    border: 0;
-    clip: rect(0 0 0 0);
-    clippath: inset(50%);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-  }
-  input[type="checkbox"]:checked + label {
-    color: #ff005a;
-    border: 1px solid #ff005a;
-  }
-  button {
-    color: #fff;
-    border: none;
-    font-weight: normal;
-  }
-  .onSubmit {
-    background: #4497ea;
-  }
-  .onReset {
-    background: #000;
-  }
-`;
-
-const SearchInputWrap = styled.div`
-  padding: 10px 9px 15px;
-  input[name="searchInput"] {
-    width: 300px;
-    text-align: left;
-  }
-`;
-
-const FilterFindWrap = styled.div`
-  > li {
-    display: flex;
-    padding: 8px 10px;
-  }
-`;
+import { mq } from "@components/mq";
+import { css } from "@emotion/react";
+import {
+  Content,
+  FilterFindWrap,
+  MobileLayerHead,
+  ResultBtnWrap,
+  SearchInputWrap,
+  SearchWrap
+} from "./style";
+import Loader from "@components/elements/Loader";
+import { CloseBtn } from "@components/elements/CloseBtn/style";
 
 const filterFindList = [
   {
@@ -113,7 +59,17 @@ const filterFindList = [
   }
 ];
 
-function Index({ pageNum, refetch }: { pageNum: number; refetch: () => void }) {
+function Index({
+  pageNum,
+  refetch,
+  className,
+  handlerFilterView
+}: {
+  pageNum: number;
+  refetch: () => void;
+  className: string;
+  handlerFilterView: () => void;
+}) {
   const handlerReset = useCallback(() => {
     searchStore.onInit(filterFindList);
     searchStore.onReset(pageNum);
@@ -123,7 +79,10 @@ function Index({ pageNum, refetch }: { pageNum: number; refetch: () => void }) {
   const handlerApply = useCallback(() => {
     searchStore.onApply(pageNum);
     refetch();
-  }, [pageNum, refetch]);
+    setTimeout(() => {
+      handlerFilterView();
+    }, 1000);
+  }, [handlerFilterView, pageNum, refetch]);
 
   useEffect(() => {
     searchStore.onInit(filterFindList);
@@ -132,55 +91,84 @@ function Index({ pageNum, refetch }: { pageNum: number; refetch: () => void }) {
     };
   }, [handlerReset]);
 
+  console.log("className", className);
+
   return (
-    <SearchWrap>
-      <FilterFindWrap>
-        {filterFindList.map((item, i: number) => {
-          return (
-            <li key={i}>
-              {item.option.map((el, j) => (
-                <div key={el}>
-                  <input
-                    type="checkbox"
-                    id={el}
-                    value={el}
-                    checked={
-                      searchStore.filterFind.every(
-                        (el: string[]) => el.length === 0
-                      )
-                        ? false
-                        : searchStore.filterFind[i].includes(el)
-                    }
-                    onChange={e =>
-                      searchStore.onCheckboxChange(i, String(e.target.value))
-                    }
-                  />
-                  {i !== 2 ? (
-                    <label htmlFor={el}>{el}</label>
-                  ) : (
-                    <label htmlFor={el}>{item.optionName[j]}</label>
-                  )}
+    <SearchWrap className={className}>
+      <MobileLayerHead>
+        <CloseBtn onClick={handlerFilterView} />
+        <h1>필터</h1>
+      </MobileLayerHead>
+      {/* <Loader /> */}
+      <Content>
+        <FilterFindWrap>
+          {filterFindList.map((item, i: number) => {
+            return (
+              <li key={i}>
+                <div className="title">
+                  {i === 0 && "지역"}
+                  {i === 1 && "요일"}
+                  {i === 2 && "카테고리"}
                 </div>
-              ))}
-            </li>
-          );
-        })}
-      </FilterFindWrap>
-      <SearchInputWrap>
-        <input
-          type="text"
-          name="searchInput"
-          placeholder="함께 하고 싶은 모임명,  팀리더를 검색해보세요."
-          value={searchStore.searchInput}
-          onChange={e => searchStore.onsearchInput(e)}
-        />
-        <button className="onSubmit" onClick={handlerApply}>
-          적용
-        </button>
-        <button className="onReset" onClick={handlerReset}>
-          검색조건초기화
-        </button>
-      </SearchInputWrap>
+                <div className="box_item">
+                  {item.option.map((el, j) => (
+                    <div key={el}>
+                      <input
+                        type="checkbox"
+                        id={el}
+                        value={el}
+                        checked={
+                          searchStore.filterFind.every(
+                            (el: string[]) => el.length === 0
+                          )
+                            ? false
+                            : searchStore.filterFind[i].includes(el)
+                        }
+                        onChange={e =>
+                          searchStore.onCheckboxChange(
+                            i,
+                            String(e.target.value)
+                          )
+                        }
+                      />
+                      {i !== 2 ? (
+                        <label htmlFor={el}>{el}</label>
+                      ) : (
+                        <label htmlFor={el}>{item.optionName[j]}</label>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </li>
+            );
+          })}
+        </FilterFindWrap>
+        <SearchInputWrap>
+          <div className="title">키워드</div>
+          <input
+            type="text"
+            name="searchInput"
+            placeholder="함께 하고 싶은 모임명,  팀리더를 검색해보세요."
+            value={searchStore.searchInput}
+            onChange={e => searchStore.onsearchInput(e)}
+          />
+        </SearchInputWrap>
+        <ResultBtnWrap>
+          <div className="title">조합검색</div>
+          <div>
+            <button className="onSubmit" onClick={handlerApply}>
+              적용
+            </button>
+            <button className="onReset" onClick={handlerReset}>
+              검색조건초기화
+            </button>
+          </div>
+        </ResultBtnWrap>
+        <p className="txt_notice">
+          * 조합하고 싶은 항목들을 선택해 검색하실 수 있습니다.
+          <br /> (지역, 요일, 카테고리, 키워드 검색 중 1개~4개 항목선택가능)
+        </p>
+      </Content>
     </SearchWrap>
   );
 }

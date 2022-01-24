@@ -7,7 +7,6 @@ favoriteRouter.get(async (req, res) => {
   const { userid } = req.query;
   if (userid !== "undefined") {
     const result = await Product.find({ favoriteduser: userid });
-    console.log("result", result);
     return res.status(200).json(result);
   }
 });

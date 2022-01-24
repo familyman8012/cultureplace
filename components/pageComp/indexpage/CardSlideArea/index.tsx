@@ -10,18 +10,12 @@ import React, { useCallback, useMemo, useState } from "react";
 import CardBadge from "@components/elements/CardBadge";
 import CardSkeleton from "@components/elements/Card/CardSkeleton";
 import { css } from "@emotion/react";
+import { WrapCategoryArea } from "./styles";
 
 export interface IGenreData {
   genreData?: IProduct[][] | undefined;
   isLoading?: boolean;
 }
-
-const WrapCategoryArea = styled.div`
-  position: relative;
-  .swiper {
-    padding: 0 10px;
-  }
-`;
 
 function Index({ genreData, isLoading }: IGenreData) {
   const genreTitle = [
@@ -42,19 +36,22 @@ function Index({ genreData, isLoading }: IGenreData) {
     { title: "지헤를 얻기 위한 지식컬쳐", url: "/view/wisdom" }
   ];
   const sliderOption = {
-    749: {
-      slidesPerView: 1,
-      spaceBetween: 20
-    },
-    750: {
+    0: {
       slidesPerView: 2,
+      spaceBetween: 13
+    },
+    551: {
+      slidesPerView: 3,
       spaceBetween: 20
     },
-
-    751: {
+    1441: {
       slidesPerView: 4,
-      spaceBetween: 24
+      spaceBetween: 20
     }
+    // 751: {
+    //   slidesPerView: 4,
+    //   spaceBetween: 24
+    // }
   };
 
   const startDayCal = useCallback((val: Date) => {

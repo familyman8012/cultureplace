@@ -3,6 +3,7 @@ module.exports = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["ticketimage.interpark.com", "cdn.class101.net"]
+    domains: ["kopis.or.kr", "cdn.class101.net"],
+    formats: ["image/avif", "image/webp"]
   }
 };

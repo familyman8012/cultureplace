@@ -3,6 +3,7 @@ import BannerImg from "@components/elements/BannerImg";
 import BlogCard from "@components/elements/BlogCard";
 import Layout from "@components/layouts";
 import {
+  NotiBnrInner,
   SectionNotice,
   TabNotice,
   WrapNotice
@@ -42,31 +43,20 @@ function Index({ noticeData }: INoticeList) {
 
   return (
     <Layout>
-      <BannerImg height="360px" bgimg="/images/bg1.jpg">
-        <div
-          css={css`
-            width: 1200px;
-            margin: 0 auto;
-            padding: 100px 50px;
-            color: #fff;
-          `}
-        >
-          <p
-            css={css`
-              font-size: 28px;
-            `}
-          >
-            문화는 추억이다.
-          </p>
-          <p
-            css={css`
-              font-size: 18px;
-            `}
-          >
-            그리고 이제 새로운 추억을 만들어야 할 시간이다.
-          </p>
-        </div>
-      </BannerImg>
+      <div
+        css={css`
+          display: none;
+        `}
+      >
+        <BannerImg height="360px" bgimg="/images/bg1.jpg">
+          <NotiBnrInner>
+            <p className="txt1">문화는 추억이다.</p>
+            <p className="txt2">
+              그리고 이제 새로운 추억을 만들어야 할 시간이다.
+            </p>
+          </NotiBnrInner>
+        </BannerImg>
+      </div>
       <SectionNotice>
         <TabNotice>
           {TabNoticeList.map((txt: string, i: number) => (

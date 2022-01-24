@@ -14,6 +14,8 @@ import {
 
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { dbConnect, Notice } from "../../pages/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 function DetailView() {
   const router = useRouter();
@@ -32,12 +34,20 @@ function DetailView() {
       <NoticeView>
         {data && (
           <>
-            <div className="top">목록</div>
+            <div className="top" onClick={() => router.back()}>
+              <FontAwesomeIcon icon={faChevronLeft}></FontAwesomeIcon>
+              목록
+            </div>
             <Title>{data?.title}</Title>
             <CreateAt>{createTime}</CreateAt>
             <img src={data?.imgurl} alt={data?.title} />
             <div dangerouslySetInnerHTML={{ __html: String(data?.body) }} />
-            <Button color="brand" size="s" css={NoticeButton}>
+            <Button
+              color="brand"
+              size="s"
+              css={NoticeButton}
+              onClick={() => router.back()}
+            >
               목록으로
             </Button>
           </>

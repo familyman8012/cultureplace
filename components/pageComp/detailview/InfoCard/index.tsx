@@ -5,8 +5,10 @@ import Button from "../../../elements/Button";
 import { session } from "next-auth/client";
 import router from "next/router";
 import FavoriteButton from "./FavoriteButton";
-import { InfoCard, WrapInfoCard } from "./style";
+import { InfoCard, MobileLinkArea, WrapInfoCard } from "./style";
 import { IProduct } from "@src/typings/db";
+import { css } from "@emotion/react";
+import Link from "next/link";
 
 dayjs.locale("ko");
 
@@ -28,6 +30,24 @@ function Index({ data, _id }: InfoCard) {
     price
   } = data;
 
+  // 정가
+  const priceNumber = useMemo(
+    () => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    [price]
+  );
+
+  // 할인가
+  const salePriceNumber = useMemo(
+    () => saleprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    [saleprice]
+  );
+
+  // 할부
+  const highPrice = useMemo(
+    () => (saleprice / 5).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    [saleprice]
+  );
+
   const firstMeetDay = dayjs(firstmeet);
   const startTime = useMemo(
     () => firstMeetDay.format(`MM/DD(${firstMeetDay.format("ddd")}) HH:mm`),
@@ -47,21 +67,59 @@ function Index({ data, _id }: InfoCard) {
     <WrapInfoCard>
       {data && data?.genre !== "이벤트" ? (
         <InfoCard>
-          <img src={imgurl} width="100%" alt="" />
-          <h2>{title}</h2>
-          <div className="meetInfo">
-            <div>
-              <span>{location} |</span> <span>{meetday}</span>
-            </div>
-            <div>
-              <span>첫 모임일</span> <span>{startTime}</span>
-            </div>
+          <div className="imgarea">
+            <MobileLinkArea>
+              <button
+                className="link_back"
+                type="button"
+                onClick={() => router.back()}
+              >
+                <span className="hiddenZoneV">뒤로 가기</span>
+              </button>
+              <Link href="/">
+                <a className="link_home"></a>
+              </Link>
+            </MobileLinkArea>
+            <img src={imgurl} width="100%" alt="" />
           </div>
-          <div className="comment">#{people}</div>
+          <div className="txtbox">
+            <h2>{title}</h2>
+            <div className="meetInfo">
+              <div>
+                <span>{location} |</span> <span>{meetday}</span>
+              </div>
+              <div>
+                <span>첫 모임일</span> <span>{startTime}</span>
+              </div>
+            </div>
+            <div className="comment">#{people}</div>
 
-          <div className="wrap_price">
-            {saleprice !== 0 && <span className="price">{saleprice}원</span>}
-            <span className="price">{price}원</span>
+            <div className="wrap_price">
+              <span className={`price  ${saleprice !== 0 ? "issale" : ""}`}>
+                {" "}
+                <span className="txt">정가</span>
+                {priceNumber}원
+              </span>
+
+              {saleprice !== 0 && (
+                <>
+                  {" "}
+                  |
+                  <span className="price">
+                    <span className="txt">현재 판매가</span>
+                    {salePriceNumber}원
+                  </span>
+                </>
+              )}
+            </div>
+            {saleprice !== 0 && price > 10 && (
+              <div className="wrap_price wrap_price2">
+                <span className="price">
+                  <span className="txt">5개월 무이자 할부 시 </span>월{" "}
+                  {highPrice}원
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="box_btn">

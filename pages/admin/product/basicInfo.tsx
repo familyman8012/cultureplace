@@ -176,7 +176,7 @@ function App() {
             placeholder="금액"
             {...register("price", { required: true })}
           />
-          {errors.people && errors.people.type === "required" && (
+          {errors.price && errors.price.type === "required" && (
             <ErrorTxt>금액을 입력해주세요.</ErrorTxt>
           )}
           <label htmlFor="saleprice">할인가</label>
@@ -187,7 +187,9 @@ function App() {
             defaultValue={0}
             {...register("saleprice")}
           />
-
+          {errors.saleprice && errors.saleprice.type === "required" && (
+            <ErrorTxt>할인 금액을 입력해주세요.</ErrorTxt>
+          )}
           <input type="submit" value="다음" />
         </form>
       </BasicInfoForm>

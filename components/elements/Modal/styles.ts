@@ -1,3 +1,4 @@
+import { mq } from "@components/mq";
 import styled from "@emotion/styled";
 
 export const ModalOverlay = styled.div`
@@ -22,16 +23,41 @@ export const ModalWrap = styled.div`
     display: block;
     text-align: right;
     text-decoration: underline;
+    margin-top: 10px;
+  }
+  ${mq[0]} {
+    top: 45%;
+    width: 90%;
+    a {
+      font-size: 13px;
+    }
   }
 `;
 
 export const ModalHeader = styled.div`
+  display: flex;
   position: relative;
   height: 29px;
   margin-bottom: 41px;
+  align-items: center;
   h2 {
+    display: flex;
+    width: calc(100% - 50px);
     margin-bottom: 0;
-    font-size: 19px;
+    font-size: 16px;
+    align-items: center;
+  }
+  ${mq[0]} {
+    margin-bottom: 20px;
+    h2 {
+      font-size: 14px;
+      width: calc(100% - 35px);
+      height: 40px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
 `;
 

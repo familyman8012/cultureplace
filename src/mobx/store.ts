@@ -154,4 +154,22 @@ const searchStore = observable({
   }
 });
 
-export { prodUpStore, QuillStore, noticeStore, searchStore };
+const infoStore = observable({
+  item: null,
+  showGenre: [],
+  showTitle: "소개 : ",
+  InfoData(i: number, title: string) {
+    this.showGenre = JSON.parse(this.item[i]).elements[0].elements;
+    this.showTitle = title;
+    console.log(this.showGenre);
+  }
+  // onApply(pageNum: number) {
+  //   pageNum = 1;
+  //   this.searchOption = {
+  //     searchInput: this.searchInput,
+  //     filterFind: this.filterFind
+  //   };
+  // }
+});
+
+export { prodUpStore, QuillStore, noticeStore, searchStore, infoStore };

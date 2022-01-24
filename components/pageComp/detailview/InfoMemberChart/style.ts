@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 
 export const InfoMemberChartBox = styled.div`
-  padding: 16px 23px 0px 23px;
+  width: 100%;
+  padding: 16px 0;
   border-radius: 10px;
   box-shadow: 0 4px 10px 0 rgb(0 0 0 / 7%);
   border: solid 1px rgba(0, 0, 0, 0.02);

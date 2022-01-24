@@ -28,7 +28,8 @@
     "pages/api/middleware/db.js",
     "components/elements/sample/Button.jsx",
     "pages/api/product/search.js",
-    "pages/info/[id].js"
+    "pages/info/[id].tsx",
+    "pages/api/auth/[...nextauth].js"
   ],
   "exclude": ["node_modules"]
 }

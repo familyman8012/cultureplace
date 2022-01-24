@@ -1,9 +1,14 @@
+import { mq } from "@components/mq";
 import styled from "@emotion/styled";
 
 export const WrapInfoCard = styled.div`
   position: fixed;
   top: 110px;
   width: 1240px;
+  ${mq[0]} {
+    position: static;
+    width: 100%;
+  }
 `;
 
 export const InfoCard = styled.div`
@@ -14,53 +19,97 @@ export const InfoCard = styled.div`
   background-color: white;
   padding: 32px;
   border: none;
-  h2 {
-    margin: 20px 0 9px;
-    color: #2a2a2c;
-    font-size: 22px;
-    font-weight: bold;
-    line-height: 1.59;
+  ${mq[0]} {
+    position: relative;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    box-shadow: none;
+    border-bottom: 8px solid rgb(244, 244, 244);
   }
-
-  .meetInfo {
-    margin-bottom: 8px;
-    div span {
-      margin: 0 0 8px;
-      color: #737373;
-      font-size: 14px;
-      font-weight: bold;
-      line-height: 1.5;
-    }
-  }
-  .comment {
-    display: inline;
-    padding: 1px 5px;
-    font-size: 13px;
-    background: rgb(229, 255, 57);
-  }
-  .wrap_price {
-    display: flex;
-    justify-content: end;
-    margin-bottom: 20px;
-    padding-top: 15px;
-
-    .price {
+  .txtbox {
+    padding: 0 20px;
+    h2 {
+      margin: 20px 0 9px;
       color: #2a2a2c;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: bold;
-      letter-spacing: -0.25px;
-      &:nth-of-type(2) {
-        margin-left: 10px;
-        color: #838380;
-        font-weight: normal;
-        text-decoration: line-through;
+      line-height: 1.59;
+    }
+
+    .meetInfo {
+      margin-bottom: 8px;
+      div span {
+        margin: 0 0 8px;
+        color: #737373;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1.5;
       }
+    }
+    .comment {
+      display: inline;
+      padding: 1px 5px;
+      font-size: 13px;
+      background: rgb(229, 255, 57);
+    }
+    .wrap_price {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      padding-top: 15px;
+
+      .price {
+        position: relative;
+        font-size: 16px;
+        font-weight: bold;
+        color: #2a2a2c;
+        letter-spacing: -0.25px;
+        &.issale {
+          margin-right: 10px;
+          color: #838380;
+          font-weight: normal;
+          text-decoration: line-through;
+        }
+        &:nth-of-type(2) {
+          margin-left: 10px;
+        }
+        .txt {
+          position: absolute;
+          top: -16px;
+          left: 0;
+          width: 100%;
+          font-size: 12px;
+          font-weight: 300;
+          color: #aaaaaf;
+          text-align: left;
+        }
+      }
+    }
+    .wrap_price2 .price {
+      font-size: 20px;
+      border-bottom: 1px solid;
     }
   }
   .box_btn {
     display: flex;
     button:last-child {
       margin-left: auto;
+    }
+    ${mq[0]} {
+      position: fixed;
+      bottom: 0;
+      left: 0px;
+      width: 100%;
+      height: 72px;
+      padding: 10px 20px 10px;
+      box-shadow: rgb(0 0 0 / 8%) 0px -10px 30px -10px;
+      background-color: white;
+      z-index: 200;
+      button {
+        height: auto;
+      }
     }
   }
   &.event {
@@ -89,6 +138,53 @@ export const InfoCard = styled.div`
       font-size: 26px;
       font-weight: bold;
       text-align: left;
+    }
+  }
+  ${mq[0]} {
+    .txtbox {
+      h2 {
+        margin: 10px 0 0px;
+      }
+      .meetInfo {
+        margin-bottom: 3px;
+      }
+
+      .wrap_price {
+        margin-bottom: 5px;
+      }
+      .wrap_price2 {
+        margin-bottom: 20px;
+      }
+    }
+  }
+`;
+
+export const MobileLinkArea = styled.div`
+  display: none;
+  ${mq[0]} {
+    position: absolute;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 60px;
+    z-index: 1;
+    padding: 10px 12px 10px 10px;
+    text-align: right;
+    .link_back,
+    .link_home {
+      width: 32px;
+      height: 32px;
+    }
+    .link_back {
+      background: url(/images/ico_back.svg) no-repeat center;
+    }
+    .link_home {
+      background: url(/images/ico_home.svg) no-repeat center;
     }
   }
 `;

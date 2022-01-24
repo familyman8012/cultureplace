@@ -10,7 +10,6 @@ const servicekey = "0b6e49379ade4cf98c956ca55d40b5a4";
 infoRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id, title }: { [key: string]: string | string[] } = req.query;
-    console.log(title);
     const info_url = `http://www.kopis.or.kr/openApi/restful/pblprfr/${id}?service=${servicekey}`;
     const blog_url = `https://openapi.naver.com/v1/search/blog?query=${encodeURI(
       String(title)
@@ -24,7 +23,6 @@ infoRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
         }
       })
     ]);
-    console.log("result", result2.data);
     return res.send([convert.xml2js(result.data), result2.data]);
   } catch {
     res.status(500).send(err);

@@ -3,8 +3,7 @@ import styled from "@emotion/styled";
 import React, { Children } from "react";
 
 const SectionWrap = styled.section`
-  margin-top: 30px;
-  padding: 30px;
+  padding: 30px 20px;
   border-top: 1px solid #f3f3f6;
 `;
 

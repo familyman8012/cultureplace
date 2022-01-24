@@ -10,8 +10,6 @@ productRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const Numberlimit = Number(limit);
   const searchOption = omitBy({ meetingcycle, genre }, isUndefined);
 
-  console.log("searchOption", searchOption);
-
   try {
     if (isEmpty(searchOption)) {
       const [products, productsCount] = await Promise.all([
@@ -24,7 +22,6 @@ productRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
       ]);
       return res.send({ products, productsCount });
     } else {
-      console.log(Numberlimit, page);
       const [products, productsCount] = await Promise.all([
         Product.find(searchOption, { body: false })
           .sort({ firstmeet: 1 })
@@ -41,7 +38,6 @@ productRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.body);
   try {
     const products = new Product(req.body);
     await products.save();

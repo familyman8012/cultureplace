@@ -66,11 +66,11 @@ export default function SignIn({ providers, csrfToken }: ISignIn) {
                 </InfoRegArea>
                 <BtnLogin type="submit">로그인</BtnLogin>
                 <div className="txt_read_yakawn">
-                  <Link href="/yakwan">
+                  <Link href="/yakwan/privacy">
                     <a>이용약관</a>
                   </Link>
                   ,{" "}
-                  <Link href="/policy2">
+                  <Link href="/yakwan/policy">
                     <a>개인정보 수집 및 이용</a>
                   </Link>
                   , 내용을 확인하였고 동의합니다.

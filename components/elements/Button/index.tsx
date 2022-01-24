@@ -9,8 +9,8 @@ interface ISizes {
 
 const sizes: ISizes = {
   xs: {
-    height: "3rem",
-    fontSize: "1.4rem"
+    height: "30px",
+    fontSize: "14px"
   },
   s: {
     height: "3.8rem"
@@ -77,8 +77,8 @@ const StyledButton = styled.button`
   width: calc(100% - 65px);
   color: #fff;
   font-weight: 500;
-  letter-spacing: -0.05rem;
-  border-radius: 0.4rem;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
 
   ${btnStyle}
 `;

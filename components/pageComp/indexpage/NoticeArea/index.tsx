@@ -1,10 +1,9 @@
 import { css } from "@emotion/react";
-import MainNotice from "@components/elements/MainNotice";
 import Title from "@components/elements/Title";
 import { INotice } from "@src/typings/db";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { NoticeWidth, TitleML, WrapNoticeArea } from "./styles";
+import { NoticeBox, NoticeWidth, TitleML, WrapNoticeArea } from "./styles";
 
 export interface INoticeData {
   noticeData: INotice[];
@@ -21,11 +20,11 @@ function index({ noticeData }: INoticeData) {
           return (
             <Link href={`/notice/${_id}`} key={_id}>
               <a css={NoticeWidth}>
-                <MainNotice
-                  title={title}
-                  summary={summary}
-                  updatedAt={upadateDay}
-                />
+                <NoticeBox>
+                  <dt>{title}</dt>
+                  <dd className="desc">{summary}</dd>
+                  <dd className="writtenDate">{updatedAt}</dd>
+                </NoticeBox>
               </a>
             </Link>
           );

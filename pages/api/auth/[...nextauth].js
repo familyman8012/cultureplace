@@ -20,7 +20,10 @@ const options = {
         userpwd: { label: "password", type: "password" }
       },
       async authorize(credentials, req) {
-        const response = await axios.post("/api/user/login", credentials);
+        const response = await axios.post(
+          "http://localhost:3000/api/user/login",
+          credentials
+        );
         var t = response.data;
         if (t.data.status !== 0) {
           const user = {
@@ -39,14 +42,23 @@ const options = {
   },
   session: {
     jwt: true
+
     // 리프레쉬토큰, 2주 maxAge: 14 * 24 * 60 * 60
+  },
+  jwt: {
+    signingKey: JSON.stringify({
+      kty: "oct",
+      kid: "jM1c8F2_DfrjzjpB8e-6xMn_6yoP2GE4IdGOt_0Xu3E",
+      alg: "HS512",
+      k: "SKG7Qz0JDdYxTo8-vHY7Slp5pEFFsZUsmzXBI_blVjw"
+    })
   },
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
       if (user) {
         token.user = user;
       }
-      return Promise.resolve(token);
+      return await token;
     },
     session: async (session, user) => {
       session.user = user;
@@ -55,10 +67,11 @@ const options = {
       session.user.role
         ? session.user.role
         : (session.user.role = user.user.role);
-      return Promise.resolve(session);
+      return await session;
     }
   },
   database: process.env.DATABASE_URL
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (req, res) => NextAuth(req, res, options);

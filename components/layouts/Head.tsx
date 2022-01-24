@@ -55,8 +55,8 @@ function Head() {
   const handleSearchMove = useCallback(
     e => {
       e.preventDefault();
-      if (searchKeyword === "") return;
-      router.replace(`/search?keyword=${searchKeyword}`);
+      if (searchKeyword === "") return alert("키워드를 입력하셔야합니다.");
+      router.push(`/search?keyword=${searchKeyword}`);
     },
     [router, searchKeyword]
   );

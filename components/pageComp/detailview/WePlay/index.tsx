@@ -11,8 +11,9 @@ const memberTxtList = [
     title: "직접 하고,",
     desc: (
       <p>
-        뮤지컬, 연극, 요리, 그림, 공예, 사진 등<br /> 각종 문화의 주인공은 바로
-        당신입니다.
+        뮤지컬, 연극, 요리, 그림,
+        <br /> 공예, 사진 등 각종 문화의
+        <br /> 주인공은 바로 당신입니다.
       </p>
     ),
     subDesc: ""
@@ -32,9 +33,9 @@ const memberTxtList = [
     title: "즐기고,",
     desc: (
       <p>
-        카르페디엠, 컬쳐플레이스는
-        <br />
-        놀기 위해 만들어진 곳입니다.
+        카르페디엠, 현재를 즐겨요.
+        <br /> 컬쳐플레이스는 놀기 위해
+        <br /> 만들어진 곳입니다.
       </p>
     ),
     subDesc: (
@@ -55,9 +56,11 @@ const memberTxtList = [
     title: "추억하자.",
     desc: (
       <p>
-        메모리얼 리뷰, 블로그, 인스타, 틱톡, 유튜브등
+        메모리얼 리뷰, 블로그,
+        <br /> 인스타, 틱톡, 유튜브등
         <br />
-        다양한 곳에 우리의 즐거웠던 순간들을 기록합니다.
+        다양한 곳에 우리의 즐거웠던
+        <br /> 순간들을 기록합니다.
       </p>
     ),
     subDesc: (
@@ -87,7 +90,7 @@ function index() {
           >
             <dt>{item.title}</dt>
             <dd className="desc">{item.desc}</dd>
-            <dd className="subdesc">{item.subDesc}</dd>
+            {/* <dd className="subdesc">{item.subDesc}</dd> */}
           </Play>
         ))}
       </PlayList>

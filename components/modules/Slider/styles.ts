@@ -42,3 +42,10 @@ export const OneSwiper = css`
     background-size: 37px;
   }
 `;
+
+export const SwiperWrap = styled.div`
+  .swiper-btn-prev,
+  .swiper-btn-next {
+    display: none;
+  }
+`;

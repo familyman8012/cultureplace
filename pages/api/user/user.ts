@@ -11,7 +11,6 @@ interface IError {
 }
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.body);
   crypto.randomBytes(64, (err, buf) => {
     crypto.pbkdf2(
       req.body.userpwd,
@@ -26,7 +25,6 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         users
           .save()
           .then((user: IUser) => {
-            console.log;
             return res.status(200).json({ data: users });
           })
           .catch((error: IError) => {
@@ -56,7 +54,6 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
   ]);
-  console.log(users);
   res.status(200).send(users[0]);
 });
 

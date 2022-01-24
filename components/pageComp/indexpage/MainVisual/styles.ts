@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
-
-const breakpoints = [550, 1400];
-const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
+import { mq } from "@components/mq";
 
 export const Mainvis = styled.div`
   overflow: hidden;

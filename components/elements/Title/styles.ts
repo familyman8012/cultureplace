@@ -1,3 +1,4 @@
+import { mq } from "@components/mq";
 import styled from "@emotion/styled";
 
 export const TitleArea = styled.div<{ type: string }>`
@@ -28,6 +29,33 @@ export const TitleArea = styled.div<{ type: string }>`
     color: ${({ theme }) => theme.color.brand};
     svg {
       margin-left: 5px;
+    }
+  }
+  ${mq[0]} {
+    padding: 0 20px;
+    h2 {
+      margin-left: 0;
+    }
+    &:nth-of-type(1) {
+      h2:after {
+        display: inline;
+      }
+    }
+    h2 {
+      font-size: 18px;
+      &:before {
+        display: none;
+      }
+    }
+    a {
+      display: none;
+      margin-left: auto;
+      font-size: 14px;
+      font-weight: normal;
+      color: #000;
+      svg {
+        display: none;
+      }
     }
   }
 `;

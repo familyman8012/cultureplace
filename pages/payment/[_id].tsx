@@ -3,7 +3,7 @@ import PaymentComplete from "@components/pageComp/payment/PaymentComplete";
 import { useProdDetail } from "@src/hooks/api/useProducts/useProductDetail";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Payment() {
   const [session] = useSession();
@@ -21,6 +21,10 @@ function Payment() {
   );
 
   console.log("dataaa", data);
+
+  useEffect(() => {
+    !session && router.push("/signin");
+  }, [router, session]);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -41,7 +45,7 @@ function Payment() {
             setpayComplete={setpayComplete}
           />
         ) : (
-          <div>로그인하셔야합니다.</div>
+          <div></div>
         )
       ) : (
         <PaymentComplete completeData={completeData} />

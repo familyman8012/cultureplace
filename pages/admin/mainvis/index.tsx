@@ -23,7 +23,6 @@ function Mainvis() {
     }
   );
 
-  console.log(data);
   return (
     <AdminLayout>
       {status === "loading" ? (

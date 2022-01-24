@@ -8,8 +8,8 @@ export default function SocialLogin({ providers }: ISignIn) {
   } = useRouter();
 
   return (
-    <div>
-      {Object.values(providers).map(provider => {
+    <>
+      {Object.values(providers).map((provider, i) => {
         if (provider.name === "Custom Provider") {
           return;
         }
@@ -22,22 +22,19 @@ export default function SocialLogin({ providers }: ISignIn) {
         };
         const providerName = providerList();
         return (
-          <div key={provider.name} className="box_login_social">
-            <button
-              className={provider.name}
-              onClick={() =>
-                signIn(provider.id, {
-                  callbackUrl: "/"
-                })
-              }
-            >
-              <span className="btn_inner">
-                {providerName}로 1초 만에 로그인
-              </span>
-            </button>
-          </div>
+          <button
+            key={i}
+            className={`btn_login ${provider.name}`}
+            onClick={() =>
+              signIn(provider.id, {
+                callbackUrl: "/"
+              })
+            }
+          >
+            <span className="btn_inner">{providerName}로 1초 만에 로그인</span>
+          </button>
         );
       })}
-    </div>
+    </>
   );
 }

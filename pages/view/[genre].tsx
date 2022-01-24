@@ -13,6 +13,8 @@ import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { dbConnect, Product } from "../../pages/api";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { CategoryLink } from "@components/layouts/Head";
+import { WrapCategoryView } from "@components/pageComp/categoryview/styles";
+import { PaginationStyle } from "@components/elements/PaginationStyle/styles";
 
 function Oneday({ SsrData }: any) {
   const router = useRouter();
@@ -41,19 +43,8 @@ function Oneday({ SsrData }: any) {
 
   return (
     <Layout>
-      <div
-        css={css`
-          width: 1280px;
-          margin: 50px auto;
-        `}
-      >
-        <div
-          css={css`
-            display: grid;
-            gap: 22px 27px;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-          `}
-        >
+      <WrapCategoryView>
+        <div>
           {isLoading &&
             Array.from({ length: 4 }).map((_, idx) => (
               <CardSkeleton key={idx} />
@@ -71,16 +62,13 @@ function Oneday({ SsrData }: any) {
             ))}
         </div>
         <Pagination
-          css={css`
-            width: fit-content;
-            margin: 0 auto;
-          `}
+          css={PaginationStyle}
           onChange={handlePageChange}
           current={curPage}
           pageSize={pageSize}
           total={data?.productsCount}
         />
-      </div>
+      </WrapCategoryView>
     </Layout>
   );
 }

@@ -1,3 +1,4 @@
+import { mq } from "@components/mq";
 import styled from "@emotion/styled";
 
 export const BlogCardWrap = styled.div<{ type: string }>`
@@ -21,16 +22,17 @@ export const BlogCardWrap = styled.div<{ type: string }>`
   .txtbox {
     position: relative;
     dt {
-      margin: 1.3rem 0;
-      font-size: 1.9rem;
+      margin: 8px 0;
+      font-size: 18px;
+      font-weight: bold;
     }
     dd {
       &.desc {
         color: #464646;
-        font-size: 15px;
+        font-size: 14px;
       }
       &.create_at {
-        margin-top: 0.8rem;
+        margin-top: 8px;
         font-size: 12px;
         line-height: 12px;
         color: #838380;
@@ -56,4 +58,17 @@ export const BlogCardWrap = styled.div<{ type: string }>`
     `
     );
   }}
+  ${mq[0]} {
+    .txtbox {
+      dt {
+        font-size: 14px;
+      }
+      dd.desc {
+        font-size: 12px;
+      }
+      dd.create_at {
+        font-size: 11px;
+      }
+    }
+  }
 `;

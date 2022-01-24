@@ -1,3 +1,4 @@
+import { mq } from "@components/mq";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -14,6 +15,11 @@ export const ReviewList = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 20px;
+  }
+  ${mq[0]} {
+    button[color="brand"] {
+      margin-top: 20px;
+    }
   }
 `;
 
@@ -88,11 +94,12 @@ export const ReviewWrite = styled.div`
 export const ProductInfo = styled.div`
   display: flex;
   width: 100%;
-  height: 70px;
+  height: 100px;
+
+  border: 1px solid #e5e5e5;
   .thumb,
   .txt {
     height: 100%;
-    border: 1px solid #e5e5e5;
   }
   .thumb {
     border-right: 0;
@@ -101,17 +108,22 @@ export const ProductInfo = styled.div`
     }
   }
   .txt {
+    width: 80%;
     display: flex;
-    width: 100%;
     padding-left: 15px;
     align-items: center;
+    margin-left: 0;
+    padding: 0 5px;
+  }
+  ${mq[0]} {
+    font-size: 13px;
   }
 `;
 
 export const WriteArea = styled.div`
   margin-top: 40px;
   input {
-    padding: 0.5rem;
+    padding: 5px 10px;
     border: 1px solid #e5e5e5;
     &:nth-of-type(1) {
       margin-right: 10px;
@@ -121,10 +133,17 @@ export const WriteArea = styled.div`
     width: 100%;
     height: 24rem;
     margin-top: 5px;
-    padding: 1rem;
+    padding: 10px;
     font-size: 14px;
     border: 1px solid #e5e5e5;
     line-height: 1.5;
+  }
+  ${mq[0]} {
+    margin-top: 20px;
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
   }
 `;
 
@@ -137,4 +156,10 @@ export const SaveButton = styled.div`
   border-radius: 5px;
   background: #4f4f4f;
   display: block;
+  ${mq[0]} {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 40px;
+  }
 `;

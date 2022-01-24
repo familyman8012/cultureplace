@@ -5,6 +5,9 @@ export const LayoutWrap = styled.div`
   max-width: 100%;
   margin: 0 auto;
   padding: 0;
+  &.detail footer {
+    display: none;
+  }
 `;
 
 export const Header = styled.header`
@@ -312,6 +315,46 @@ export const Footer = styled.div`
     li {
       margin-right: 1rem;
       font-size: 1.2rem;
+    }
+  }
+  ${mq[0]} {
+    padding: 20px;
+  }
+`;
+
+export const MobileMenu = styled.footer`
+  display: none;
+  ${mq[0]} {
+    display: flex;
+
+    justify-content: space-around;
+    -webkit-box-align: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: calc(56px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 900;
+    background-color: rgb(255, 255, 255);
+    border-top: 1px solid rgb(244, 244, 244);
+    span {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      flex-direction: column;
+      -webkit-box-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      align-items: center;
+      font-size: 10px;
+      line-height: 14px;
+      letter-spacing: -0.3px;
+      color: rgb(119, 119, 119);
+      &.on {
+        color: rgb(0, 117, 239);
+      }
     }
   }
 `;

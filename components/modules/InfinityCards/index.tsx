@@ -12,7 +12,12 @@ import Layout from "@components/layouts";
 import { useInfinity } from "@src/hooks/api/useInfinite";
 import { Iinfinity, IProduct } from "@src/typings/db";
 import InView from "react-intersection-observer";
-import { InfinityCardwrap, LinkCard } from "./style";
+import {
+  FilterBtn,
+  InfinityCardwrap,
+  LinkCard,
+  WrapInfinityPage
+} from "./style";
 import Search from "@components/modules/Search";
 import CardBadge from "@components/elements/CardBadge";
 import CardSkeleton from "@components/elements/Card/CardSkeleton";
@@ -28,22 +33,27 @@ export interface ISearchCondition {
 }
 
 export default function Infinity({ querykey, type }: IQuerykey) {
-  // const pageNum = useRef(1);
+  const [filterView, setFilterView] = useState(false);
 
   const { data, error, fetchNextPage, status, refetch } = useInfinity(querykey);
 
-  console.log("data느느느느는", data);
+  const handlerFilterView = () => {
+    setFilterView(prev => !prev);
+  };
 
   return (
     <Layout>
-      <div
-        css={css`
-          width: 1280px;
-          margin: 30px auto 0;
-        `}
-      >
+      <FilterBtn onClick={handlerFilterView}>
+        <span>필터</span>
+      </FilterBtn>
+      <WrapInfinityPage>
         {(querykey === "oneday" || querykey === "month") && (
-          <Search pageNum={1} refetch={refetch} />
+          <Search
+            pageNum={1}
+            refetch={refetch}
+            className={filterView ? "on" : ""}
+            handlerFilterView={handlerFilterView}
+          />
         )}
 
         {status === "loading" ? (
@@ -85,7 +95,7 @@ export default function Infinity({ querykey, type }: IQuerykey) {
             </div>
           </>
         )}
-      </div>
+      </WrapInfinityPage>
     </Layout>
   );
 }

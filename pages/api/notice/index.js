@@ -15,7 +15,6 @@ noticeRouter.get(async (req, res) => {
 
 noticeRouter.post(async (req, res) => {
   try {
-    console.log(req.body);
     const notices = new Notice(req.body);
     await notices.save();
     return res.send(notices);

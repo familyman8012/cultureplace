@@ -4,29 +4,11 @@ import BlogCard from "@components/elements/BlogCard";
 import Title from "@components/elements/Title";
 import { INotice } from "@src/typings/db";
 import Link from "next/link";
+import { NoticeTitle, WrapBlogArea, WrapBlogCont } from "./styles";
 
 export interface IBlogData {
   blogData: INotice[];
 }
-
-const NoticeTitle = css`
-  margin: 12rem 0 3.6rem;
-`;
-
-const WrapBlogArea = styled.div`
-  .cont {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .blogwidth {
-    width: 31%;
-  }
-
-  Title {
-    margin: 12rem 0 3.6rem;
-  }
-`;
 
 function index({ blogData }: IBlogData) {
   return (
@@ -34,7 +16,7 @@ function index({ blogData }: IBlogData) {
       <Title css={NoticeTitle} url="/notice">
         블로그
       </Title>
-      <div className="cont">
+      <WrapBlogCont>
         {blogData?.map(el => (
           <Link href={`/notice/${el._id}`} key={el._id}>
             <a className="blogwidth">
@@ -42,7 +24,7 @@ function index({ blogData }: IBlogData) {
             </a>
           </Link>
         ))}
-      </div>
+      </WrapBlogCont>
     </WrapBlogArea>
   );
 }
