@@ -39,8 +39,6 @@ function Head() {
   const router = useRouter();
   const { genre } = router.query;
 
-  console.log(session);
-
   useEffect(() => {
     setIsOpenMenu(false);
   }, [router.query]);
@@ -85,12 +83,12 @@ function Head() {
           <SearchForm onSubmit={handleSearchMove}>
             <span className="btn-search" onClick={handleSearchMove}></span>
             <label className="hiddenZoneV" htmlFor="search-input">
-              함께 하고 싶은 모임명, 팀리더를 검색해보세요.
+              함께 하고 싶은 제목, 팀리더를 검색해보세요.
             </label>
             <input
               type="text"
               name="keyword"
-              placeholder="모임명, 모임장소,  팀리더를 검색해보세요."
+              placeholder="제목, 장소,  팀리더를 검색해보세요."
               maxLength={50}
               autoComplete="off"
               value={searchKeyword}
@@ -136,21 +134,6 @@ function Head() {
           </Login>
         </div>
         <MenuArea>
-          <li className={`categoryLink  ${isOpenMenu ? "on" : ""}`}>
-            <button className="depth1" onClick={openCategory}>
-              <span>전체 카테고리</span>
-              <FontAwesomeIcon icon={faSortDown}></FontAwesomeIcon>
-            </button>
-            <ul className="categoryMenu">
-              {CategoryLink.map((el, i) => (
-                <li key={i}>
-                  <Link href={`/view/${el.url}`}>
-                    <a>{el.title}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
           <li>
             <Link href="/oneday">
               <a>1Day Club</a>
@@ -161,7 +144,11 @@ function Head() {
               <a>1Month Club</a>
             </Link>
           </li>
-
+          <li>
+            <Link href="/vodmain">
+              <a>Vod</a>
+            </Link>
+          </li>
           {/* <li>
             <Link href="/event">
               <a>이벤트</a>
@@ -178,14 +165,20 @@ function Head() {
               <a>Info</a>
             </Link>
           </li>
-          <li>
-            <a
-              href="http://yyagency7.iwinv.net/wp"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Online Lesson
-            </a>
+          <li className={`categoryLink  ${isOpenMenu ? "on" : ""}`}>
+            <button className="depth1" onClick={openCategory}>
+              <span>전체 카테고리</span>
+              <FontAwesomeIcon icon={faSortDown}></FontAwesomeIcon>
+            </button>
+            <ul className="categoryMenu">
+              {CategoryLink.map((el, i) => (
+                <li key={i}>
+                  <Link href={`/view/${el.url}`}>
+                    <a>{el.title}</a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </li>
           {/* <li>
             <Link href="/notice">

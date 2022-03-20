@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback } from "react";
 import router from "next/router";
 import axios from "axios";
-import useImgUp from "@src/hooks/useImgUp";
+import useMediaUp from "@src/hooks/useMediaUp";
 import { observer } from "mobx-react";
 import { noticeStore, QuillStore } from "@src/mobx/store";
 import QuillEditorView from "@components/modules/QuillEditor/QuillEditorView";
@@ -13,7 +13,7 @@ import AdminLayout from "@components/layouts/Admin/layout";
 import { BoxInput, WrapNotice } from "./styles";
 
 function Detail() {
-  const [imgData, onImgUpHadler] = useImgUp("noticeoriginal");
+  const [imgData, onImgUpHadler] = useMediaUp("noticeoriginal");
 
   const onTitle = (e: ChangeEvent<HTMLInputElement>) => {
     QuillStore.titleData = e.currentTarget.value;

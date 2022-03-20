@@ -71,15 +71,17 @@ function QuillEditorView({ category }: Props) {
           rel="stylesheet"
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/styles/default.min.css"
         /> */}
-      <div className="area_template_select">
-        <p>템플릿 선택 : </p>
-        <select onChange={handleSelectTemplate}>
-          <option value="선택안함">선택안함</option>
-          <option value="모임">모임</option>
-          <option value="공지">공지</option>
-          <option value="이벤트">이벤트</option>
-        </select>
-      </div>
+      {category !== "vod등록" && (
+        <div className="area_template_select">
+          <p>템플릿 선택 : </p>
+          <select onChange={handleSelectTemplate}>
+            <option value="선택안함">선택안함</option>
+            <option value="모임">모임</option>
+            <option value="공지">공지</option>
+            <option value="이벤트">이벤트</option>
+          </select>
+        </div>
+      )}
       <QuillEditor mountBody={mountBody} />
     </>
   );

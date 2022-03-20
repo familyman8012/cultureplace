@@ -87,7 +87,7 @@ function Floating({ type = "event" }: StyledComponentProps) {
                 <span>강남 아지트</span>
                 <span>매달 네 번째 목요일</span>
               </p>
-              <p>첫 모임일 11.25(목) 19:40 ~ 22:40</p>
+              <p>시작일날 11.25(목) 19:40 ~ 22:40</p>
             </div>
           </div>
 

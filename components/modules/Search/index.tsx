@@ -148,7 +148,7 @@ function Index({
           <input
             type="text"
             name="searchInput"
-            placeholder="함께 하고 싶은 모임명,  팀리더를 검색해보세요."
+            placeholder="함께 하고 싶은 제목,  팀리더를 검색해보세요."
             value={searchStore.searchInput}
             onChange={e => searchStore.onsearchInput(e)}
           />

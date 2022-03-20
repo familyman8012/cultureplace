@@ -117,7 +117,7 @@ const WrapPayment = styled.div<{ type?: string }>`
 
         span {
           display: inline-block;
-          &:first-child {
+          &:first-of-type {
             width: 14rem;
             padding-left: 1.5rem;
           }

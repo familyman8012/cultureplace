@@ -15,7 +15,11 @@ const schema = new Schema(
     name: String,
     gender: String,
     agegroup: String,
-    image: String
+    image: String,
+    role: {
+      type: String,
+      default: "user"
+    }
   },
   {
     timestamps: true

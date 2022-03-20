@@ -23,7 +23,7 @@ export const AdminBoxBtn = styled.div`
     border-radius: 15px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 
-    &:first-child {
+    &:first-of-type {
       margin-right: 10px;
       color: #d7fff1;
       background-color: #77af9c;
@@ -37,7 +37,7 @@ export const AdminBoxBtn = styled.div`
 
 export const QuillStyle = styled.div`
   .ql-container {
-    height: 600px;
+    height: 300px;
   }
   background: #fff;
 `;

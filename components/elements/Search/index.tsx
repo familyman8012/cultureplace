@@ -34,7 +34,7 @@ const SearchInp = styled.div`
 function Search() {
   return (
     <SearchInp>
-      <input type="text" placeholder="모임명 검색" />
+      <input type="text" placeholder="제목 검색" />
       <button>검색</button>
     </SearchInp>
   );

@@ -25,12 +25,14 @@ const options = {
           credentials
         );
         var t = response.data;
+        console.log("role 은 왱?", t.data.role);
         if (t.data.status !== 0) {
           const user = {
             uid: t.data._id,
             name: t.data.name,
             email: t.data.email,
-            phone: t.data.phone
+            phone: t.data.phone,
+            role: t.data.role
           };
           return user;
         }
@@ -58,7 +60,7 @@ const options = {
       if (user) {
         token.user = user;
       }
-      return await token;
+      return Promise.resolve(token);
     },
     session: async (session, user) => {
       session.user = user;
@@ -67,7 +69,7 @@ const options = {
       session.user.role
         ? session.user.role
         : (session.user.role = user.user.role);
-      return await session;
+      return Promise.resolve(session);
     }
   },
   database: process.env.DATABASE_URL

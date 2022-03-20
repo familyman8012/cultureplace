@@ -89,7 +89,7 @@ function Index({ data, _id }: InfoCard) {
                 <span>{location} |</span> <span>{meetday}</span>
               </div>
               <div>
-                <span>첫 모임일</span> <span>{startTime}</span>
+                <span>시작일</span> <span>{startTime}</span>
               </div>
             </div>
             <div className="comment">#{people}</div>

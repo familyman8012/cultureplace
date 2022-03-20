@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import router from "next/router";
 import axios from "axios";
-import useImgUp from "@src/hooks/useImgUp";
+import useMediaUp from "@src/hooks/useMediaUp";
 import AdminLayout from "@components/layouts/Admin/layout";
 
 import { WrapDetailMV } from "./styles";
@@ -9,8 +9,8 @@ import { BoxInput } from "../notice/styles";
 
 function Mainvis() {
   //이미지 업로드 훅
-  const [imgData, onImgUpHadler] = useImgUp("mainvispc");
-  const [imgData2, onImgUpHadler2] = useImgUp("mainvismo");
+  const [imgData, onImgUpHadler] = useMediaUp("mainvispc");
+  const [imgData2, onImgUpHadler2] = useMediaUp("mainvismo");
   const [altText, setAltText] = useState("");
 
   const onHandlerTxt = (e: React.ChangeEvent<HTMLInputElement>) => {

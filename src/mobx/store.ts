@@ -36,7 +36,7 @@ const prodUpStore = observable({
     prodUpStore.reset();
     QuillStore.dir = "prodcont";
     prodUpStore.state = "create";
-    router.push("/admin/product/basicInfo");
+    router.push("/creator/basicInfo");
   },
   moveModifyProduct(_id: string) {
     prodUpStore.reset();
@@ -45,7 +45,7 @@ const prodUpStore = observable({
     axios.get(`/api/product/${_id}`).then((resp: AxiosResponse<IProduct[]>) => {
       this.data = resp.data[0];
       QuillStore.data = prodUpStore.data.body;
-      router.push("/admin/product/basicInfo");
+      router.push("/creator/basicInfo");
     });
   },
   addProduct(data: IProduct) {

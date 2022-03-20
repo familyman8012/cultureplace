@@ -46,7 +46,7 @@ function Index({ item }: IDetail) {
             <td>결제일부터 {day}까지</td>
           </tr>
           <tr>
-            <th scope="row">모임장소</th>
+            <th scope="row">장소</th>
             <td>{location}</td>
           </tr>
           <tr>

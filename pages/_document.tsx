@@ -27,13 +27,20 @@ function MyDocument() {
           href="https://cdn.jsdelivr.net/npm/katex@0.13.3/dist/katex.min.css"
           rel="stylesheet"
         />
-
+        <script
+          defer
+          src="https://embed.videodelivery.net/embed/sdk.latest.js"
+        ></script>
         <link
           href="https://cdnjs.cloudflare.com/ajax/libs/quill/2.0.0-dev.3/quill.snow.min.css"
           rel="stylesheet"
         />
         <link
           href="https://unpkg.com/quill-table-ui@1.0.5/dist/index.css"
+          rel="stylesheet"
+        />
+        <link
+          href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           rel="stylesheet"
         />
       </Head>

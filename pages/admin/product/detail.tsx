@@ -7,6 +7,7 @@ import {
   AdminBoxBtn,
   WrapQuillText
 } from "@components/modules/QuillEditor/styles";
+import { prodUpStore } from "@src/mobx/store";
 
 function Detail() {
   // basicinfo 화면으로 이동
@@ -14,9 +15,13 @@ function Detail() {
     router.push("./basicInfo");
   }, []);
 
-  // 등록화면으로 이동
+  // 등록화면으로 이동 // 2022.01.27 추가 내용. vod 일 경우, 커리큘럼 추가하는 화면으로 이동.
   const onSubmit = useCallback(() => {
-    router.push("./confirm");
+    {
+      prodUpStore.data.genre === "vod"
+        ? router.push("./curriculum")
+        : router.push("./confirm");
+    }
   }, []);
 
   return (

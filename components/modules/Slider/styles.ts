@@ -44,8 +44,8 @@ export const OneSwiper = css`
 `;
 
 export const SwiperWrap = styled.div`
-  .swiper-btn-prev,
-  .swiper-btn-next {
-    display: none;
-  }
+  // .swiper-btn-prev,
+  // .swiper-btn-next {
+  //   display: none;
+  // }
 `;

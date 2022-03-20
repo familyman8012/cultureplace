@@ -1,5 +1,10 @@
 export interface IProduct {
   _id: string;
+  creator: {
+    name: string;
+    email: string;
+    phone: number;
+  };
   title: string;
   desc: string;
   todo: string;
@@ -17,9 +22,19 @@ export interface IProduct {
   saleprice: number;
   quanity: number;
   islive: boolean;
+  isvod?: boolean;
   joinMembr: string[];
   favoriteduser: string[];
   review: string[];
+  lessons: {
+    content: string;
+    createdAt: Date;
+    mediaId: string;
+    filename: string;
+    title: string;
+    updatedAt: Date;
+    _id: string;
+  }[];
 }
 
 export interface IProductList {

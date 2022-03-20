@@ -73,4 +73,19 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json(users);
 });
 
+handler.patch(async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const { _id } = req.query;
+    console.log("_id", _id, "req.body", req.body);
+    const users = await User.findByIdAndUpdate(_id, req.body, {
+      new: true
+    });
+    console.log(users);
+    return res.send(users.role);
+  } catch (err) {
+    console.log(JSON.stringify(err));
+    res.status(500).send(JSON.stringify(err));
+  }
+});
+
 export default handler;

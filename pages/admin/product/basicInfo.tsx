@@ -7,7 +7,8 @@ import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 import { prodUpStore } from "@src/mobx/store";
 // custom hook, css
-import useImgUp from "@src/hooks/useImgUp";
+import useMediaUp from "@src/hooks/useMediaUp";
+import useDeleteMedia from "@src/hooks/useDeleteMedia";
 import AdminLayout from "@components/layouts/Admin/layout";
 import { BasicInfoForm, ErrorTxt } from "./styles";
 
@@ -27,7 +28,9 @@ function App() {
   });
 
   // 이미지 업로드 HOOK
-  const [imgData, onImgUpHadler] = useImgUp("cardoriginal");
+  const [imgData, onImgUpHandler] = useMediaUp("cardoriginal");
+  const [videoData, onVideoUpHandler] = useMediaUp("video");
+  const [deleteVideoMsg, onVideoDeleteHandler] = useDeleteMedia("video");
 
   const onSubmit = useCallback(
     data => {
@@ -66,11 +69,30 @@ function App() {
             type="file"
             id="upload"
             className="image-upload"
-            onChange={onImgUpHadler}
+            onChange={onImgUpHandler}
           />
         </div>
+        <div className="box_imgupload">
+          <span className="imgArea">
+            {videoData !== "" ? (
+              <video id="myVideo" src={videoData} controls></video>
+            ) : null}
+          </span>
+          <input
+            type="file"
+            id="upload2"
+            className="image-upload"
+            onChange={onVideoUpHandler}
+          />
+        </div>
+        <div>
+          <button onClick={() => onVideoDeleteHandler(videoData)}>
+            비디오 삭제
+          </button>
+          {deleteVideoMsg}
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="title">모임명</label>
+          <label htmlFor="title">제목</label>
           <input
             type="text"
             placeholder="ex) 유리의 쿠킹클래스, 힙스타의 힙한 댄스"
@@ -78,21 +100,21 @@ function App() {
             {...register("title", { required: true, maxLength: 70 })}
           />
           {errors.title && errors.title.type === "required" && (
-            <ErrorTxt>모임명을 입력해주세요.</ErrorTxt>
+            <ErrorTxt>제목을 입력해주세요.</ErrorTxt>
           )}
           {errors.title && errors.title.type === "maxLength" && (
             <ErrorTxt>70자 안으로 올바르게 올려주세요.</ErrorTxt>
           )}
 
-          <label htmlFor="people">모임장 이름</label>
+          <label htmlFor="people">팀리더 이름</label>
           <input
             type="text"
             id="people"
-            placeholder="모임장"
+            placeholder="팀리더"
             {...register("people", { required: true })}
           />
           {errors.people && errors.people.type === "required" && (
-            <ErrorTxt>모임장 이름을 올려주세요.</ErrorTxt>
+            <ErrorTxt>팀리더 이름을 올려주세요.</ErrorTxt>
           )}
 
           <label htmlFor="genre">장르</label>
@@ -105,6 +127,7 @@ function App() {
             <option value="movie">사진, 영상</option>
             <option value="fashion">패션</option>
             <option value="wisdom">지식</option>
+            <option value="vod">VOD</option>
           </select>
 
           <label htmlFor="location">장소 선택</label>
@@ -158,10 +181,10 @@ function App() {
             </>
           } */}
 
-          <label htmlFor="firstmeet">첫 모임일</label>
+          <label htmlFor="firstmeet">시작일</label>
           <input
             type="datetime-local"
-            placeholder="첫모임일"
+            placeholder="시작일"
             id="firstmeet"
             {...register("firstmeet", { required: true })}
           />

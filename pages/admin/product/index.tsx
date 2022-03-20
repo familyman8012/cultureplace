@@ -18,12 +18,12 @@ dayjs.locale("ko");
 export default function List() {
   const queryClient = useQueryClient();
   /* 테이블 data 구성 및 pagination */
-  const [pageSize, setPageSize] = useState(220);
+  const [pageSize, setPageSize] = useState(20);
   const [curPage, setCurPage] = useState(1);
   const [showMemInfo, setshowMemInfo] = useState(0);
 
   //불러오기
-  const { status, data, error } = useProducts(pageSize, curPage);
+  const { status, data, error } = useProducts(pageSize, curPage, "all");
   const handlePageChange = useCallback((page: number) => {
     setCurPage(page);
   }, []);
@@ -54,7 +54,8 @@ export default function List() {
         return res.data;
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries("productData"),
+      onSuccess: () =>
+        queryClient.invalidateQueries(["list", "all", String(curPage)]),
       onError: (error, variables, context) => {
         // I will fire first
       }
@@ -86,10 +87,10 @@ export default function List() {
               <tr>
                 <th scope="col">no.</th>
                 <th scope="col">대표이미지</th>
-                <th scope="col">모임명</th>
-                <th scope="col">모임장소</th>
+                <th scope="col">제목</th>
+                <th scope="col">장소</th>
                 <th scope="col">모임주기</th>
-                <th scope="col">첫모임일</th>
+                <th scope="col">시작일</th>
                 <th scope="col">신청회원정보</th>
                 <th scope="col">삭제</th>
               </tr>

@@ -30,33 +30,6 @@ export default function QuillEditor({ mountBody }) {
     if (quillElement.current && window.Quill) {
       /* isLoaded가 false일 때는 Quill을 초기화합니다. */
 
-      /* hr 태그생성 */
-      var Embed = Quill.import("blots/block/embed");
-      class Hr extends Embed {
-        static create(value) {
-          let node = super.create(value);
-          // give it some margin
-          node.setAttribute(
-            "style",
-            "width:100%;border-bottom:1px solid #f3f3f6;"
-          );
-          return node;
-        }
-      }
-
-      Hr.blotName = "hr"; //now you can use .ql-hr classname in your toolbar
-      Hr.className = "hr";
-      Hr.tagName = "hr";
-
-      var customHrHandler = function () {
-        // get the position of the cursor
-        var range = quill.getSelection();
-        if (range) {
-          // insert the <hr> where the cursor is
-          quill.insertEmbed(range.index, "hr", "null");
-        }
-      };
-
       /* Quill 옵션을 원하는 대로 수정하세요. */
       const toolbarOptions = {
         container: [
@@ -73,7 +46,6 @@ export default function QuillEditor({ mountBody }) {
           ["clean"], // remove formatting button
           [
             "table",
-            "hr",
             "blockquote",
             "link",
             "code-block",
@@ -81,14 +53,8 @@ export default function QuillEditor({ mountBody }) {
             "image",
             "video"
           ] // media
-        ],
-        handlers: {
-          hr: customHrHandler
-        }
+        ]
       };
-      Quill.register({
-        "formats/hr": Hr
-      });
       Quill.register(
         {
           "modules/tableUI": quillTableUI.default

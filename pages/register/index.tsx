@@ -47,12 +47,13 @@ export default function Register({ providers, csrfToken }: ISignIn) {
       .then(function (resp) {
         console.log("response.data", "adsadssadfs", resp.data, resp);
       })
-      .catch((e: AxiosError) => {
+      .catch(e => {
         if (axios.isAxiosError(e)) {
           console.log({
             e,
             type: "axios-error"
           });
+          alert(e?.response?.data);
         } else {
           console.log({
             e,

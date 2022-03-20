@@ -51,13 +51,13 @@ function Confirm() {
                 <img src={prodUpStore?.data.imgurl} alt="모임대표이미지 등록" />
               </div>
               <dl>
-                <dt>모임명</dt>
+                <dt>제목</dt>
                 <dd>{prodUpStore?.data.title}</dd>
-                <dt>모임장소</dt>
+                <dt>장소</dt>
                 <dd>{prodUpStore?.data.location}</dd>
                 <dt>모임주기</dt>
                 <dd>{prodUpStore?.data.meetingcycle}</dd>
-                <dt>첫모임일</dt>
+                <dt>시작일</dt>
                 <dd>{prodUpStore?.data.firstmeet}</dd>
               </dl>
               <h2>상세페이지</h2>
