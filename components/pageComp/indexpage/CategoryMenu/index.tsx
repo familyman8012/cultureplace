@@ -4,11 +4,7 @@ import { CategoryLink } from "@components/layouts/Head";
 import Link from "next/link";
 
 function index() {
-  const CategoryMenuItem = [
-    ...CategoryLink,
-    { title: "1day", url: "/oneday" },
-    { title: "1month", url: "/month" }
-  ];
+  const CategoryMenuItem = [...CategoryLink];
   return (
     <CategoryMenu>
       {CategoryMenuItem.map((el, i) => (

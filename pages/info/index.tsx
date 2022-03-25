@@ -95,9 +95,7 @@ function Index({ item }: any) {
                                   src={`https://kopis.or.kr/${el.elements[8].elements[0].text}`}
                                   layout="fill"
                                   lazyBoundary="600px"
-                                  alt={
-                                    el.elements[5].elements[0].text + "포스터"
-                                  }
+                                  alt="포스트"
                                 />
                               </span>
                             </a>

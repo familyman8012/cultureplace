@@ -1,23 +1,28 @@
 import dayjs from "dayjs";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import "dayjs/locale/ko";
 import Button from "../../../elements/Button";
-import { session } from "next-auth/client";
 import router from "next/router";
 import FavoriteButton from "./FavoriteButton";
 import { InfoCard, MobileLinkArea, WrapInfoCard } from "./style";
 import { IProduct } from "@src/typings/db";
 import { css } from "@emotion/react";
 import Link from "next/link";
+import { Session } from "next-auth";
+import { useRouter } from "next/router";
+import { useProdDetail } from "@src/hooks/api/useProducts/useProductDetail";
 
 dayjs.locale("ko");
 
 interface InfoCard {
   data: IProduct;
   _id: string;
+  session: Session | null;
 }
 
-function Index({ data, _id }: InfoCard) {
+function Index({ data, _id, session }: InfoCard) {
+  const { data: buttonData, isLoading } = useProdDetail(String(_id));
+
   const {
     imgurl,
     title,
@@ -27,8 +32,12 @@ function Index({ data, _id }: InfoCard) {
     firstmeet,
     comment,
     saleprice,
-    price
+    price,
+    joinMembr,
+    isvod
   } = data;
+
+  const router = useRouter();
 
   // 정가
   const priceNumber = useMemo(
@@ -53,6 +62,11 @@ function Index({ data, _id }: InfoCard) {
     () => firstMeetDay.format(`MM/DD(${firstMeetDay.format("ddd")}) HH:mm`),
     [firstMeetDay]
   );
+
+  useEffect(() => {
+    console.log("buttonData", buttonData);
+  }, [buttonData]);
+
   let today = new Date();
 
   const linkPay = (_id: string) => {
@@ -124,9 +138,21 @@ function Index({ data, _id }: InfoCard) {
 
           <div className="box_btn">
             <FavoriteButton _id={_id} data={data} />
-            <Button color="brand" size="l" onClick={() => linkPay(_id)}>
-              나를 위한 경험, 지금 시작
-            </Button>
+            {isvod &&
+            !isLoading &&
+            buttonData?.joinMembr.some(el => el === session?.user.uid) ? (
+              <Button
+                color="brand2"
+                size="l"
+                onClick={() => router.push(`/vod/${_id}`)}
+              >
+                VOD 강의실로 이동
+              </Button>
+            ) : (
+              <Button color="brand" size="l" onClick={() => linkPay(_id)}>
+                나를 위한 경험, 지금 시작
+              </Button>
+            )}
           </div>
         </InfoCard>
       ) : (

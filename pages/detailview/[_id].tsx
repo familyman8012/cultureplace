@@ -25,6 +25,7 @@ import React from "react";
 import Modal from "@components/elements/Modal";
 import Review from "@components/pageComp/detailview/Review";
 import { useSession } from "next-auth/client";
+import Curriculum from "@components/pageComp/detailview/Curriculum";
 
 export interface IDetail {
   item: IProduct;
@@ -37,16 +38,23 @@ const DetailView = ({ item }: IDetail) => {
 
   const { data } = useQuery("detail", () => item);
 
+  console.log("detailview", data);
+
   return (
     <Layout className="detail">
       <DetailViewWrap>
         {data && _id !== undefined && (
           <>
-            <InfoCard data={data} _id={String(_id)} />
+            <InfoCard data={data} _id={String(_id)} session={session} />
             <Content>
               <EditTxt dangerouslySetInnerHTML={{ __html: data?.body }} />
+              {data.isvod ? (
+                <Curriculum data={data} />
+              ) : (
+                <ClubDetailInfo item={data} />
+              )}
               <InfoMemberChart />
-              <ClubDetailInfo item={data} />
+
               <Review item={data} id={String(_id)} />
               <WePlay />
               <Benefit />

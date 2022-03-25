@@ -15,14 +15,17 @@ import {
 import { fetchProducts } from "@src/hooks/api/useProducts";
 import { GetServerSideProps } from "next";
 import { useState, useRef, useEffect } from "react";
+import { fetchVodProducts } from "@src/hooks/api/useVodProducts";
 
 const Home = ({ SsrData }: any) => {
   const [videoLoad, setVideoLoad] = useState({ Load: false, Loaded: false });
+  const [sound, setSound] = useState(false);
   const videoAreaRef: React.MutableRefObject<any> = useRef();
   const videoInput: React.MutableRefObject<any> = useRef();
   const [preview, setPreview] = useState(0);
   const { blogData, noticeData } = SsrData;
-  const { data } = useQuery(["list", "main"], () => fetchProducts(90, 1));
+
+  const { data } = useQuery(["listvod"], () => fetchVodProducts(90, 1));
 
   const vodPreviewList = [
     {
@@ -55,6 +58,10 @@ const Home = ({ SsrData }: any) => {
     }
   ];
 
+  const genreTitle = [
+    { title: "컬쳐플레이스 VOD 서비스 시작", url: "/view/healing" }
+  ];
+
   const [winReady, setwinReady] = useState(false);
   useEffect(() => {
     setwinReady(true);
@@ -64,20 +71,13 @@ const Home = ({ SsrData }: any) => {
 
   function getGenreData() {
     if (Array.isArray(productsData)) {
-      return [
-        productsData.filter(el => el.genre === "healing"),
-        productsData.filter(el => el.genre === "theater"),
-        productsData.filter(el => el.genre === "art"),
-        productsData.filter(el => el.genre === "music"),
-        productsData.filter(el => el.genre === "food"),
-        productsData.filter(el => el.genre === "movie"),
-        productsData.filter(el => el.genre === "fashion"),
-        productsData.filter(el => el.genre === "wisdom")
-      ];
+      return [productsData];
     }
   }
 
   const genreData = getGenreData();
+
+  console.log("genreData genreData", genreData);
 
   return (
     <Layout>
@@ -124,7 +124,7 @@ const Home = ({ SsrData }: any) => {
             className="video_swipe"
             autoPlay
             loop
-            muted
+            muted={sound ? false : true}
             playsInline
             onLoadedData={() => {
               setVideoLoad({ Load: false, Loaded: true });
@@ -175,76 +175,109 @@ const Home = ({ SsrData }: any) => {
               >
                 {vodPreviewList[preview].title}
               </h2>
-              <ul
+              <div
                 css={css`
                   display: flex;
-                  width: 355px;
                   margin-left: auto;
-                  justify-content: space-around;
-
-                  li {
-                    cursor: pointer;
-                  }
                 `}
               >
-                {vodPreviewList.map((el, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setPreview(index);
-                      videoInput.current.pause();
-                      videoInput.current.load();
-                    }}
-                  >
-                    <div
-                      css={css`
-                        display: inline-block;
-                        width: 50px;
-                        height: 50px;
-                        opacity: 0.75;
-                        overflow: hidden;
-                        border-radius: 50%;
+                <ul
+                  css={css`
+                    display: flex;
+                    width: 355px;
+                    margin-left: auto;
+                    justify-content: space-around;
+                    align-items: baseline;
 
-                        img {
-                          width: 100%;
-                          height: 100%;
-                          object-fit: cover;
-                          object-position: center;
-                        }
-                      `}
+                    li {
+                      cursor: pointer;
+                    }
+                  `}
+                >
+                  {vodPreviewList.map((el, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setPreview(index);
+                        videoInput.current.pause();
+                        videoInput.current.load();
+                      }}
                     >
-                      <img src={el.imgurl} alt={el.title} />
-                    </div>
-                    <div
-                      className="txt"
-                      css={css`
-                        text-align: center;
-                        p {
-                          line-height: 17px;
-                          color: rgba(255, 255, 255, 0.5);
-                          word-break: break-all;
-                        }
-                        .subject {
-                          font-size: 14px;
-                          margin: 5px 0;
-                        }
-                        .tutor {
-                          font-size: 12px;
-                        }
-                      `}
-                    >
-                      <p className="subject">{el.genre}</p>
-                      <p className="tutor">{el.people}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                      <div
+                        css={css`
+                          display: inline-block;
+                          width: 50px;
+                          height: 50px;
+                          opacity: 0.75;
+                          overflow: hidden;
+                          border-radius: 50%;
+                          ${preview === index &&
+                          `
+                        width: 60px;
+                        height: 60px;
+                        opacity: 1;
+                        border: 2px solid #fff;
+                        `}
+                          img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            object-position: center;
+                          }
+                        `}
+                      >
+                        <img src={el.imgurl} alt={el.title} />
+                      </div>
+                      <div
+                        className="txt"
+                        css={css`
+                          text-align: center;
+                          p {
+                            line-height: 17px;
+                            color: rgba(255, 255, 255, 0.5);
+                            word-break: break-all;
+                          }
+                          .subject {
+                            font-size: 14px;
+                            margin: 5px 0;
+                          }
+                          .tutor {
+                            font-size: 12px;
+                          }
+                        `}
+                      >
+                        <p className="subject">{el.genre}</p>
+                        <p className="tutor">{el.people}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  css={css`
+                    width: 42px;
+                    height: 42px;
+                    margin: 20px 0 0 20px;
+                    border-radius: 10px;
+                    background: url(https://front-img.taling.me/Content/Images/Vod/icon_sound_${sound
+                        ? "on"
+                        : "off"}.png)
+                      no-repeat center rgba(0, 0, 0, 0.2);
+                    background-size: 21px 18px;
+                  `}
+                  onClick={() => setSound(prev => !prev)}
+                ></button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <WrapIndex>
-        <CardSlideArea genreData={genreData} />
+        <CardSlideArea
+          genreData={genreData}
+          genreTitle={genreTitle}
+          type={"vod"}
+        />
       </WrapIndex>
     </Layout>
   );

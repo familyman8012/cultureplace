@@ -13,6 +13,7 @@ const fetchProducts = async (
   if (creator !== undefined) {
     session = await getSession();
   }
+  console.log("creator creator creator느느느느는", session?.user.uid);
   let parse = await axios.get(
     `/api/product?limit=${limit}&page=${pageParam}${
       genre ? `&genre=${genre}&` : `&`

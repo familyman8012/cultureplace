@@ -27,6 +27,7 @@ function Oneday({ SsrData }: any) {
     pageSize,
     curPage,
     String(genre),
+    undefined,
     SsrData
   );
 
@@ -90,13 +91,16 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 
   const genre = ctx.params?.genre;
   const result = await Promise.resolve(
-    Product.find({ genre }, { body: false })
+    Product.find(
+      { genre, isvod: { $ne: true }, islive: { $ne: false } },
+      { body: false }
+    )
       .sort({ firstmeet: 1 })
       .limit(20)
       .lean()
   );
 
-  console.log("result result result", result);
+  // console.log("result result result", result);
 
   return {
     props: {

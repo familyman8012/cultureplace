@@ -15,26 +15,11 @@ import { WrapCategoryArea } from "./styles";
 export interface IGenreData {
   genreData?: IProduct[][] | undefined;
   isLoading?: boolean;
+  genreTitle: { title: string; url: string }[];
+  type?: string;
 }
 
-function Index({ genreData, isLoading }: IGenreData) {
-  const genreTitle = [
-    { title: "힐링산책", url: "/view/healing" },
-    { title: "뮤지컬, 연극의 세계", url: "/view/theater" },
-    { title: "내가 만든 작품이 전시되는 날", url: "/view/art" },
-
-    {
-      title: "#최고의 사운드, 인생음악, #작곡, #작사, #댄스",
-      url: "/view/music"
-    },
-    { title: "맛, 다이닝, 요리, 와인, 쿡방", url: "/view/food" },
-    {
-      title: "사진, 영상, 영화의 세계",
-      url: "/view/movie"
-    },
-    { title: "힙스타의 기본, 패션", url: "/view/fashion" },
-    { title: "지헤를 얻기 위한 지식컬쳐", url: "/view/wisdom" }
-  ];
+function Index({ genreData, isLoading, genreTitle, type }: IGenreData) {
   const sliderOption = {
     0: {
       slidesPerView: 2,
@@ -59,7 +44,27 @@ function Index({ genreData, isLoading }: IGenreData) {
   }, []);
 
   return (
-    <>
+    <div
+      className={type === "vod" ? "wrap_vod" : "wrap_product"}
+      css={css`
+        ${type === "vod" &&
+        `h2 {
+        &:before,
+        & + a {
+          display: none !important;
+        }
+      }
+      .imgbox svg,
+      .meetinfobox,
+      .card-badge {
+        display: none;
+      }
+      div[type="basic"] {
+        border-radius: 30px;
+        box-shadow: 0 0 8px 0 rgb(0 0 0 / 7%);
+      }`}
+      `}
+    >
       {genreTitle.map((el, i: number) => {
         return (
           <WrapCategoryArea key={el.title}>
@@ -96,7 +101,7 @@ function Index({ genreData, isLoading }: IGenreData) {
           </WrapCategoryArea>
         );
       })}
-    </>
+    </div>
   );
 }
 

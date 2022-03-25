@@ -105,14 +105,21 @@ export const IndexTable = styled.table<{ showMemInfo?: number }>`
       padding: 0 20px !important;
       text-align: right !important;
 
+      .box_btn_group {
+        display: flex;
+      }
+
       button {
         margin-right: 10px;
-        font-size: 14px;
+        font-size: 12px;
         background: #000 !important;
         padding: 10px;
         color: #fff;
         border-radius: 10px;
         background: #ef6973;
+        &:last-of-type {
+          margin-left: auto;
+        }
       }
     }
     ${mq[0]} {
@@ -168,6 +175,16 @@ export const AdminModal = styled.div`
       }
     }
   }
+`;
+
+export const Dimm = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 export const GlowBtn = styled.button`
@@ -408,5 +425,229 @@ export const ConfirmView = styled.div`
         display: none;
       }
     }
+  }
+`;
+
+//커리큘럼 Layer
+export const WrapCurriculumLayer = styled.div`
+  width: 530px;
+  .head {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .cont {
+    overflow: auto;
+    max-height: 500px;
+    li {
+      display: flex;
+      margin-bottom: 10px;
+      padding: 20px;
+      border: 1px solid;
+
+      .title {
+        width: 300px;
+      }
+      .box_btn_group {
+        margin-left: auto;
+        button {
+          margin-right: 20px;
+          &:last-of-type {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+`;
+
+// 커리큘럼 추가 layer
+export const WrapCurriculumAddLayer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 20px;
+  transform: translate(-50%, -50%);
+  border: 1px solid;
+  background: #fff;
+
+  .title {
+    display: inline-block;
+    width: 50px;
+  }
+
+  input {
+    width: calc(100% - 50px);
+    margin-top: 5px;
+  }
+
+  .btn_close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .box_btn_group {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      margin-top: 20px;
+      padding: 0 10px;
+    }
+  }
+`;
+
+// 레슨 관리자 layer
+export const WrapLessonManagement = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  border: 1px solid;
+  background: #fff;
+
+  .head {
+    display: flex;
+    padding: 15px;
+    .box_btn_group {
+      margin-left: auto;
+    }
+  }
+
+  .wrap_lesson_list {
+    overflow: auto;
+    max-height: 600px;
+
+    ul {
+      li {
+        cursor: grab;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #eee;
+
+        .item {
+          display: flex;
+        }
+        .box_btn_group {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+  .bottom {
+    display: flex;
+    align-items: center;
+
+    .notice {
+      margin-left: auto;
+      font-size: 13px;
+    }
+  }
+`;
+
+// 레슨 추가 layer
+export const WrapLessonAdd = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  padding: 20px 0;
+  border: 1px solid;
+  background: #fff;
+
+  .head {
+    display: flex;
+    align-items: center;
+    padding: 0 20px 20px;
+    input {
+      width: 350px;
+      padding: 5px 10px;
+      margin-left: 10px;
+    }
+    input {
+      border: 1px solid;
+    }
+    button {
+      margin-left: auto;
+      font-size: 20px;
+    }
+  }
+  .cont {
+    #vid {
+      display: none;
+    }
+    .box_inp_file {
+      margin: 15px 0;
+      padding: 0 20px;
+    }
+    .wrap_send_file {
+      position: relative;
+      width: 100%;
+      height: 20px;
+      margin: 20px 0;
+      background: #d1d1d1;
+    }
+  }
+  .box_btn_group {
+    display: flex;
+    button {
+      margin: 0 20px 0 auto;
+    }
+  }
+`;
+
+export const WrapSendFile = styled.div<{ percent?: number }>`
+  position: relative;
+  width: 100%;
+  height: 25px;
+  margin: 20px 0;
+  background: #d1d1d1;
+
+  .bar {
+    width: ${({ percent }) => percent}%;
+    height: 20px;
+    background: #fdc53f;
+  }
+  .txt {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+`;
+
+export const WrapLessonDetailView = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80vh;
+  padding: 20px;
+  border: 1px solid;
+  transform: translate(-50%, -50%);
+  background: #fff;
+
+  .head {
+    margin-bottom: 20px;
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 20px;
+    }
+  }
+
+  .video_area {
+    width: 300px;
+    height: 169px;
+    margin: 20px 0;
+    background: #000;
+  }
+  .cont_txt {
+    overflow: auto;
+    max-height: 400px;
   }
 `;

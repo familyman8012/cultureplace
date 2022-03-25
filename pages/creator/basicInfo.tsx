@@ -123,16 +123,20 @@ function App() {
             <option value="fashion">패션</option>
             <option value="wisdom">지식</option>
           </select>
-          <label htmlFor="isvod">VOD</label>
-          <input
-            {...register("isvod")}
-            type="checkbox"
-            name="isvod"
-            id="isvod"
-            checked={chk}
-            value={String(chk)}
-            onChange={handleCheck}
-          />
+          {session?.user.role === "master" && (
+            <>
+              <label htmlFor="isvod">VOD</label>
+              <input
+                {...register("isvod")}
+                type="checkbox"
+                name="isvod"
+                id="isvod"
+                checked={chk}
+                value={String(chk)}
+                onChange={handleCheck}
+              />
+            </>
+          )}
           <label htmlFor="location">장소 선택</label>
           <select id="location" {...register("location")}>
             <option value="강남">강남</option>

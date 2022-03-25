@@ -19,13 +19,33 @@ const Home = ({ SsrData }: any) => {
 
   const productsData = data?.products;
 
+  const genreTitle = [
+    { title: "내가 만든 작품이 전시되는 날", url: "/view/art" },
+
+    {
+      title: "#최고의 사운드, 인생음악, #작곡, #작사, #댄스",
+      url: "/view/music"
+    },
+
+    { title: "뮤지컬, 연극의 세계", url: "/view/theater" },
+    { title: "힐링산책", url: "/view/healing" },
+
+    { title: "맛, 다이닝, 요리, 와인, 쿡방", url: "/view/food" },
+    {
+      title: "사진, 영상, 영화의 세계",
+      url: "/view/movie"
+    },
+    { title: "힙스타의 기본, 패션", url: "/view/fashion" },
+    { title: "지헤를 얻기 위한 지식컬쳐", url: "/view/wisdom" }
+  ];
+
   function getGenreData() {
     if (Array.isArray(productsData)) {
       return [
-        productsData.filter(el => el.genre === "healing"),
-        productsData.filter(el => el.genre === "theater"),
         productsData.filter(el => el.genre === "art"),
         productsData.filter(el => el.genre === "music"),
+        productsData.filter(el => el.genre === "theater"),
+        productsData.filter(el => el.genre === "healing"),
         productsData.filter(el => el.genre === "food"),
         productsData.filter(el => el.genre === "movie"),
         productsData.filter(el => el.genre === "fashion"),
@@ -41,7 +61,7 @@ const Home = ({ SsrData }: any) => {
       <MainVisual />
       <WrapIndex>
         <CategoryMenu />
-        <CardSlideArea genreData={genreData} />
+        <CardSlideArea genreData={genreData} genreTitle={genreTitle} />
         <Morebtn />
         <BlogArea blogData={blogData} />
         <NoticeArea noticeData={noticeData} />
@@ -67,7 +87,13 @@ export const getServerSideProps: GetServerSideProps = async () => {
     )
       .limit(4)
       .lean(),
-    Product.find({}, { body: false }).sort({ firstmeet: 1 }).limit(90).lean()
+    Product.find(
+      { isvod: { $ne: true }, islive: { $ne: false } },
+      { body: false }
+    )
+      .sort({ firstmeet: 1 })
+      .limit(90)
+      .lean()
   ]);
 
   const SsrData = {

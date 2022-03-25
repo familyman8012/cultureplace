@@ -14,13 +14,13 @@ import router from "next/router";
 import { useSession } from "next-auth/client";
 import {
   AdminModal,
+  Dimm,
   GlowBtn,
   IndexTable,
   WrapIndexContent
 } from "@components/pageComp/creator/styles";
-import LessonUp from "@components/pageComp/creator/LessonUp";
-import { css } from "@emotion/react";
-import Curriculum from "@components/pageComp/creator/Curriculum";
+import VodManagement from "@components/pageComp/creator/VodManagement";
+import IsLive from "@components/pageComp/creator/IsLive";
 
 dayjs.locale("ko");
 
@@ -34,29 +34,23 @@ export default function List() {
   //세션 정보 가져오기
   const [session] = useSession();
 
-  //불러오기
-  const { status, data, error } = useProducts(
+  //제품 정보 불러오기  limit, pageParam, genre,  creator?: string, initialData?: any
+  const { status, data, error, refetch } = useProducts(
     pageSize,
     curPage,
     undefined,
     "creator"
   );
 
+  // 페이징 (페이지 이동)
   const handlePageChange = useCallback((page: number) => {
     setCurPage(page);
   }, []);
 
+  // 회원은 role 이 있음. master, creator, user. creator 가 아닌 그냥 user 일시, apply 페이지로 이동
   useEffect(() => {
     session?.user.role === "user" && router.push("./creator/apply");
-  }, [session?.user.role]);
-
-  //islive  를 위한 hook
-  const [showLiveModal, setShowLiveModal] = useState({
-    show: false,
-    productId: "",
-    productName: "",
-    islive: false
-  });
+  }, [session?.user]);
 
   //상풍등록하러가기
   const writeProduct = useCallback(() => {
@@ -87,6 +81,14 @@ export default function List() {
     }
   );
 
+  //islive  를 위한 useState
+  const [showLiveModal, setShowLiveModal] = useState({
+    show: false,
+    productId: "",
+    productName: "",
+    islive: false
+  });
+
   //레이어모달 - islive 보이기
   const handlerShowLiveModal = useCallback(
     (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, el: IProduct) => {
@@ -101,38 +103,14 @@ export default function List() {
     []
   );
 
-  //레이어모달 - islive 닫기
-  const handlerCloseLiveModal = useCallback(() => {
-    setShowLiveModal({
-      show: false,
-      productId: "",
-      productName: "",
-      islive: false
-    });
-  }, []);
-
-  //레이어모달 - islive 닫기
-  const handlerChangeLiveModal = useCallback(() => {
-    axios
-      .patch(`/api/product/${showLiveModal.productId}`, {
-        islive: !showLiveModal.islive
-      })
-      .then(res => {
-        console.log(res);
-        handlerCloseLiveModal();
-      });
-  }, [handlerCloseLiveModal, showLiveModal.islive, showLiveModal.productId]);
-
   // 레슨추가 modal
   const [vodManagement, setVodManagement] = useState({ _id: "", show: false });
-
-  const handlerVodModal = (_id: string) => {
+  const handlerVodModal = useCallback((_id: string) => {
     setVodManagement({ _id, show: true });
-  };
-
-  const handlerCloseVodModal = () => {
+  }, []);
+  const handlerCloseVodModal = useCallback(() => {
     setVodManagement({ _id: "", show: false });
-  };
+  }, []);
 
   return (
     <>
@@ -165,7 +143,7 @@ export default function List() {
                   <tbody>
                     {data?.products.map((el, i) => (
                       <tr key={el._id} onClick={() => modifyProduct(el._id)}>
-                        <td>{i}</td>
+                        <td>{i + 1 + (curPage - 1) * pageSize}</td>
                         <td>
                           <img src={el.imgurl} alt={el.title} />
                         </td>
@@ -189,24 +167,26 @@ export default function List() {
                           )}
                         </td>
                         <td className="btn_wrap">
-                          {el.isvod === true && (
+                          <div className="box_btn_group">
+                            {el.isvod === true && (
+                              <button
+                                onClick={e => {
+                                  e.stopPropagation();
+                                  handlerVodModal(el._id);
+                                }}
+                              >
+                                VOD 관리
+                              </button>
+                            )}
                             <button
                               onClick={e => {
                                 e.stopPropagation();
-                                handlerVodModal(el._id);
+                                deleteMutation.mutate(el._id);
                               }}
                             >
-                              VOD 관리
+                              삭제
                             </button>
-                          )}
-                          <button
-                            onClick={e => {
-                              e.stopPropagation();
-                              deleteMutation.mutate(el._id);
-                            }}
-                          >
-                            삭제
-                          </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -214,31 +194,23 @@ export default function List() {
                 </IndexTable>
                 {showLiveModal.show && (
                   <AdminModal>
-                    <span className="btn_close" onClick={handlerCloseLiveModal}>
-                      x
-                    </span>
-                    <div className="cont">
-                      {showLiveModal.productName} 을
-                      {showLiveModal.islive ? "unlive" : "live"} 상태로
-                      변경하시겠습니까?
-                    </div>
-                    <div className="box_btn">
-                      <button onClick={handlerChangeLiveModal}>확인</button>
-                      <button onClick={handlerCloseLiveModal}>취소</button>
-                    </div>
+                    <IsLive
+                      showLiveModal={showLiveModal}
+                      setShowLiveModal={setShowLiveModal}
+                      refetch={refetch}
+                    />
                   </AdminModal>
                 )}
                 {vodManagement.show && (
-                  <AdminModal
-                    css={css`
-                      width: 80%;
-                    `}
-                  >
-                    <Curriculum
-                      _id={vodManagement._id}
-                      handlerCloseVodModal={handlerCloseVodModal}
-                    />
-                  </AdminModal>
+                  <>
+                    <Dimm />
+                    <AdminModal>
+                      <VodManagement
+                        _id={vodManagement._id}
+                        handlerCloseVodModal={handlerCloseVodModal}
+                      />
+                    </AdminModal>
+                  </>
                 )}
                 <Pagination
                   onChange={handlePageChange}

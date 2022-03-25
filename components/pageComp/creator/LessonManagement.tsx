@@ -1,241 +1,65 @@
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { useVod } from "@src/hooks/api/useVod/useNotice";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import QuillEditorView from "@components/modules/QuillEditor/QuillEditorView";
+import { useMutation, useQueryClient } from "react-query";
 import { observer } from "mobx-react";
-import { noticeStore, QuillStore } from "@src/mobx/store";
+import { QuillStore } from "@src/mobx/store";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import * as tus from "tus-js-client";
-import { Stream } from "@cloudflare/stream-react";
-import { runInAction } from "mobx";
+import { WrapLessonManagement } from "./styles";
+import { ISetuCrriculumInfo } from "./VodManagement";
+import { ICurriculum, ILesson } from "@src/typings/db";
+import Button from "@components/elements/Button";
+import LayerLessonAdd from "./LayerLessonAdd";
+import LayerLessonView from "./LayerLessonView";
+
+interface ILessonManagement extends ISetuCrriculumInfo {
+  curriculumId: string;
+}
 
 function LessonManagement({
-  productId,
+  _id,
   curriculumId,
   curriculumInfo,
   setCurriculumInfo
-}: any) {
-  const { data, refetch } = useVod(String(productId));
+}: ILessonManagement) {
+  const queryClient = useQueryClient();
+  const { data, refetch } = useVod(String(_id));
 
-  let mediaId: string;
-  let mediaTime: Number;
-
+  // 윈도우 로드 상태
   const [winReady, setwinReady] = useState(false);
-  const [selCurriculum, setSelCurriculum] = useState<any>(null);
 
+  // 선택한 커리큘럼 정보
+  const [selCurriculum, setSelCurriculum] = useState<ICurriculum | undefined>({
+    _id: "",
+    title: "",
+    lessons: []
+  });
+
+  // 레슨관리 레이어
   const [lessonLayer, setLessonLayer] = useState({
     state: "",
     show: false,
     selectIndex: 0
   });
 
-  const [file, setFile] = useState<any>("");
+  // 레슨 정보 자세히보기
+  const [showDetailLesson, setShowDetailLesson] = useState<ILesson | undefined>(
+    undefined
+  );
 
-  const [percent, setPercent] = useState(0);
+  //지워야하는 미디어ID
   const [delMediaId, setdelMediaId] = useState("");
-
-  const [showDetailLesson, setShowDetailLesson] = useState<any>(null);
-
-  const resetRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setwinReady(true);
   }, []);
 
   useEffect(() => {
-    console.log(file);
-  }, [file]);
-
-  useEffect(() => {
     setSelCurriculum(
-      data.curriculum.find((el: any) => el._id === curriculumId)
+      data?.curriculum.find((el: ICurriculum) => el._id === curriculumId)
     );
   }, [curriculumId, data]);
-
-  useEffect(() => {
-    console.log("daafds", showDetailLesson);
-  }, [showDetailLesson]);
-
-  console.log("productId productId", productId, data, selCurriculum);
-
-  const handlerWrite = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    console.log(e.target.value);
-    // setLessonInfo({ ...lessonInfo, [e.target.name]: e.target.value });
-    runInAction(() => {
-      QuillStore.titleData = e.target.value;
-    });
-  };
-
-  const queryClient = useQueryClient();
-
-  //비디오 파일 선택
-  const onVideoSelectHadler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setFile(e.target.files[0]);
-  };
-
-  //reset
-  const lessonLayerClose = () => {
-    QuillStore.titleData = "";
-    QuillStore.data = "";
-    mediaId = "";
-    mediaTime = 0;
-    setFile("");
-    setPercent(0);
-    if (resetRef.current) {
-      resetRef.current.value = "";
-    }
-    setLessonLayer({ state: "", show: false, selectIndex: 0 });
-  };
-
-  const addLessonFunc = () => {
-    axios
-      .post(`/api/lesson/${productId}?curriculumId=${curriculumId}`, {
-        lessons: {
-          title: QuillStore.titleData,
-          content: QuillStore.data,
-          mediaId,
-          mediaTime,
-          filename: file?.name
-        }
-      })
-      .then(res => {
-        refetch();
-        lessonLayerClose();
-        alert("레슨추가가 완료되었습니다.");
-      });
-  };
-
-  const modAxios = () => {
-    axios
-      .patch(
-        `/api/lesson/${productId}?curriculumId=${curriculumId}&lessonIndex=${lessonLayer.selectIndex}`,
-        {
-          lessons: {
-            title: QuillStore.titleData,
-            content: QuillStore.data,
-            mediaId,
-            mediaTime,
-            filename: file?.name
-          }
-        }
-      )
-      .then(res => {
-        console.log(res);
-        refetch();
-        lessonLayerClose();
-        alert("레슨수정이 완료되었습니다.");
-      });
-  };
-
-  const modLessonFunc = () => {
-    // alert(lessonLayer.selectId);
-    axios
-      .delete(
-        `https://api.cloudflare.com/client/v4/accounts/db9b0fffa2d74d68b02bbeb26b4aa52c/stream/${delMediaId}`,
-        {
-          headers: {
-            Authorization: "Bearer 8HfYUPDvZEv0JSx2J7tD4WLpMR7e13fNIGd9kiZV"
-          }
-        }
-      )
-      .then(res => {
-        if (res.status === 200) {
-          console.log("vod 수정시 기존 vod 삭제");
-        }
-        modAxios();
-      })
-      .catch(error => {
-        if (error.response.status === 404) {
-          modAxios();
-        }
-      });
-  };
-
-  //레슨추가
-  const handlerLessonButton = (buttonTitle: string) => {
-    if (!file) {
-      return alert("동영상을 등록하셔야 합니다.");
-    }
-    // Create a new tus upload
-    var upload =
-      file &&
-      new tus.Upload(file, {
-        endpoint:
-          "https://api.cloudflare.com/client/v4/accounts/db9b0fffa2d74d68b02bbeb26b4aa52c/stream",
-        headers: {
-          Authorization: "Bearer 8HfYUPDvZEv0JSx2J7tD4WLpMR7e13fNIGd9kiZV"
-        },
-        //resume: true,
-        chunkSize: 50 * 1024 * 1024, // Required a minimum chunk size of 5MB, here we use 50MB.
-        metadata: {
-          name: QuillStore.titleData,
-          filename: file.name,
-          filetype: file.type,
-          allowedorigins: ["localhost:3000"]
-        },
-        onError: function (error) {
-          throw error;
-        },
-        onProgress: function (bytesUploaded, bytesTotal) {
-          var percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
-          console.log(bytesUploaded, bytesTotal, percentage + "%");
-          setPercent(Number(percentage));
-        },
-        onSuccess: async function () {
-          if (buttonTitle === "add") {
-            addLessonFunc();
-          } else if (buttonTitle === "mod") {
-            modLessonFunc();
-            console.log("mediaTime2 mediaTime2", mediaTime);
-          }
-        },
-        onAfterResponse: function (req, res) {
-          return new Promise<void>(resolve => {
-            var mediaIdHeader = res.getHeader("stream-media-id");
-            if (mediaIdHeader) {
-              mediaId = mediaIdHeader;
-            }
-            if (file) {
-              var objectUrl = URL.createObjectURL(file);
-              document.getElementById("vid")?.setAttribute("src", objectUrl);
-              document
-                .getElementById("vid")
-                ?.addEventListener("loadedmetadata", function () {
-                  mediaTime = Math.round(
-                    (document.getElementById("vid") as HTMLMediaElement)
-                      ?.duration
-                  );
-                  console.log("mediaTime mediaTime", mediaTime);
-                });
-            }
-            resolve();
-          });
-        }
-      });
-
-    // Check if there are any previous uploads to continue.
-    upload &&
-      upload
-        .findPreviousUploads()
-        .then(function (previousUploads: string | any[]) {
-          // Found previous uploads so we select the first one.
-          if (previousUploads.length) {
-            upload && upload.resumeFromPreviousUpload(previousUploads[0]);
-          }
-
-          // Start the upload
-          upload && upload.start();
-        });
-
-    console.log("upload upload", upload);
-  };
 
   //레슨 삭제 -> video 까지.
   const deleteVideoHandler = (lessonId: string, mediaId: string) => {
@@ -244,11 +68,6 @@ function LessonManagement({
       .delete(
         `https://api.cloudflare.com/client/v4/accounts/db9b0fffa2d74d68b02bbeb26b4aa52c/stream/${mediaId}`,
         {
-          // headers: {
-          //   "X-Auth-Email": "yyagency7@gmail.com",
-          //   "X-Auth-Key": "76caac74ee222180daf1791f44bf8adb89bfc",
-          //   "Content-Type": "application/json"
-          // }
           headers: {
             Authorization: "Bearer 8HfYUPDvZEv0JSx2J7tD4WLpMR7e13fNIGd9kiZV"
           }
@@ -259,10 +78,11 @@ function LessonManagement({
           alert("동영상이 삭제 되었습니다.");
           axios
             .delete(
-              `/api/lesson/${productId}?curriculumId=${curriculumId}&lessonId=${lessonId}`
+              `/api/lesson/${_id}?curriculumId=${curriculumId}&lessonId=${lessonId}`
             )
             .then(res => {
               console.log(res);
+              alert("레슨 삭제되었습니다.");
               refetch();
             });
         }
@@ -277,12 +97,12 @@ function LessonManagement({
     mediaId: string
   ) => {
     console.log("lessonId", lessonId);
-    const modLesson = selCurriculum.lessons.find(
-      (el: any) => el._id === lessonId
+    const modLesson = selCurriculum?.lessons.find(
+      (el: ILesson) => el._id === lessonId
     );
     console.log("modLesson", modLesson);
-    QuillStore.titleData = modLesson.title;
-    QuillStore.data = modLesson.content;
+    QuillStore.titleData = modLesson?.title;
+    QuillStore.data = modLesson?.content;
     setLessonLayer({ state: "modify", show: true, selectIndex: index });
     setdelMediaId(mediaId);
   };
@@ -294,8 +114,8 @@ function LessonManagement({
     () =>
       axios
         .put(
-          `/api/lesson/${productId}?curriculumId=${curriculumId}`,
-          selCurriculum.lessons
+          `/api/lesson/${_id}?curriculumId=${curriculumId}`,
+          selCurriculum?.lessons
         )
         .then(res => {
           console.log(res);
@@ -313,13 +133,20 @@ function LessonManagement({
   //드래그 & 드로그
   const handleChange = (result: any) => {
     if (!result.destination) return;
-
-    console.log(result);
     const items = selCurriculum && [...selCurriculum.lessons];
-    const [reorderedItem] = items?.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setSelCurriculum({ ...selCurriculum, lessons: [...items] });
+    const [reorderedItem] =
+      result.destination && items?.splice(result.source.index, 1);
+    console.log(
+      "reorderedItem",
+      [reorderedItem],
+      "result.destination.index",
+      result.destination.index
+    );
+    items?.splice(result.destination.index, 0, reorderedItem);
+    console.log("items", items);
+    setSelCurriculum(
+      selCurriculum && items && { ...selCurriculum, lessons: [...items] }
+    );
 
     console.log("새로정렬", items);
   };
@@ -332,233 +159,148 @@ function LessonManagement({
   };
 
   return (
-    <div>
-      <div>
-        <span>{selCurriculum?.title}</span>
-        <button
-          onClick={() =>
-            setLessonLayer({ state: "add", show: true, selectIndex: 0 })
-          }
-          css={css`
-            margin-left: 50px;
-          `}
-        >
-          레슨추가
-        </button>
-        <button
-          onClick={() =>
-            setCurriculumInfo({
-              ...curriculumInfo,
-              lessonLayer: false
-            })
-          }
-        >
-          닫기
-        </button>
-      </div>
-      {winReady && selCurriculum && (
-        <div
-          css={css`
-            overflow: auto;
-            max-height: 600px;
-          `}
-        >
-          <DragDropContext onDragEnd={handleChange}>
-            <Droppable droppableId="vodList">
-              {provided => (
-                <ul
-                  className="vodList"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {selCurriculum?.lessons?.map((el: any, index: number) => (
-                    <Draggable key={el._id} draggableId={el._id} index={index}>
-                      {provided => (
-                        <li
-                          css={css`
-                            cursor: grab;
-                            padding: 15px;
-                            margin-bottom: 15px;
-                            border: 1px solid #eee;
-                            div {
-                              overflow: hidden;
-                              height: 24px;
-                            }
-                          `}
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                        >
-                          <div>
-                            {el.title}{" "}
-                            <button
-                              onClick={() =>
-                                showModLessonLayer(el._id, index, el.mediaId)
-                              }
-                            >
-                              수정
-                            </button>
-                            <button
-                              css={css`
-                                margin: 0 20px;
-                              `}
-                              onClick={() => handleShowLayerLesson(el._id)}
-                            >
-                              자세히 보기
-                            </button>
-                            <button
-                              onClick={() =>
-                                deleteVideoHandler(el._id, el.mediaId)
-                              }
-                            >
-                              삭제
-                            </button>
-                          </div>
-                        </li>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </ul>
-              )}
-            </Droppable>
-          </DragDropContext>
-          <div>
-            <button onClick={() => handlerModLessonList.mutate()}>
-              레슨저장
-            </button>
-          </div>
-        </div>
-      )}
-      {lessonLayer.show && (
-        <div
-          css={css`
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60vw;
-            height: 500px;
-            padding: 20px 0;
-            border: 1px solid;
-            background: #fff;
-          `}
-        >
-          <div>
-            추가레이어
-            <button onClick={lessonLayerClose}>x</button>
-            <input
-              type="text"
-              name="title"
+    <>
+      <WrapLessonManagement>
+        <div className="head">
+          <span>{selCurriculum?.title}</span>
+          <div className="box_btn_group">
+            <Button
+              color="brand"
+              size="xs"
+              width="auto"
               css={css`
-                border: 1px solid;
+                margin-left: 50px;
+                padding: 0 10px;
               `}
-              onChange={handlerWrite}
-              value={QuillStore.titleData || ""}
-              placeholder="제목"
-            />
-            <video
-              controls
-              width="500px"
-              id="vid"
-              css={css`
-                display: none;
-              `}
-            ></video>
-            <QuillEditorView category="vod등록" />
-            <div
-              css={css`
-                margin: 15px 0;
-              `}
+              onClick={() =>
+                setLessonLayer({ state: "add", show: true, selectIndex: 0 })
+              }
             >
-              <input
-                type="file"
-                id="upload"
-                ref={resetRef}
-                className="image-upload"
-                onChange={onVideoSelectHadler}
-              />
-            </div>
-            <div
-              css={css`
-                position: relative;
-                width: 100%;
-                height: 20px;
-                margin: 20px 0;
-                background: #d1d1d1;
-              `}
-            >
-              <div
-                css={css`
-                  width: ${percent}%;
-                  height: 20px;
-                  background: #fdc53f;
-                `}
-              ></div>
-              <span
-                css={css`
-                  position: absolute;
-                  top: 0;
-                  left: 50%;
-                  transform: translateX(-50%);
-                `}
-              >
-                전송율 {percent}%
-              </span>
-            </div>
-            {lessonLayer.state === "add" ? (
-              <button onClick={() => handlerLessonButton("add")}>추가</button>
-            ) : (
-              <button onClick={() => handlerLessonButton("mod")}>수정</button>
-            )}
-          </div>
-        </div>
-      )}
-      {showDetailLesson !== null && (
-        <div
-          css={css`
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80%;
-            height: 80vh;
-            padding: 20px;
-            border: 1px solid;
-            transform: translate(-50%, -50%);
-            background: #fff;
-          `}
-        >
-          <span
-            css={css`
-              position: absolute;
-              top: 10px;
-              right: 20px;
-            `}
-            onClick={() => setShowDetailLesson(null)}
-          >
-            x
-          </span>
-          <div>제목 : {showDetailLesson.title}</div>
+              레슨추가
+            </Button>
 
-          <div>mediaId : {showDetailLesson.mediaId}</div>
-          <div>mediaTime : {showDetailLesson.mediaTime}</div>
-          <div>filename : {showDetailLesson.filename}</div>
-          <div
-            css={css`
-              width: 300px;
-            `}
-          >
-            <Stream controls src={showDetailLesson.mediaId} />
-          </div>
-          <div>
-            내용 :{" "}
-            <div
-              dangerouslySetInnerHTML={{ __html: showDetailLesson.content }}
-            />
+            <Button
+              color="gray"
+              size="xs"
+              width="auto"
+              css={css`
+                margin-left: 10px;
+                padding: 0 10px;
+              `}
+              onClick={() =>
+                setCurriculumInfo({
+                  ...curriculumInfo,
+                  lessonLayer: false
+                })
+              }
+            >
+              닫기
+            </Button>
           </div>
         </div>
+        {winReady && selCurriculum && (
+          <div className="wrap_lesson_list">
+            <DragDropContext onDragEnd={handleChange}>
+              <Droppable droppableId="vodList">
+                {provided => (
+                  <ul
+                    className="vodList"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {selCurriculum?.lessons?.map(
+                      (el: ILesson, index: number) => (
+                        <Draggable
+                          key={el._id}
+                          draggableId={el._id}
+                          index={index}
+                        >
+                          {provided => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.dragHandleProps}
+                              {...provided.draggableProps}
+                            >
+                              <div className="item">
+                                <span>{el.title}</span>
+                                <div className="box_btn_group">
+                                  <button
+                                    onClick={() =>
+                                      showModLessonLayer(
+                                        el._id,
+                                        index,
+                                        el.mediaId
+                                      )
+                                    }
+                                  >
+                                    수정
+                                  </button>
+                                  <button
+                                    css={css`
+                                      margin: 0 20px;
+                                    `}
+                                    onClick={() =>
+                                      handleShowLayerLesson(el._id)
+                                    }
+                                  >
+                                    자세히 보기
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      deleteVideoHandler(el._id, el.mediaId)
+                                    }
+                                  >
+                                    삭제
+                                  </button>
+                                </div>
+                              </div>
+                            </li>
+                          )}
+                        </Draggable>
+                      )
+                    )}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+            <div className="bottom">
+              <p className="notice">
+                * 레슨 순서는 Drag&amp;Drop 으로 변경가능합니다.
+              </p>
+              <Button
+                color="submit"
+                size="xs"
+                width="auto"
+                css={css`
+                  padding: 0 10px;
+                  margin: 10px;
+                `}
+                onClick={() => handlerModLessonList.mutate()}
+              >
+                레슨순서 저장
+              </Button>
+            </div>
+          </div>
+        )}
+      </WrapLessonManagement>
+      {lessonLayer.show && (
+        <LayerLessonAdd
+          lessonLayer={lessonLayer}
+          _id={_id}
+          curriculumId={curriculumId}
+          delMediaId={delMediaId}
+          setLessonLayer={setLessonLayer}
+          refetch={refetch}
+        />
       )}
-    </div>
+      {showDetailLesson && (
+        <LayerLessonView
+          showDetailLesson={showDetailLesson}
+          setShowDetailLesson={setShowDetailLesson}
+        />
+      )}
+    </>
   );
 }
 

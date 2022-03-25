@@ -1,4 +1,5 @@
 export interface IProduct {
+  curriculum: ICurriculum[];
   _id: string;
   creator: {
     name: string;
@@ -26,15 +27,23 @@ export interface IProduct {
   joinMembr: string[];
   favoriteduser: string[];
   review: string[];
-  lessons: {
-    content: string;
-    createdAt: Date;
-    mediaId: string;
-    filename: string;
-    title: string;
-    updatedAt: Date;
-    _id: string;
-  }[];
+}
+
+export interface ICurriculum {
+  _id: string;
+  title: string;
+  lessons: ILesson[];
+}
+
+export interface ILesson {
+  _id: string;
+  title: string;
+  content: string;
+  mediaId: string;
+  mediaTime?: number;
+  filename: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IProductList {

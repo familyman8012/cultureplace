@@ -15,14 +15,16 @@ import { useRouter } from "next/router";
 import { css } from "@emotion/react";
 
 export const CategoryLink = [
-  { title: "힐링산책", url: "healing" },
-  { title: "공연", url: "theater" },
   { title: "미술", url: "art" },
   { title: "뮤직", url: "music" },
+  { title: "공연", url: "theater" },
+  { title: "힐링산책", url: "healing" },
   { title: "미식", url: "food" },
   { title: "사진, 영상", url: "movie" },
   { title: "패션", url: "fashion" },
-  { title: "지식", url: "wisdom" }
+  { title: "지식", url: "wisdom" },
+  { title: "1day", url: "1day" },
+  { title: "1month", url: "1month" }
 ];
 
 const mypageLink = [
@@ -157,12 +159,12 @@ function Head() {
 
           <li>
             <Link href="/notice">
-              <a>Story</a>
+              <a>News</a>
             </Link>
           </li>
           <li>
             <Link href="/info">
-              <a>Info</a>
+              <a>BoxOffice</a>
             </Link>
           </li>
           <li className={`categoryLink  ${isOpenMenu ? "on" : ""}`}>

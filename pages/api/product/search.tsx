@@ -22,9 +22,16 @@ productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
     // 체크박스 옵션리스트
     const selectType = ["location", "meetday", "genre"];
 
-    // 선택한 체크박스 추가
-    const matchData: any[] = [{ ["meetingcycle"]: { $in: [meetingcycle] } }];
+    // 체크박스 추가하기전에, 기본 aggregate 설정,
+    const matchData: any[] = [
+      {
+        ["meetingcycle"]: { $in: [meetingcycle] },
+        isvod: { $ne: true },
+        islive: { $ne: false }
+      }
+    ];
 
+    // 선택한 체크박스 추가
     if (Array.isArray(filterFind) && filterFind.length !== 0) {
       for (let i = 0; i < selectType.length; i++) {
         matchData.push(
@@ -55,7 +62,10 @@ productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
       filterFind.every((el: string | any[]) => el.length === 0)
     ) {
       [products, productsCount] = await Promise.all([
-        Product.find({ meetingcycle }, { body: false })
+        Product.find(
+          { meetingcycle, isvod: { $ne: true }, islive: { $ne: false } },
+          { body: false }
+        )
           .sort({ firstmeet: 1 })
           .skip((Number(page) - 1) * Numberlimit)
           .limit(Numberlimit),
@@ -63,7 +73,7 @@ productRouter.post(async (req: NextApiRequest, res: NextApiResponse) => {
       ]);
       is_last = Math.ceil(Number(productsCount) / Numberlimit) < Number(page);
     } else {
-      products = await Product.aggregate(searchOp);
+      products = await Product.aggregate(searchOp).sort({ firstmeet: 1 });
       productsCount = await products.length;
       is_last = true;
     }

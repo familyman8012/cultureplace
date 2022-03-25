@@ -29,12 +29,21 @@ interface IColorStyle {
   outline: boolean;
   favorite: string;
   size: string;
+  width?: string;
 }
 
-const btnStyle = ({ theme, color, outline, favorite, size }: IColorStyle) => {
+const btnStyle = ({
+  theme,
+  color,
+  outline,
+  favorite,
+  size,
+  width
+}: IColorStyle) => {
   const selected = theme.color[color];
 
   return css`
+    width: ${width};
     background: ${selected};
     height: ${sizes[size].height};
     font-size: ${sizes[size]?.fontSize};

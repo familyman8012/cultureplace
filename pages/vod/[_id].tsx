@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useVod } from "@src/hooks/api/useVod/useNotice";
 import { css } from "@emotion/react";
-import VodLeft from "@components/pageComp/vod/VodLeft";
+import LectureRoom from "@components/pageComp/vod/LectureRoom";
 import { useSession } from "next-auth/client";
 
 function Vod() {
@@ -13,7 +13,7 @@ function Vod() {
   return (
     <>
       {_id && session?.user.uid && (
-        <VodLeft _id={_id} sessionId={session?.user.uid} />
+        <LectureRoom _id={String(_id)} sessionId={session?.user.uid} />
       )}
     </>
   );

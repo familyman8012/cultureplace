@@ -8,103 +8,6 @@ export const VodWrap = styled.div<{ listCollapse: Boolean }>`
   padding-left: 360px;
   justify-content: center;
 
-  .wrap_vod_list {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 360px;
-    height: 100vh;
-    transition: left 0.3s;
-
-    .top {
-      padding: 30px 30px 20px;
-      color: #fff;
-      background: #ff4949;
-    }
-    .title {
-      font-size: 17px;
-      font-weight: normal;
-    }
-
-    .simplebar {
-      height: calc(100vh - 75.5px);
-    }
-  }
-
-  .btn_list_collapse {
-    position: fixed;
-    left: 370px;
-    top: 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    height: 48px;
-    width: 48px;
-    z-index: 999;
-    background: rgba(0, 0, 0, 0.05);
-
-    &:after {
-      content: "";
-      height: 4px;
-      width: 24px;
-      border-radius: 2px;
-      position: absolute;
-      left: 11px;
-      top: 22px;
-      display: block;
-      background: #b4b4b4;
-    }
-
-    .wrap_arrow {
-      height: 2px;
-      width: 24px;
-      background: #444;
-      position: relative;
-      margin-top: 14px;
-      transition: all 0.6s;
-
-      &:before,
-      &:after {
-        content: "";
-        border-radius: 2px;
-        position: absolute;
-        top: 6px;
-        left: 9px;
-        width: 16px;
-        height: 4px;
-        background: #b4b4b4;
-        transition: all 0.2s ease-in;
-        transform: translateY(12px) rotate(-45deg);
-      }
-      &:after {
-        top: 22.6px;
-        transform: translateY(4px) rotate(45deg);
-      }
-    }
-  }
-
-  .wrap_vod_cont {
-    position: relative;
-    width: 90%;
-    max-width: 1150px;
-    .top_time_area {
-      position: absolute;
-      top: 30px;
-      right: 0;
-      font-size: 11px;
-      color: #bbb;
-      font-weight: 600;
-      .time {
-        margin-left: 5px;
-      }
-    }
-
-    .title {
-      font-size: 18px;
-      font-weight: 600;
-      margin: 60px 0 35px;
-    }
-  }
-
   ${({ listCollapse }) =>
     listCollapse &&
     `
@@ -121,11 +24,68 @@ export const VodWrap = styled.div<{ listCollapse: Boolean }>`
   `}
 `;
 
-export const LoadMask = styled.div`
-  position: absolute;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
+export const VodMenuList = styled.div<{ progressPer: number }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 360px;
+  height: 100vh;
+  transition: left 0.3s;
+
+  .top {
+    padding: 30px 30px 20px;
+    color: #fff;
+    background: #ff4949;
+
+    .progress-text {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .wrap_line_progress {
+      position: relative;
+      width: 100%;
+      height: 2px;
+      margin-top: 40px;
+      background: rgba(0, 0, 0, 0.3);
+
+      .inner {
+        position: absolute;
+        width: ${({ progressPer }) => (isNaN(progressPer) ? 0 : progressPer)}%;
+        height: 100%;
+        background: #fff;
+        transition: width 0.3s ease-in-out;
+      }
+
+      .bubble {
+        position: absolute;
+        right: -20px;
+        top: -32px;
+        padding: 4px 8px;
+        color: #fff;
+        font-size: 12px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.6);
+
+        &:after {
+          content: "";
+          position: absolute;
+          left: 40%;
+          bottom: -10px;
+          border: 5px solid;
+          border-color: rgba(0, 0, 0, 0.6) transparent transparent;
+        }
+      }
+    }
+  }
+  .title {
+    font-size: 17px;
+    font-weight: normal;
+  }
+
+  .simplebar {
+    height: calc(100vh - 75.5px);
+  }
 `;
 
 export const ListWrap = styled.div`
@@ -185,6 +145,92 @@ export const ListItem = styled.li<{ lessonId: string; selLessonId: string }>`
   `}
 `;
 
+export const BtnCollapse = styled.div`
+  position: fixed;
+  left: 370px;
+  top: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 48px;
+  width: 48px;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.05);
+
+  &:after {
+    content: "";
+    height: 4px;
+    width: 24px;
+    border-radius: 2px;
+    position: absolute;
+    left: 11px;
+    top: 22px;
+    display: block;
+    background: #b4b4b4;
+  }
+
+  .wrap_arrow {
+    height: 2px;
+    width: 24px;
+    background: #444;
+    position: relative;
+    margin-top: 14px;
+    transition: all 0.6s;
+
+    &:before,
+    &:after {
+      content: "";
+      border-radius: 2px;
+      position: absolute;
+      top: 6px;
+      left: 9px;
+      width: 16px;
+      height: 4px;
+      background: #b4b4b4;
+      transition: all 0.2s ease-in;
+      transform: translateY(12px) rotate(-45deg);
+    }
+    &:after {
+      top: 22.6px;
+      transform: translateY(4px) rotate(45deg);
+    }
+  }
+`;
+
+export const LectureStreamArea = styled.div`
+  position: relative;
+  width: 90%;
+  max-width: 1150px;
+  .top_time_area {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    font-size: 11px;
+    color: #bbb;
+    font-weight: 600;
+    .time {
+      margin-left: 5px;
+    }
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 60px 0 35px;
+  }
+
+  .stream_area {
+    margin-bottom: 30px;
+    background: #000;
+  }
+`;
+
+export const LoadMask = styled.div`
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+`;
+
 export const StateIcon = styled.span`
   display: flex;
   align-items: center;
@@ -204,9 +250,30 @@ export const StateIcon = styled.span`
   }
 `;
 
-export const VodContArea = styled.div`
-  .stream_area {
-    margin-bottom: 30px;
-    background: #000;
+export const BottomBtnArea = styled.div`
+  position: fixed;
+  bottom: 0;
+  height: 55px;
+  left: 400px;
+  width: calc(100% - 400px);
+  z-index: 99;
+  background: #fff;
+
+  button {
+    position: absolute;
+    top: 50%;
+    font-size: 14px;
+    transform: translateY(-50%);
+    &.prev {
+      left: 0;
+    }
+    &.next {
+      right: 40px;
+    }
+    &.btn_check {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%) !important;
+    }
   }
 `;
