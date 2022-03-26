@@ -17,7 +17,8 @@ import { ISSR } from "@src/typings/db";
 const Home = ({ SsrData }: ISSR) => {
   const { products, blogData, noticeData } = SsrData;
 
-  const productsData = products;
+  const { data } = useQuery(["list", "main"], () => fetchProducts(90, 1));
+  const productsData = data?.products;
 
   const genreTitle = [
     { title: "내가 만든 작품이 전시되는 날", url: "/view/art" },
