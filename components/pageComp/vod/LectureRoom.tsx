@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useVod } from "@src/hooks/api/useVod/useNotice";
 import { css } from "@emotion/react";
-import { Stream } from "@cloudflare/stream-react";
+import { Stream, StreamPlayerApi } from "@cloudflare/stream-react";
 import Collapsible from "react-collapsible";
 import SimpleBar from "simplebar-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
@@ -59,8 +59,9 @@ function LectureRoom({ _id, sessionId }: { _id: string; sessionId: string }) {
   const [videoLoad, setVideoLoad] = useState({ Load: false, Loaded: false });
   const [listCollapse, setListCollapse] = useState(false);
 
-  const videoInput: React.MutableRefObject<any | undefined> | undefined =
-    useRef();
+  const videoInput:
+    | React.MutableRefObject<StreamPlayerApi | undefined>
+    | undefined = useRef();
   const interval: { current: NodeJS.Timeout | null } = useRef(null);
   const videoAreaRef: React.MutableRefObject<any> = useRef();
 
