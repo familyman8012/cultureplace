@@ -82,7 +82,7 @@ function LayerLessonAdd({
           name: QuillStore.titleData,
           filename: file.name,
           filetype: file.type,
-          allowedorigins: ["localhost:3000", "https://cultureplace.co.kr"]
+          allowedorigins: "https://cultureplace.co.kr"
         },
         onError: function (error) {
           throw error;
