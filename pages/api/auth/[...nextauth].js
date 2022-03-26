@@ -50,9 +50,9 @@ const options = {
   jwt: {
     signingKey: JSON.stringify({
       kty: "oct",
-      kid: "jM1c8F2_DfrjzjpB8e-6xMn_6yoP2GE4IdGOt_0Xu3E",
+      kid: process.env.NEXT_AUTH_KID,
       alg: "HS512",
-      k: "SKG7Qz0JDdYxTo8-vHY7Slp5pEFFsZUsmzXBI_blVjw"
+      k: process.env.NEXT_AUTH_K
     })
   },
   callbacks: {

@@ -72,10 +72,9 @@ function LayerLessonAdd({
     var upload =
       file &&
       new tus.Upload(file, {
-        endpoint:
-          "https://api.cloudflare.com/client/v4/accounts/db9b0fffa2d74d68b02bbeb26b4aa52c/stream",
+        endpoint: `https://api.cloudflare.com/client/v4/accounts/${process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT}/stream`,
         headers: {
-          Authorization: "Bearer 8HfYUPDvZEv0JSx2J7tD4WLpMR7e13fNIGd9kiZV"
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLOUDFLARE_TOKEN}`
         },
         //resume: true,
         chunkSize: 50 * 1024 * 1024, // Required a minimum chunk size of 5MB, here we use 50MB.
@@ -83,7 +82,7 @@ function LayerLessonAdd({
           name: QuillStore.titleData,
           filename: file.name,
           filetype: file.type,
-          allowedorigins: ["localhost:3000"]
+          allowedorigins: ["localhost:3000", "https://cultureplace.co.kr"]
         },
         onError: function (error) {
           throw error;
@@ -186,10 +185,10 @@ function LayerLessonAdd({
     // alert(lessonLayer.selectId);
     axios
       .delete(
-        `https://api.cloudflare.com/client/v4/accounts/db9b0fffa2d74d68b02bbeb26b4aa52c/stream/${delMediaId}`,
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT}/stream/${delMediaId}`,
         {
           headers: {
-            Authorization: "Bearer 8HfYUPDvZEv0JSx2J7tD4WLpMR7e13fNIGd9kiZV"
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLOUDFLARE_TOKEN}`
           }
         }
       )

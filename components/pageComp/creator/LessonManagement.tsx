@@ -66,10 +66,10 @@ function LessonManagement({
     console.log(lessonId, mediaId);
     axios
       .delete(
-        `https://api.cloudflare.com/client/v4/accounts/db9b0fffa2d74d68b02bbeb26b4aa52c/stream/${mediaId}`,
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT}/stream/${mediaId}`,
         {
           headers: {
-            Authorization: "Bearer 8HfYUPDvZEv0JSx2J7tD4WLpMR7e13fNIGd9kiZV"
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLOUDFLARE_TOKEN}`
           }
         }
       )
