@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useVod } from "@src/hooks/api/useVod/useNotice";
 import { css } from "@emotion/react";
-import { Stream } from "@cloudflare/stream-react";
+import { Stream, StreamPlayerApi } from "@cloudflare/stream-react";
 import Collapsible from "react-collapsible";
 import SimpleBar from "simplebar-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
@@ -59,6 +59,7 @@ function LectureRoom({ _id, sessionId }: { _id: string; sessionId: string }) {
   const [videoLoad, setVideoLoad] = useState({ Load: false, Loaded: false });
   const [listCollapse, setListCollapse] = useState(false);
 
+  // React.MutableRefObject<StreamPlayerApi | undefined> 가 맞으나, cloudflare측에서 type 을 잘못제공함.
   const videoInput: React.MutableRefObject<any | undefined> | undefined =
     useRef();
   const interval: { current: NodeJS.Timeout | null } = useRef(null);
