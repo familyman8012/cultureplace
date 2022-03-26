@@ -21,11 +21,11 @@ const options = {
       },
       async authorize(credentials, req) {
         const response = await axios.post(
-          `${process.env.NEXTAUTH_URL}/api/user/login`,
+          "https://www.cultureplace.co.kr/api/user/login",
           credentials
         );
         var t = response.data;
-        console.log("role  왱?", t.data.role);
+        console.log("role 은 왱?", t.data.role);
         if (t.data.status !== 0) {
           const user = {
             uid: t.data._id,
