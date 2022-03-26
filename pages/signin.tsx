@@ -1,4 +1,4 @@
-import { getProviders, getCsrfToken } from "next-auth/client";
+import { getProviders, getCsrfToken, CtxOrReq } from "next-auth/client";
 import SocialLogin from "../components/modules/SocialLogin";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -86,7 +86,7 @@ export default function SignIn({ providers, csrfToken }: ISignIn) {
 }
 
 // This is the recommended way for Next.js 9.3 or newer
-export const getServerSideProps: GetServerSideProps = async context => {
+export async function getServerSideProps(context: CtxOrReq | undefined) {
   const providers = await getProviders();
   return {
     props: {
@@ -94,4 +94,4 @@ export const getServerSideProps: GetServerSideProps = async context => {
       providers
     }
   };
-};
+}
