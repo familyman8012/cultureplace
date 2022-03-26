@@ -47,14 +47,14 @@ const options = {
 
     // 리프레쉬토큰, 2주 maxAge: 14 * 24 * 60 * 60
   },
-  jwt: {
-    signingKey: JSON.stringify({
-      kty: "oct",
-      kid: process.env.NEXT_AUTH_KID,
-      alg: "HS512",
-      k: process.env.NEXT_AUTH_K
-    })
-  },
+  // jwt: {
+  //   signingKey: JSON.stringify({
+  //     kty: "oct",
+  //     kid: process.env.NEXT_AUTH_KID,
+  //     alg: "HS512",
+  //     k: process.env.NEXT_AUTH_K
+  //   })
+  // },
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
       if (user) {
