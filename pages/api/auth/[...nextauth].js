@@ -37,6 +37,7 @@ const options = {
       }
     })
   ],
+  secret: "LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx6gts=",
   pages: {
     error: "/signin"
   },
