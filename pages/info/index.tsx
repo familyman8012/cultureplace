@@ -69,7 +69,7 @@ function Index({ item }: any) {
                   </div>
                 </li>
               ) : (
-                infoStore.showGenre?.map(
+                infoStore.showGenre?.slice(0, 12).map(
                   (
                     el: {
                       elements: {

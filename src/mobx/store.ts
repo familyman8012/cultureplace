@@ -159,6 +159,7 @@ const infoStore = observable({
   showGenre: [],
   showTitle: "소개 : ",
   InfoData(i: number, title: string) {
+    this.showGenre = [];
     this.showGenre = JSON.parse(this.item[i]).elements[0].elements;
     this.showTitle = title;
     console.log(this.showGenre);

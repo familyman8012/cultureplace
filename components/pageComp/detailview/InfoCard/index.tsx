@@ -21,7 +21,7 @@ interface InfoCard {
 }
 
 function Index({ data, _id, session }: InfoCard) {
-  const { data: buttonData, isLoading } = useProdDetail(String(_id));
+  const { data: buttonData, isFetched } = useProdDetail(String(_id));
 
   const {
     imgurl,
@@ -62,10 +62,6 @@ function Index({ data, _id, session }: InfoCard) {
     () => firstMeetDay.format(`MM/DD(${firstMeetDay.format("ddd")}) HH:mm`),
     [firstMeetDay]
   );
-
-  useEffect(() => {
-    console.log("buttonData", buttonData);
-  }, [buttonData]);
 
   let today = new Date();
 
@@ -139,7 +135,7 @@ function Index({ data, _id, session }: InfoCard) {
           <div className="box_btn">
             <FavoriteButton _id={_id} data={data} />
             {isvod &&
-            !isLoading &&
+            isFetched &&
             buttonData?.joinMembr.some(el => el === session?.user.uid) ? (
               <Button
                 color="brand2"

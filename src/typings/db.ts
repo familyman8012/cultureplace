@@ -81,7 +81,6 @@ export interface IMainVis {
 
 export interface ISSR {
   SsrData: {
-    mainVisImgs: IMainVis[];
     products: IProduct[];
     blogData: INotice[];
     noticeData: INotice[];

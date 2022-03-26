@@ -8,6 +8,10 @@ export const VodWrap = styled.div<{ listCollapse: Boolean }>`
   padding-left: 360px;
   justify-content: center;
 
+  ${mq[0]} {
+    padding-left: 0px;
+  }
+
   ${({ listCollapse }) =>
     listCollapse &&
     `
@@ -20,6 +24,10 @@ export const VodWrap = styled.div<{ listCollapse: Boolean }>`
     left: 10px;
     transform: rotate(180deg);
   }
+  ${mq[0]} {
+    .wrap_vod_list {left:0;}
+    .btn_list_collapse {left:auto;right:10px;transform: rotate(0deg);}
+  }
 
   `}
 `;
@@ -31,6 +39,10 @@ export const VodMenuList = styled.div<{ progressPer: number }>`
   width: 360px;
   height: 100vh;
   transition: left 0.3s;
+
+  ${mq[0]} {
+    left: -360px;
+  }
 
   .top {
     padding: 30px 30px 20px;
@@ -81,14 +93,17 @@ export const VodMenuList = styled.div<{ progressPer: number }>`
   .title {
     font-size: 17px;
     font-weight: normal;
+    cursor: pointer;
   }
 
   .simplebar {
-    height: calc(100vh - 75.5px);
+    background: #fff;
+    height: calc(100vh - 145px);
   }
 `;
 
-export const ListWrap = styled.div`
+export const ListItemWrap = styled.div`
+  border: 1px;
   h2:after {
     display: block;
     content: "";
@@ -194,6 +209,12 @@ export const BtnCollapse = styled.div`
       transform: translateY(4px) rotate(45deg);
     }
   }
+
+  ${mq[0]} {
+    top: 10px;
+    left: 10px;
+    transform: rotate(180deg);
+  }
 `;
 
 export const LectureStreamArea = styled.div`
@@ -216,11 +237,18 @@ export const LectureStreamArea = styled.div`
     font-size: 18px;
     font-weight: 600;
     margin: 60px 0 35px;
+
+    ${mq[0]} {
+      margin-top: 80px;
+    }
   }
 
-  .stream_area {
-    margin-bottom: 30px;
-    background: #000;
+  .vod_cont {
+    padding-bottom: 200px;
+    .stream_area {
+      margin-bottom: 30px;
+      background: #000;
+    }
   }
 `;
 
@@ -256,7 +284,6 @@ export const BottomBtnArea = styled.div`
   height: 55px;
   left: 400px;
   width: calc(100% - 400px);
-  z-index: 99;
   background: #fff;
 
   button {
@@ -274,6 +301,19 @@ export const BottomBtnArea = styled.div`
       position: absolute;
       left: 50%;
       transform: translate(-50%, -50%) !important;
+    }
+  }
+
+  ${mq[0]} {
+    left: 0px;
+    width: 100vw;
+    button {
+      &.prev {
+        left: 20px;
+      }
+      &.next {
+        right: 20px;
+      }
     }
   }
 `;

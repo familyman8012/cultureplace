@@ -23,7 +23,7 @@ function Oneday({ SsrData }: any) {
   const [pageSize, setPageSize] = useState(20);
   const [showPage, setShowPage] = useState(true);
   const [curPage, setCurPage] = useState(1);
-  const { data, error, isLoading, refetch } = useProducts(
+  const { data, error, isLoading, isFetching, refetch } = useProducts(
     pageSize,
     curPage,
     String(genre),

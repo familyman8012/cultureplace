@@ -99,7 +99,7 @@ export const InfoCard = styled.div`
     }
     ${mq[0]} {
       position: fixed;
-      bottom: 0;
+      bottom: 56px;
       left: 0px;
       width: 100%;
       height: 72px;

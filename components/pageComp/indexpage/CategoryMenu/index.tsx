@@ -10,7 +10,7 @@ function index() {
       {CategoryMenuItem.map((el, i) => (
         <Link
           href={
-            el.title === "1day" || el.title === "1month"
+            el.title === "1Day" || el.title === "1Month" || el.title === "VOD"
               ? `${el.url}`
               : `/view/${el.url}`
           }

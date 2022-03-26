@@ -15,16 +15,17 @@ import { useRouter } from "next/router";
 import { css } from "@emotion/react";
 
 export const CategoryLink = [
+  { title: "1Day", url: "oneday" },
+  { title: "1Month", url: "month" },
   { title: "미술", url: "art" },
   { title: "뮤직", url: "music" },
   { title: "공연", url: "theater" },
   { title: "힐링산책", url: "healing" },
   { title: "미식", url: "food" },
   { title: "사진, 영상", url: "movie" },
-  { title: "패션", url: "fashion" },
-  { title: "지식", url: "wisdom" },
-  { title: "1day", url: "1day" },
-  { title: "1month", url: "1month" }
+  // { title: "패션", url: "fashion" },
+  { title: "페션/지식", url: "wisdom" },
+  { title: "VOD", url: "vodmain" }
 ];
 
 const mypageLink = [
@@ -162,12 +163,17 @@ function Head() {
               <a>News</a>
             </Link>
           </li>
-          <li>
-            <Link href="/info">
-              <a>BoxOffice</a>
-            </Link>
-          </li>
-          <li className={`categoryLink  ${isOpenMenu ? "on" : ""}`}>
+          {CategoryLink.filter(
+            el =>
+              el.title !== "1Day" && el.title !== "1Month" && el.title !== "VOD"
+          ).map(el => (
+            <li key={el.url}>
+              <Link href={`/view/${el.url}`}>
+                <a>{el.title}</a>
+              </Link>
+            </li>
+          ))}
+          {/* <li className={`categoryLink  ${isOpenMenu ? "on" : ""}`}>
             <button className="depth1" onClick={openCategory}>
               <span>전체 카테고리</span>
               <FontAwesomeIcon icon={faSortDown}></FontAwesomeIcon>
@@ -181,6 +187,11 @@ function Head() {
                 </li>
               ))}
             </ul>
+          </li> */}
+          <li>
+            <Link href="/info">
+              <a>BoxOffice</a>
+            </Link>
           </li>
           {/* <li>
             <Link href="/notice">
@@ -188,7 +199,7 @@ function Head() {
             </Link>
           </li> */}
 
-          <li>
+          {/* <li>
             <Link href="/notice">
               <a>블로그</a>
             </Link>
@@ -202,7 +213,7 @@ function Head() {
             <Link href="/notice">
               <a>유튜브</a>
             </Link>
-          </li>
+          </li> */}
         </MenuArea>
       </Header>
     </>

@@ -7,5 +7,9 @@ export const WrapCategoryArea = styled.div`
     .swiper {
       padding: 0 20px;
     }
+    .swiper-btn-next,
+    .swiper-btn-prev {
+      display: none;
+    }
   }
 `;

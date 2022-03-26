@@ -47,7 +47,9 @@ export const BlogCardWrap = styled.div<{ type: string }>`
     return (
       type === "notice" &&
       `
-    .imgbox {display:flex;height:179px;border-radius:0}
+    .imgbox {display:flex;height:179px;border-radius:10px;
+      ${mq[0]} {height:150px;}
+    }
     dt {font-weight:bold;}
     .txtbox {
       dd{

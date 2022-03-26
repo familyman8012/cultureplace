@@ -44,22 +44,25 @@ export const Header = styled.header`
       background: url("/images/logo_hip.png") no-repeat center;
     }
   }
-  aside ul {
-    ${mq[0]} {
-      display: none;
-    }
-    display: flex;
-    margin-left: 1rem;
-    li {
-      font-size: 1.4rem;
-      font-weight: normal;
-      color: rgb(26, 26, 26);
-      line-height: 2rem;
-      letter-spacing: -0.15px;
-      margin: 0rem 2.4rem 0rem 0px;
-      position: relative;
-      &.my {
-        color: #ff5600;
+  aside {
+    margin-left: auto;
+    ul {
+      ${mq[0]} {
+        display: none;
+      }
+      display: flex;
+      margin-left: 1rem;
+      li {
+        font-size: 1.4rem;
+        font-weight: normal;
+        color: rgb(26, 26, 26);
+        line-height: 2rem;
+        letter-spacing: -0.15px;
+        margin: 0rem 2.4rem 0rem 0px;
+        position: relative;
+        &.my {
+          color: #ff5600;
+        }
       }
     }
   }
@@ -226,7 +229,6 @@ export const Login = styled.div`
   ${mq[0]} {
     display: none;
   }
-  margin-left: auto;
   color: ${({ theme }) => theme.color.brand};
 `;
 
@@ -325,7 +327,7 @@ export const Footer = styled.div`
 export const MobileMenu = styled.footer`
   display: none;
   ${mq[0]} {
-    display: flex;
+    display: flex !important;
 
     justify-content: space-around;
     -webkit-box-align: center;

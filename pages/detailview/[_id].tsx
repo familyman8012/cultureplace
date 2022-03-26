@@ -38,8 +38,6 @@ const DetailView = ({ item }: IDetail) => {
 
   const { data } = useQuery("detail", () => item);
 
-  console.log("detailview", data);
-
   return (
     <Layout className="detail">
       <DetailViewWrap>

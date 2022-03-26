@@ -25,7 +25,7 @@ import {
   BtnCollapse,
   LectureStreamArea,
   ListItem,
-  ListWrap,
+  ListItemWrap,
   LoadMask,
   StateIcon,
   VodMenuList,
@@ -34,6 +34,7 @@ import {
 import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
 import { ICurriculum, ILesson } from "@src/typings/db";
+import Link from "next/link";
 
 interface IMenuArry {
   curriculumId: string;
@@ -217,7 +218,7 @@ function LectureRoom({ _id, sessionId }: { _id: string; sessionId: string }) {
         </div>
         <h1 className="title">{selLesson?.title}</h1>
         {selLesson && (
-          <>
+          <div className="vod_cont">
             <div
               className="stream_area"
               css={css`
@@ -244,7 +245,7 @@ function LectureRoom({ _id, sessionId }: { _id: string; sessionId: string }) {
               />
             </div>
             <div dangerouslySetInnerHTML={{ __html: selLesson.content }} />
-          </>
+          </div>
         )}
         <BottomBtnArea>
           <button
@@ -274,7 +275,10 @@ function LectureRoom({ _id, sessionId }: { _id: string; sessionId: string }) {
           </button>
         </BottomBtnArea>
       </LectureStreamArea>
-      <BtnCollapse onClick={() => setListCollapse(prev => !prev)}>
+      <BtnCollapse
+        className="btn_list_collapse"
+        onClick={() => setListCollapse(prev => !prev)}
+      >
         <span className="wrap_arrow"></span>
       </BtnCollapse>
       <VodMenuList className="wrap_vod_list" progressPer={progressPer}>
@@ -301,64 +305,96 @@ function LectureRoom({ _id, sessionId }: { _id: string; sessionId: string }) {
           </div>
         </div>
         <SimpleBar className="simplebar">
-          {data?.curriculum.map(
-            (curriculum: ICurriculum, currindex: number) => (
-              <ListWrap key={currindex}>
-                {videoLoad.Load && <LoadMask></LoadMask>}
-                <Collapsible
-                  key={currindex}
-                  trigger={<h2 className="title">{curriculum.title}</h2>}
-                  transitionTime={100}
-                  open={currindex === 0 ? true : false}
-                >
-                  <ul>
-                    {curriculum?.lessons.map(
-                      (lesson: ILesson, lessonindex: number) => (
-                        <ListItem
-                          key={lessonindex}
-                          onClick={(
-                            e: React.MouseEvent<HTMLLIElement, MouseEvent>
-                          ) =>
-                            handlerShowLesson(
-                              currindex > 0
-                                ? lessonindex +
-                                    data.curriculum[currindex - 1].lessons
-                                      .length
-                                : lessonindex,
-                              e
-                            )
-                          }
-                          lessonId={lesson._id}
-                          selLessonId={String(selLesson?._id)}
-                        >
-                          <StateIcon
-                            css={css`
-                              ${completeData?.lessonId.map((el: string) => {
+          <div
+            css={css`
+              min-height: calc(100vh - 249px);
+            `}
+          >
+            {data?.curriculum.map(
+              (curriculum: ICurriculum, currindex: number) => (
+                <ListItemWrap key={currindex}>
+                  {videoLoad.Load && <LoadMask></LoadMask>}
+                  <Collapsible
+                    key={currindex}
+                    trigger={<h2 className="title">{curriculum.title}</h2>}
+                    transitionTime={100}
+                    open={currindex === 0 ? true : false}
+                  >
+                    <ul>
+                      {curriculum?.lessons.map(
+                        (lesson: ILesson, lessonindex: number) => (
+                          <ListItem
+                            key={lessonindex}
+                            onClick={(
+                              e: React.MouseEvent<HTMLLIElement, MouseEvent>
+                            ) =>
+                              handlerShowLesson(
+                                currindex > 0
+                                  ? lessonindex +
+                                      data.curriculum[currindex - 1].lessons
+                                        .length
+                                  : lessonindex,
+                                e
+                              )
+                            }
+                            lessonId={lesson._id}
+                            selLessonId={String(selLesson?._id)}
+                          >
+                            <StateIcon
+                              css={css`
+                                ${completeData?.lessonId.map((el: string) => {
+                                  if (el === lesson._id) {
+                                    return "background:red;";
+                                  }
+                                })}
+                              `}
+                            >
+                              {completeData?.lessonId.map((el: string) => {
                                 if (el === lesson._id) {
-                                  return "background:red;";
+                                  return (
+                                    <FontAwesomeIcon
+                                      icon={faCheck}
+                                    ></FontAwesomeIcon>
+                                  );
                                 }
                               })}
-                            `}
-                          >
-                            {completeData?.lessonId.map((el: string) => {
-                              if (el === lesson._id) {
-                                return (
-                                  <FontAwesomeIcon
-                                    icon={faCheck}
-                                  ></FontAwesomeIcon>
-                                );
-                              }
-                            })}
-                          </StateIcon>
-                          {lesson.title}
-                        </ListItem>
-                      )
-                    )}
-                  </ul>
-                </Collapsible>
-              </ListWrap>
-            )
-          )}
+                            </StateIcon>
+                            {lesson.title}
+                          </ListItem>
+                        )
+                      )}
+                    </ul>
+                  </Collapsible>
+                </ListItemWrap>
+              )
+            )}
+          </div>
+          <div
+            css={css`
+              padding: 30px;
+              background: rgba(0, 0, 0, 0.05);
+            `}
+          >
+            <button
+              onClick={() => router.back()}
+              css={css`
+                display: block;
+                width: 100%;
+                padding: 12px 24px;
+                color: #ff4949;
+                font-size: 12px;
+                text-align: center;
+                border: 1px solid #ff4949;
+                border-radius: 5px;
+                &:hover {
+                  color: #fff;
+                  background: #ff4949;
+                }
+              `}
+            >
+              강좌로 돌아가기
+            </button>
+          </div>
         </SimpleBar>
       </VodMenuList>
     </VodWrap>

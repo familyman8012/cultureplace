@@ -12,12 +12,12 @@ import {
 } from "@components/pageComp/indexpage";
 import { fetchProducts } from "@src/hooks/api/useProducts";
 import { GetServerSideProps } from "next";
+import { ISSR } from "@src/typings/db";
 
-const Home = ({ SsrData }: any) => {
-  const { blogData, noticeData } = SsrData;
-  const { data } = useQuery(["list", "main"], () => fetchProducts(90, 1));
+const Home = ({ SsrData }: ISSR) => {
+  const { products, blogData, noticeData } = SsrData;
 
-  const productsData = data?.products;
+  const productsData = products;
 
   const genreTitle = [
     { title: "내가 만든 작품이 전시되는 날", url: "/view/art" },
