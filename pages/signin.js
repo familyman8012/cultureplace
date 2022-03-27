@@ -1,20 +1,9 @@
 import { getProviders, getCsrfToken } from "next-auth/client";
-import SocialLogin from "../components/modules/SocialLogin";
+import SocialLogin from "components/elements/SocialLogin";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { GetServerSideProps } from "next";
-import {
-  BtnLogin,
-  InfoRegArea,
-  LoginWrapper
-} from "@components/pageComp/signin/style";
 
-export interface ISignIn {
-  providers: object;
-  csrfToken: string;
-}
-
-export default function SignIn({ providers, csrfToken }: ISignIn) {
+export default function SignIn({ providers, csrfToken }) {
   const router = useRouter();
   const { error } = router?.query;
 
@@ -23,10 +12,10 @@ export default function SignIn({ providers, csrfToken }: ISignIn) {
   }
   return (
     <>
-      <LoginWrapper>
+      <div className="login_wrapper">
         <div className="login_area">
           <div className="login_form">
-            <h1>CULTURE PLACE</h1>
+            <h1>MINDCARE CENTER</h1>
             <h2>로그인</h2>
             <div>
               <SocialLogin providers={providers} csrfToken={csrfToken} />
@@ -56,21 +45,23 @@ export default function SignIn({ providers, csrfToken }: ISignIn) {
                     />
                   </div>
                 </label>
-                <InfoRegArea>
+                <div className="info_reg">
                   <span className="info forget_pwd">
                     비밀번호를 잊으셨다면, 채널톡으로 문의주세요.
                   </span>
                   <span className="info reg">
                     <Link href="/register">회원가입</Link>
                   </span>
-                </InfoRegArea>
-                <BtnLogin type="submit">로그인</BtnLogin>
+                </div>
+                <button type="submit" className="btn_submit_login">
+                  로그인
+                </button>
                 <div className="txt_read_yakawn">
-                  <Link href="/yakwan/privacy">
+                  <Link href="/yakwan">
                     <a>이용약관</a>
                   </Link>
                   ,{" "}
-                  <Link href="/yakwan/policy">
+                  <Link href="/policy2">
                     <a>개인정보 수집 및 이용</a>
                   </Link>
                   , 내용을 확인하였고 동의합니다.
@@ -80,13 +71,13 @@ export default function SignIn({ providers, csrfToken }: ISignIn) {
           </div>
         </div>
         <div className="login_mv"></div>
-      </LoginWrapper>
+      </div>
     </>
   );
 }
 
 // This is the recommended way for Next.js 9.3 or newer
-export const getServerSideProps: GetServerSideProps = async context => {
+export async function getServerSideProps(context) {
   const providers = await getProviders();
   return {
     props: {
@@ -94,4 +85,4 @@ export const getServerSideProps: GetServerSideProps = async context => {
       providers
     }
   };
-};
+}

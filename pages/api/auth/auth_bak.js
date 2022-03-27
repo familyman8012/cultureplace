@@ -25,25 +25,36 @@ const options = {
           credentials
         );
         var t = response.data;
+        console.log("role 은 왱?", t.data.role);
         if (t.data.status !== 0) {
           const user = {
             uid: t.data._id,
             name: t.data.name,
             email: t.data.email,
-            phone: t.data.phone
+            phone: t.data.phone,
+            role: t.data.role
           };
           return user;
         }
       }
     })
   ],
-  secret: "LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx6gts=",
   pages: {
     error: "/signin"
   },
   session: {
     jwt: true
+
+    // 리프레쉬토큰, 2주 maxAge: 14 * 24 * 60 * 60
   },
+  // jwt: {
+  //   signingKey: JSON.stringify({
+  //     kty: "oct",
+  //     kid: process.env.NEXT_AUTH_KID,
+  //     alg: "HS512",
+  //     k: process.env.NEXT_AUTH_K
+  //   })
+  // },
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
       if (user) {
@@ -64,4 +75,5 @@ const options = {
   database: process.env.DATABASE_URL
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (req, res) => NextAuth(req, res, options);
